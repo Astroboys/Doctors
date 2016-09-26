@@ -1,0 +1,1 @@
+../../../NIMSDK/SDK/Core/ExportHeaders/Chatroom/NIMChatroom.h

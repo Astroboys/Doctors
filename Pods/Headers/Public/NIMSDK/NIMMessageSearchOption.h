@@ -1,0 +1,1 @@
+../../../NIMSDK/SDK/Core/ExportHeaders/NIMMessageSearchOption.h
