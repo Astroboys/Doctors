@@ -11,7 +11,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
-
+#import "Masonry.h"
 @interface ZHAddCircleViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property(nonatomic,strong)UIButton*addBtn;
