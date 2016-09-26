@@ -57,11 +57,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = DWColor(243, 243, 243);
     
-    UIImage* image1 = [UIImage imageNamed:@"tabbar_message_center"];
+    UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     // 告诉系统以后这张图片不进行默认的渲染
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    UIImage* image2 = [UIImage imageNamed:@"navigationbar_pop"];
+    UIImage* image2 = [UIImage imageNamed:@"navigationbar_news"];
     // 告诉系统以后这张图片不进行默认的渲染
     image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -177,7 +177,6 @@
     
     _detailLbl=[[UILabel alloc]init];
     _detailLbl.text=@"详情介绍:";
-    
     _detailtab=[[UITableView alloc]init];
 
     [_lastView addSubview:self.detailLbl];
@@ -277,21 +276,21 @@
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.view.mas_left).with.offset(20);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -399,21 +398,21 @@
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.view.mas_left).with.offset(20);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -523,21 +522,21 @@
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.view.mas_left).with.offset(20);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {

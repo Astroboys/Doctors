@@ -21,9 +21,9 @@
     
     [self.navigationBar setBackgroundImage:[self imageWithColor:DWColor(40, 128, 194)]forBarMetrics:UIBarMetricsDefault];
     
-//    =[[UINavigationBar appearance] setBackgroundImage:[self imageWithColor:DWColor(59, 165, 249)] forBarMetrics:UIBarMetricsDefault];
-    
-        }
+    NSDictionary * dict = [NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    self.navigationBar.titleTextAttributes = dict;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -62,6 +62,12 @@
     return popVC;
     
 }
+
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//   
+//    return UIStatusBarStyleLightContent;
+//}
 
 
 

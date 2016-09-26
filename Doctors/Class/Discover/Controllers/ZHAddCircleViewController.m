@@ -207,8 +207,7 @@
     
     UIBarButtonItem* leftItem = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(addCirclepop)];
     viewController.navigationItem.leftBarButtonItem=leftItem;
-    //viewController.navigationItem.leftBarButtonItem.tintColor = [UIColor blackColor];
-    viewController.navigationItem.rightBarButtonItem.tintColor = [UIColor blackColor];
+    viewController.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
 }
 
 -(void)addCirclepop{

@@ -29,7 +29,7 @@ static NSString *ID=@"cell";
     self.view.backgroundColor=[UIColor redColor];
     
     self.navigationItem.title=@"健康圈";
-    UIImage* image1 = [UIImage imageNamed:@"tabbar_message_center"];
+    UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIImage* image2 = [UIImage imageNamed:@"添加"];

@@ -145,6 +145,22 @@
 
 
 }
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
+    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    UIBarButtonItem* leftItem = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(addCirclepop)];
+    viewController.navigationItem.leftBarButtonItem=leftItem;
+    viewController.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+}
+
+-(void)addCirclepop{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

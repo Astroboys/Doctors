@@ -30,7 +30,7 @@ static NSString *ID=@"cell";
     self.view.backgroundColor=DWColor(243, 243, 243);
     self.navigationItem.title=@"客户";
     
-    UIImage* image1 = [UIImage imageNamed:@"tabbar_message_center"];
+    UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIBarButtonItem* leftItem = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(customerClickLeft)];

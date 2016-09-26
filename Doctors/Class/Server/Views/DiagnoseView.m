@@ -35,7 +35,7 @@ static NSString *ID=@"cell";
 
     self.backgroundColor=[UIColor lightGrayColor];
     
-    _diatabView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, KscViewH) style:UITableViewStylePlain];
+    _diatabView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, KscViewH-35) style:UITableViewStylePlain];
     
     [_diatabView registerClass:[DiagnoseTableViewCell class] forCellReuseIdentifier:ID];
     

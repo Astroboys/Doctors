@@ -27,7 +27,7 @@
     self.view.backgroundColor = DWColor(243, 243, 243);
     self.navigationItem.title=@"健康屋";
     
-    UIImage* image1 = [UIImage imageNamed:@"tabbar_message_center"];
+    UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIBarButtonItem* item1 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(serverClickleft)];

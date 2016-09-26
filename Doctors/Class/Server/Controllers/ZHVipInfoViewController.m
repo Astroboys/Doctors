@@ -13,6 +13,7 @@
 #import "JudgeView.h"
 #import "UIView+Frame.h"
 #import "LXSegmentScrollView.h"
+#import "ZHPrescribeViewController.h"
 
 @interface ZHVipInfoViewController ()
 
@@ -31,6 +32,8 @@
 @property(nonatomic,strong)UIButton*prescribeBtn;
 
 @property(nonatomic,strong)LXSegmentScrollView *scView;
+
+@property(nonatomic,strong)NSArray*viewArray;
 
 @end
 
@@ -55,15 +58,11 @@
     DiagnoseView*dia=[[DiagnoseView alloc]init];
     JudgeView*juge=[[JudgeView alloc]init];
     
-    NSArray*array=@[record,dia,juge];
+    _viewArray=@[record,dia,juge];
     
     [self setupUI];
+    
     [self setupFrame];
-
-    LXSegmentScrollView *scView=[[LXSegmentScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,KscViewH) titleArray:@[@"电子病历",@"就医记录",@"效果评价"] contentViewArray:array];
-    NSLog(@"%f", self.view.bounds.size.height);
-    self.scView=scView;
-    [self.browseView addSubview:scView];
     
 }
 
@@ -105,7 +104,11 @@
     [self.view addSubview:_browseView];
     
     _prescribeBtn=[[UIButton alloc]init];
-    _prescribeBtn.backgroundColor=[UIColor redColor];
+    [_prescribeBtn setTitle:@"在线开处方" forState:UIControlStateNormal];
+    [_prescribeBtn addTarget:self action:@selector(prescribeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [_prescribeBtn setTintColor:[UIColor whiteColor]];
+    _prescribeBtn.backgroundColor=DWColor(40, 128, 194);
+    [self.browseView addSubview:_prescribeBtn];
     
 }
 
@@ -177,7 +180,28 @@
         
     }];
     
-   }
+    _scView=[[LXSegmentScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,KscViewH) titleArray:@[@"电子病历",@"就医记录",@"效果评价"] contentViewArray:self.viewArray];
+    
+    [self.browseView addSubview:_scView];
+    
+    [self.prescribeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.scView.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.width.mas_equalTo(kWidth);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+        
+    }];
+    
+}
+
+-(void)prescribeBtnClick{
+//跳转开处方控制器界面
+    ZHPrescribeViewController*preVc=[[ZHPrescribeViewController alloc]init];
+    
+    [self.navigationController pushViewController:preVc animated:YES];
+    
+}
 
 
 - (void)didReceiveMemoryWarning {
