@@ -95,7 +95,7 @@
     
     if (isiPhone4) {
         
-        return 40;
+        return 60;
     }else if (isiPhone5){
         
         return 70;

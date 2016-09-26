@@ -127,20 +127,7 @@ static NSString *ID=@"cell";
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (isiPhone4) {
-        
-        return 50;
-    }else if (isiPhone5){
-        
-        return 70;
-    }else if (isiPhone6){
-        
-        return 70;
-        
-    }else{
-        
-        return 70;
-    }
+    return 70;
 }
 
 - (NSMutableArray *)dataArr {

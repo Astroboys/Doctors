@@ -638,7 +638,7 @@
         }];
         //总布局
         [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(10);
+            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(5);
             make.left.equalTo(self.view.mas_left).with.offset(0);
             make.width.mas_equalTo(kWidth);
             make.bottom.mas_equalTo(self.view.mas_bottom);
@@ -649,21 +649,21 @@
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.view.mas_left).with.offset(20);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.doctorView.mas_top);
             make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
             make.width.mas_equalTo(80);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(80);
         }];
         
         [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
