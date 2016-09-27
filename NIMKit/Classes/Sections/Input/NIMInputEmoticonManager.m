@@ -188,7 +188,7 @@
 {
     NSMutableArray *catalogs = [NSMutableArray array];
     NSString *directory = [NIMKit_EmoticonPath stringByAppendingPathComponent:NIMKit_EmojiPath];
-    
+//
     NSURL *url = [[NSBundle mainBundle] URLForResource:[[NIMKit sharedKit] bundleName]
                                          withExtension:nil];
     NSBundle *bundle = [NSBundle bundleWithURL:url];

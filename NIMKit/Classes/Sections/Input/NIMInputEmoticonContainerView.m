@@ -91,8 +91,8 @@ NSInteger NIMCustomPageViewHeight    = 159;
     if ([self.config respondsToSelector:@selector(disableCharlet)]) {
         disableCharlet = [self.config disableCharlet];
     }
-    NSArray *charlets = disableCharlet ? nil : [self loadChartlet];
-    NSArray *catalogs = defaultCatalog? [@[defaultCatalog] arrayByAddingObjectsFromArray:charlets] : charlets;
+//    NSArray *charlets = disableCharlet ? nil : [self loadChartlet];
+    NSArray *catalogs = @[defaultCatalog];
     self.currentCatalogData = catalogs.firstObject;
     return catalogs;
 }

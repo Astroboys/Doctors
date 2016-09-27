@@ -55,6 +55,12 @@ NO)
 #import "NIMSDK.h"
 #import "NIMAVChat.h"
 #import "NIMKit.h"
+#import "NTESGlobalMacro.h"
+
+
+#define NTES_USE_CLEAR_BAR - (BOOL)useClearBar{return YES;}
+
+#define NTES_FORBID_INTERACTIVE_POP - (BOOL)forbidInteractivePop{return YES;}
 
 // 替代开发中Debug时的NSLog，release模式编译的程序不会用NSLog输出，而以debug模式编译的程序将执行NSLog的全部功能，在发布时不用再删除输出操作
 #ifdef DEBUG
