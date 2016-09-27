@@ -7,7 +7,7 @@
 //
 
 #import "CustomerViewCell.h"
-
+#import "Masonry.h"
 @implementation CustomerViewCell
 
 - (void)awakeFromNib {

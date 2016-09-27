@@ -7,7 +7,7 @@
 //
 
 #import "HealthycircleCell.h"
-
+#import "Masonry.h"
 @implementation HealthycircleCell
 
 - (void)awakeFromNib {

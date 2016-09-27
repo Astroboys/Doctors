@@ -8,7 +8,7 @@
 //
 
 #import "DiagnoseTableViewCell.h"
-
+#import "Masonry.h"
 @implementation DiagnoseTableViewCell
 
 - (void)awakeFromNib {

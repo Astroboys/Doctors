@@ -7,7 +7,7 @@
 //
 
 #import "RecordViewCell.h"
-
+#import "Masonry.h"
 @implementation RecordViewCell
 
 - (void)awakeFromNib {
