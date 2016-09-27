@@ -108,7 +108,6 @@ static NSString *ID=@"cell";
         [self.dataArr addObject:@"123"];
         
         [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
     }
 }
 

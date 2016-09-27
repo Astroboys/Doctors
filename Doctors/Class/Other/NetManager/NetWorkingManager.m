@@ -324,6 +324,7 @@ static NetWorkingManager * defualt_shareMananger = nil;
     }];
 }
 
+
 #pragma mark - DELETE 删除资源
 + (void)requestDELETEDataWithPath:(NSString *)path
                     withParamters:(NSDictionary *)paramters
