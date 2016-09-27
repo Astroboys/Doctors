@@ -82,6 +82,14 @@ NIMUserManagerDelegate>
 
 - (void)makeUI
 {
+    
+//    UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
+//    // 告诉系统以后这张图片不进行默认的渲染
+//    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    // 创建活动的按钮
+//    UIBarButtonItem* item1 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(sessionClickleft)];
+//    self.navigationItem.leftBarButtonItem = item1;
+    
     self.navigationItem.title = [self sessionTitle];
     NIMCustomLeftBarView *leftBarView = [[NIMCustomLeftBarView alloc] init];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBarView];
@@ -118,6 +126,13 @@ NIMUserManagerDelegate>
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(menuDidHide:) name:UIMenuControllerDidHideMenuNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(vcBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
+
+//-(void)sessionClickleft{
+//    
+//    [self.navigationController popViewControllerAnimated:YES];
+//    
+//}
+
 
 - (void)makeHandlerAndDataSource
 {

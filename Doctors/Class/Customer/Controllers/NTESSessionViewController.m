@@ -78,6 +78,8 @@ NIMContactSelectDelegate>
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+   
   
     _notificaionSender  = [[NTESCustomSysNotificationSender alloc] init];
     [self setUpNav];
@@ -94,6 +96,7 @@ NIMContactSelectDelegate>
         self.fpsLabel.right = self.view.width;
         self.fpsLabel.top   = self.tableView.top + self.tableView.contentInset.top;
     }
+
 }
 
 - (void)dealloc
