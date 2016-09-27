@@ -70,7 +70,7 @@ static NSString *ID=@"cell";
     RecordModel*model = [[RecordModel alloc]init];
     
     model.name= @"电子病历";
-    model.postImageName=@"时间";
+    model.postImageName=@"timeIcon";
     model.recordTime=@"测量时间";
     model.hospitalName=@"就诊医院";
     model.hosContentName=@"海淀医院";

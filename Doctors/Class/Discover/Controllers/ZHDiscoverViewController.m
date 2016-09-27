@@ -32,7 +32,7 @@ static NSString *ID=@"cell";
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    UIImage* image2 = [UIImage imageNamed:@"添加"];
+    UIImage* image2 = [UIImage imageNamed:@"addcircle"];
     image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIBarButtonItem* leftItem = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(discoverClickLeft)];
@@ -103,7 +103,7 @@ static NSString *ID=@"cell";
     }
     HealthycircleModel*model=[[HealthycircleModel alloc]init];
     
-    model.circleImage=@"健康圈默认";
+    model.circleImage=@"circleDefault";
     model.name=self.dataArr[indexPath.row];
     model.time=self.dataTimeArr[indexPath.row];
     model.topic=self.dataTopicArr[indexPath.row];

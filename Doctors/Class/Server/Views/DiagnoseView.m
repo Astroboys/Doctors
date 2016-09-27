@@ -72,7 +72,7 @@ static NSString *ID=@"cell";
     DiagnoseModel*model = [[DiagnoseModel alloc]init];
     
     model.title = @"已回复";
-    model.timeImagename=@"时间";
+    model.timeImagename=@"timeIcon";
     model.time=@"12:00";
     model.consultTopic=@"最近腿有点痛，心脏不适，严重";
     model.consult=@"向您咨询:";

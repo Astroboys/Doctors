@@ -60,7 +60,7 @@
 -(void)setupUI{
     
     _addBtn=[[UIButton alloc]init];
-    [_addBtn setImage:[UIImage imageNamed:@"添加头像"] forState:UIControlStateNormal];
+    [_addBtn setImage:[UIImage imageNamed:@"addIcon"] forState:UIControlStateNormal];
     [_addBtn addTarget:self action:@selector(touchbtn1) forControlEvents:UIControlEventTouchUpInside];
     _addBtn.adjustsImageWhenHighlighted=NO;
      [self.view addSubview:_addBtn];
