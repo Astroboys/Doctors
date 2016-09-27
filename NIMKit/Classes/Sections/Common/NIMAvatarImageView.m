@@ -17,6 +17,8 @@ static char imageURLKey;
 
 
 @interface NIMAvatarImageView()
+@property(nonatomic,strong) UIImage * defaultImage;
+
 @end
 
 @implementation NIMAvatarImageView
@@ -29,6 +31,8 @@ static char imageURLKey;
         self.backgroundColor = [UIColor clearColor];
         self.layer.geometryFlipped = YES;
         self.clipPath = YES;
+        self.defaultImage = [UIImage imageNamed:@"avatar_user"];
+
     }
     return self;
 }
@@ -48,6 +52,8 @@ static char imageURLKey;
 
 - (void)setImage:(UIImage *)image
 {
+    image = image ? image : self.defaultImage;
+
     if (_image != image)
     {
         _image = image;
