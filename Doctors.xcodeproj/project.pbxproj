@@ -2300,8 +2300,8 @@
 				A7B1AAAB1D701F8F00B5D601 /* ZHCustomerViewController.m */,
 				285D07271D9A1B45009D69AB /* SessionViewController.h */,
 				285D07281D9A1B45009D69AB /* SessionViewController.m */,
-				285D072A1D9A1C65009D69AB /* NTESSessionViewController.m */,
 				285D072B1D9A1C65009D69AB /* NTESSessionViewController.h */,
+				285D072A1D9A1C65009D69AB /* NTESSessionViewController.m */,
 				285D072D1D9A1CE9009D69AB /* SessionView */,
 			);
 			path = Controllers;
