@@ -26,6 +26,10 @@
 @property(nonatomic,strong)UITextField*contentOffice;
 @property(nonatomic,strong)UITextField*contentTime;
 
+@property(nonatomic,strong)UIView*initdiagnoView;
+@property(nonatomic,strong)UILabel*initdiaLbl;
+@property(nonatomic,strong)UITextView* diaTextView;
+
 @end
 
 @implementation ZHPrescribeViewController
@@ -33,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor lightGrayColor];
     self.navigationItem.title=@"在线开处方";
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -44,13 +48,13 @@
     
     [self setupUI];
     [self setupFrame];
-
     
 }
 
 -(void)setupUI{
     
     _infoView=[[UIView alloc]init];
+    _infoView.backgroundColor=[UIColor whiteColor];
     [self.view addSubview:_infoView];
     
     //姓名
@@ -76,8 +80,8 @@
     [self.infoView addSubview:_manSex];
     
     _manBtn=[[UIButton alloc]init];
-    [_manBtn setImage:[UIImage imageNamed:@"manIcon"] forState:UIControlStateNormal];
-    [_manBtn setImage:[UIImage imageNamed:@"manIcon"] forState:UIControlStateSelected];
+    [_manBtn setImage:[UIImage imageNamed:@"un_select"] forState:UIControlStateNormal];
+    [_manBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateSelected];
     [_manBtn addTarget:self action:@selector(manBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.infoView addSubview:_manBtn];
     //女
@@ -87,27 +91,61 @@
     [self.infoView addSubview:_womenSex];
     
     _womenBtn=[[UIButton alloc]init];
-    [_womenBtn setImage:[UIImage imageNamed:@"womenIcon"] forState:UIControlStateNormal];
-    [_womenBtn setImage:[UIImage imageNamed:@"womenIcon"] forState:UIControlStateSelected];
-    [_womenBtn addTarget:self action:@selector(manBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [_womenBtn setImage:[UIImage imageNamed:@"un_select"] forState:UIControlStateNormal];
+    [_womenBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateSelected];
+    [_womenBtn addTarget:self action:@selector(womenBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.infoView addSubview:_womenBtn];
 
     //
     _customerOffice=[[UILabel alloc]init];
     _customerOffice.text=@"科室";
+    [_customerOffice setFont:[UIFont systemFontOfSize:16]];
     [self.infoView addSubview:_customerOffice];
     
     _contentOffice=[[UITextField alloc]init];
+    [_contentOffice setFont:[UIFont systemFontOfSize:16]];
+    _contentOffice.placeholder=@"请输入就诊科室";
     [self.infoView addSubview:_contentOffice];
     
     _seeTime=[[UILabel alloc]init];
+    [_seeTime setFont:[UIFont systemFontOfSize:16]];
     _seeTime.text=@"时间";
     [self.infoView addSubview:_seeTime];
     
     _contentTime=[[UITextField alloc]init];
+    [_contentTime setFont:[UIFont systemFontOfSize:16]];
+    _contentTime.placeholder=@"请输入就诊时间";
     [self.infoView addSubview:_contentTime];
     
+    _initdiagnoView=[[UIView alloc]init];
+    _initdiagnoView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:_initdiagnoView];
+    
+    _initdiaLbl=[[UILabel alloc]init];
+    [_initdiaLbl setFont:[UIFont systemFontOfSize:16]];
+    _initdiaLbl.text=@"初步诊断";
+    [self.initdiagnoView addSubview:_initdiaLbl];
+    
+    _diaTextView=[[UITextView alloc]init];
+    [_diaTextView setFont:[UIFont systemFontOfSize:16]];
+    [self.initdiagnoView addSubview:_diaTextView];
+    
+    
 }
+
+-(void)manBtnClick{
+
+    self.manBtn.selected=YES;
+    self.womenBtn.selected=NO;
+
+}
+
+-(void)womenBtnClick{
+
+    self.womenBtn.selected=YES;
+    self.manBtn.selected=NO;
+}
+
 
 -(void)setupFrame{
     
@@ -128,7 +166,6 @@
         make.width.mas_equalTo(40);
         
     }];
-    self.customerName.backgroundColor=[UIColor redColor];
     
     [self.contentsName mas_makeConstraints:^(MASConstraintMaker *make) {
         
@@ -152,14 +189,14 @@
         make.top.equalTo(self.customerName.mas_bottom);
         make.left.mas_equalTo(self.customerSex.mas_right).with.offset(8);
         make.height.mas_equalTo(35);
-        make.width.mas_equalTo(40);
+        make.width.mas_equalTo(20);
         
     }];
     
     [self.manBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.customerName.mas_bottom).with.offset(5);
-        make.left.mas_equalTo(self.manSex.mas_right).with.offset(30);
+        make.left.mas_equalTo(self.manSex.mas_right).with.offset(8);
         make.height.mas_equalTo(30);
         make.width.mas_equalTo(30);
         
@@ -168,22 +205,102 @@
     [self.womenSex mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.customerName.mas_bottom);
-        make.left.mas_equalTo(self.infoView.mas_left).with.offset(30);
+        make.left.mas_equalTo(self.manBtn.mas_right).with.offset(8);
         make.height.mas_equalTo(35);
-        make.width.mas_equalTo(40);
+        make.width.mas_equalTo(20);
         
     }];
     
     [self.womenBtn
      mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(self.customerName.mas_bottom);
+        make.top.equalTo(self.customerName.mas_bottom).with.offset(5);
+        make.left.mas_equalTo(self.womenSex.mas_right).with.offset(8);
+        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(30);
+        
+    }];
+    
+    [self.customerOffice mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.customerSex.mas_bottom);
         make.left.mas_equalTo(self.infoView.mas_left).with.offset(30);
         make.height.mas_equalTo(35);
         make.width.mas_equalTo(40);
         
     }];
+    
+    [self.contentOffice mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.customerSex.mas_bottom);
+        make.left.mas_equalTo(self.customerOffice.mas_right).with.offset(8);
+        make.height.mas_equalTo(35);
+        make.right.mas_equalTo(self.infoView.mas_right).with.offset(-30);
+        
+    }];
+    
+    [self.seeTime mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.contentOffice.mas_bottom);
+        make.left.mas_equalTo(self.infoView.mas_left).with.offset(30);
+        make.height.mas_equalTo(35);
+        make.width.mas_equalTo(40);
+        
+    }];
+    
+    [self.contentTime mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.contentOffice.mas_bottom);
+        make.left.mas_equalTo(self.seeTime.mas_right).with.offset(8);
+        make.height.mas_equalTo(35);
+        make.right.mas_equalTo(self.infoView.mas_right).with.offset(-30);
+        
+    }];
+    
+    [self.initdiagnoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.infoView.mas_bottom).with.offset(10);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.height.mas_equalTo(120);
+        make.width.mas_equalTo(kWidth);
+        
+    }];
+    
+    [self.initdiaLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.initdiagnoView.mas_top);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(30);
+        make.height.mas_equalTo(35);
+        make.width.mas_equalTo(80);
+        
+    }];
+    
+    [self.diaTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.initdiaLbl.mas_bottom);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(30);
+        make.height.mas_equalTo(80);
+        make.right.mas_equalTo(self.view.mas_right).with.offset(-30);
+        
+    }];
+    
+    
+    
 
+    
+    
+    
+    
+    
+
+   
+    
+
+    
+    
+    
+
+    
     
     
     
