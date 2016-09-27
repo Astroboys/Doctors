@@ -7,8 +7,21 @@
 //
 
 #import "ZHPrescribeViewController.h"
+#import "Masonry.h"
 
 @interface ZHPrescribeViewController ()
+
+@property(nonatomic,strong)UIView* infoView;
+@property(nonatomic,strong)UILabel* customerName;
+@property(nonatomic,strong)UILabel* customerSex;
+@property(nonatomic,strong)UILabel* customerOffice;
+@property(nonatomic,strong)UILabel* seeTime;
+
+@property(nonatomic,strong)UILabel*contentName;
+@property(nonatomic,strong)UILabel*contentSex;
+@property(nonatomic,strong)UILabel*contentOffice;
+@property(nonatomic,strong)UILabel*contentTime;
+
 
 @end
 
@@ -32,12 +45,35 @@
 
 -(void)setupUI{
     
+    _infoView=[[UIView alloc]init];
+    [self.view addSubview:_infoView];
     
-
+    _customerName=[[UILabel alloc]init];
+    [self.view addSubview:_customerName];
+    
+    _contentSex=[[UILabel alloc]init];
+    [self.view addSubview:_contentSex];
+    
+    _contentOffice=[[UILabel alloc]init];
+    [self.view addSubview:_contentOffice];
+    
+    _contentTime=[[UILabel alloc]init];
+    [self.view addSubview:_contentTime];
     
 }
 
 -(void)setupFrame{
+    
+    [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.view.mas_top).with.offset(32);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(30);
+        make.height.mas_equalTo(60);
+        make.width.mas_equalTo(60);
+        
+    }];
+    
+    
 
     
 }

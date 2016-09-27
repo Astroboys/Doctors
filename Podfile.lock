@@ -17,6 +17,7 @@ PODS:
   - IQKeyboardManager (4.0.4)
   - Masonry (1.0.1)
   - NIMSDK (2.7.2)
+  - Reachability (3.2)
   - SVProgressHUD (2.0.3)
 
 DEPENDENCIES:
@@ -24,6 +25,7 @@ DEPENDENCIES:
   - IQKeyboardManager (~> 4.0.4)
   - Masonry (~> 1.0.1)
   - NIMSDK (~> 2.7.2)
+  - Reachability (~> 3.2)
   - SVProgressHUD (~> 2.0.3)
 
 SPEC CHECKSUMS:
@@ -31,8 +33,9 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 4a6f83b540283c2645aaeba2bd8dc0f09b5c77f8
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   NIMSDK: 3c552005f94f1f199b1021454abfb3d99c036a54
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: ae3257d5c935a2acc8d5b97bb8464edacb044703
+PODFILE CHECKSUM: 05a4be5591fe4922ed81eb83a18b39f2b3c0890d
 
 COCOAPODS: 1.0.1
