@@ -8,7 +8,8 @@
 
 #import "ZHRegisterViewController.h"
 #import "Masonry.h"
-
+#import "SVProgressHUD.h"
+#import "NTESDemoService.h"
 @interface ZHRegisterViewController ()
 
 @property(nonatomic,strong)UIView*registerView;
@@ -394,6 +395,48 @@
 
 
 -(void)registerClickleft{
+
+    
+//    NTESRegisterData *data = [[NTESRegisterData alloc] init];
+//    data.account = [_accountTextfield text];
+//    data.nickname= [_nicknameTextfield text];
+//    data.token = [[_passwordTextfield text] tokenByPassword];
+//    if (![self check]) {
+//        return;
+//    }
+//
+//[SVProgressHUD show];
+//__weak typeof(self) weakSelf = self;
+//
+//[[NTESDemoService sharedService] registerUser:data
+//                                   completion:^(NSError *error, NSString *errorMsg) {
+//                                       [SVProgressHUD dismiss];
+//                                       if (error == nil) {
+//                                           [weakSelf.navigationController.view makeToast:@"注册成功"
+//                                                                                duration:2
+//                                                                                position:CSToastPositionCenter];
+//                                           if ([weakSelf.delegate respondsToSelector:@selector(registDidComplete:password:)]) {
+//                                               [weakSelf.delegate registDidComplete:data.account password:[_passwordTextfield text]];
+//                                           }
+//                                           [weakSelf.navigationController popViewControllerAnimated:YES];
+//                                       }
+//                                       else
+//                                       {
+//                                           if ([weakSelf.delegate respondsToSelector:@selector(registDidComplete:password:)]) {
+//                                               [weakSelf.delegate registDidComplete:nil password:nil];
+//                                           }
+//                                           
+//                                           NSString *toast = [NSString stringWithFormat:@"注册失败"];
+//                                           if ([errorMsg isKindOfClass:[NSString class]] &&errorMsg.length) {
+//                                               toast = [toast stringByAppendingFormat:@": %@",errorMsg];
+//                                           }
+//                                           [weakSelf.view makeToast:toast
+//                                                           duration:2
+//                                                           position:CSToastPositionCenter];
+//                                           
+//                                       }
+//                                       
+//                                   }];
 
     [self.navigationController popViewControllerAnimated:YES];
 

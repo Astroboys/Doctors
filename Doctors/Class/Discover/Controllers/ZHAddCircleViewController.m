@@ -12,8 +12,13 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import "Masonry.h"
+#import "SVProgressHUD.h"
+#import "NTESSessionViewController.h"
+#import "UIView+Toast.h"
 @interface ZHAddCircleViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-
+{
+    NSString *urlStr;
+}
 @property(nonatomic,strong)UIButton*addBtn;
 
 @property(nonatomic,strong)UITextField*circleName;
@@ -87,6 +92,9 @@
     [_createBtn setTitle:@"创建" forState:UIControlStateNormal];
     [_createBtn.layer setCornerRadius:5];
     _createBtn.clipsToBounds=YES;
+    _createBtn.userInteractionEnabled = YES;
+    [_createBtn addTarget:self action:@selector(createAction) forControlEvents:UIControlEventTouchUpInside];
+
     [self.view addSubview:_createBtn];
     
     _imagePickerController = [[UIImagePickerController alloc] init];
@@ -95,7 +103,32 @@
     _imagePickerController.allowsEditing = YES;
     
 }
+-(void)createAction
+{
+    __weak typeof(self) wself = self;
 
+    NSString *currentUserId = [[NIMSDK sharedSDK].loginManager currentAccount];
+    NSArray *members = @[currentUserId];
+    NIMCreateTeamOption *option = [[NIMCreateTeamOption alloc] init];
+    option.name       = _circleName.text;
+    option.type       = NIMTeamTypeAdvanced;
+    option.joinMode   = NIMTeamJoinModeNoAuth;
+    option.intro      = _circleIntroduce.text;
+    option.avatarUrl  = urlStr;
+    option.postscript = @"邀请你加入群组";
+    [SVProgressHUD show];
+    [[NIMSDK sharedSDK].teamManager createTeam:option users:members completion:^(NSError *error, NSString *teamId) {
+        [SVProgressHUD dismiss];
+        if (!error) {
+            NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+            NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
+            [wself.navigationController pushViewController:vc animated:YES];
+        }else{
+            [wself.view makeToast:@"创建失败" duration:2.0 position:CSToastPositionCenter];
+        }
+    }];
+
+}
 -(void)setupFrame{
     
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -149,35 +182,89 @@
 
 - (void)selectImageFromCamera
 {
-    _imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    //录制视频时长，默认10s
-    _imagePickerController.videoMaximumDuration = 15;
+    NSUInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    // 判断是否支持相机
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                sourceType = UIImagePickerControllerSourceTypeCamera;
+//                sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    // 跳转到相机或相册页面
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    imagePickerController.sourceType = sourceType;
     
-    //相机类型（拍照、录像...）字符串需要做相应的类型转换
-    _imagePickerController.mediaTypes = @[(NSString *)kUTTypeMovie,(NSString *)kUTTypeImage];
-    
-    //视频上传质量
-    //UIImagePickerControllerQualityTypeHigh高清
-    //UIImagePickerControllerQualityTypeMedium中等质量
-    //UIImagePickerControllerQualityTypeLow低质量
-    //UIImagePickerControllerQualityType640x480
-    _imagePickerController.videoQuality = UIImagePickerControllerQualityTypeHigh;
-    
-    //设置摄像头模式（拍照，录制视频）为录像模式
-    _imagePickerController.cameraCaptureMode = UIImagePickerControllerCameraCaptureModeVideo;
-    _imagePickerController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
-    _imagePickerController.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
-    
-    [self presentViewController:_imagePickerController animated:YES completion:nil];
+    [self presentViewController:imagePickerController animated:YES completion:^{}];
 }
 
 
 - (void)selectImageFromAlbum
 {
-    //NSLog(@"相册");
-    _imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentViewController:_imagePickerController animated:YES completion:nil];
+    // 判断是否支持相机
+    NSUInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    // 跳转到相机或相册页面
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    imagePickerController.sourceType = sourceType;
+    
+    [self presentViewController:imagePickerController animated:YES completion:^{}];
 }
+
+//当选择一张图片后进入这里
+-(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+
+{
+    
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    
+    //当选择的类型是图片
+    if ([type isEqualToString:@"public.image"])
+    {
+        //先把图片转成NSData
+        UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        [_addBtn setImage:image forState:UIControlStateNormal];
+
+        NSData *data;
+        if (UIImagePNGRepresentation(image) == nil)
+        {
+            data = UIImageJPEGRepresentation(image, 1.0);
+        }
+        else
+        {
+            data = UIImagePNGRepresentation(image);
+        }
+        
+        //图片保存的路径
+        //这里将图片放在沙盒的documents文件夹中
+        NSString * DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        
+        //文件管理器
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
+        [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];
+        [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
+        
+        //得到选择后沙盒中图片的完整路径
+        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+        NSURL *url = [NSURL fileURLWithPath: filePath];
+        urlStr = [url absoluteString];
+        //关闭相册界面
+        [picker dismissModalViewControllerAnimated:YES];
+        
+        //创建一个选择后图片的小图标放在下方
+        //类似微薄选择图后的效果
+        
+        
+    } 
+    
+}
+
 
 
 -(void)touchbtn1{
@@ -212,6 +299,9 @@
 
 -(void)addCirclepop{
 
+    
+    
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)didReceiveMemoryWarning {

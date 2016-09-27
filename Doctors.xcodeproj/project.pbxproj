@@ -123,6 +123,9 @@
 		283CCA621D994D880064C6E8 /* NIMKitResouce.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 283CCA611D994D880064C6E8 /* NIMKitResouce.bundle */; };
 		283CCA641D994DD20064C6E8 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283CCA631D994DD20064C6E8 /* CoreText.framework */; };
 		283CCA671D9953000064C6E8 /* UIView+NTES.m in Sources */ = {isa = PBXBuildFile; fileRef = 283CCA661D9953000064C6E8 /* UIView+NTES.m */; };
+		285D093F1D9A609D009D69AB /* NTESDemoFetchChatroomTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D09391D9A609D009D69AB /* NTESDemoFetchChatroomTask.m */; };
+		285D09401D9A609D009D69AB /* NTESDemoRegisterTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D093B1D9A609D009D69AB /* NTESDemoRegisterTask.m */; };
+		285D09411D9A609D009D69AB /* NTESDemoService.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D093D1D9A609D009D69AB /* NTESDemoService.m */; };
 		3BB88014F60CC8B103247097 /* libPods-Doctors.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8A57D431CFDE05414DC03F4 /* libPods-Doctors.a */; };
 		A70292AA1D93DF6900A32DF1 /* ZHVipInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A70292A91D93DF6900A32DF1 /* ZHVipInfoViewController.m */; };
 		A707FBB51D923B440021E7DB /* NetWorkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A707FBB21D923B440021E7DB /* NetWorkingManager.m */; };
@@ -703,6 +706,13 @@
 		283CCA631D994DD20064C6E8 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		283CCA651D9953000064C6E8 /* UIView+NTES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NTES.h"; sourceTree = "<group>"; };
 		283CCA661D9953000064C6E8 /* UIView+NTES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NTES.m"; sourceTree = "<group>"; };
+		285D09381D9A609D009D69AB /* NTESDemoFetchChatroomTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESDemoFetchChatroomTask.h; sourceTree = "<group>"; };
+		285D09391D9A609D009D69AB /* NTESDemoFetchChatroomTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESDemoFetchChatroomTask.m; sourceTree = "<group>"; };
+		285D093A1D9A609D009D69AB /* NTESDemoRegisterTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESDemoRegisterTask.h; sourceTree = "<group>"; };
+		285D093B1D9A609D009D69AB /* NTESDemoRegisterTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESDemoRegisterTask.m; sourceTree = "<group>"; };
+		285D093C1D9A609D009D69AB /* NTESDemoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESDemoService.h; sourceTree = "<group>"; };
+		285D093D1D9A609D009D69AB /* NTESDemoService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESDemoService.m; sourceTree = "<group>"; };
+		285D093E1D9A609D009D69AB /* NTESDemoServiceTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESDemoServiceTask.h; sourceTree = "<group>"; };
 		89EAB130DD4003B4C037CC22 /* Pods-Doctors.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctors.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctors/Pods-Doctors.debug.xcconfig"; sourceTree = "<group>"; };
 		A70292A81D93DF6900A32DF1 /* ZHVipInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVipInfoViewController.h; sourceTree = "<group>"; };
 		A70292A91D93DF6900A32DF1 /* ZHVipInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVipInfoViewController.m; sourceTree = "<group>"; };
@@ -1188,6 +1198,7 @@
 				A70F024E1D9A4DE400D921C8 /* NTESGlobalMacro.h */,
 				283CCA651D9953000064C6E8 /* UIView+NTES.h */,
 				283CCA661D9953000064C6E8 /* UIView+NTES.m */,
+				285D09371D9A609D009D69AB /* Service */,
 				A70F03471D9A4E8700D921C8 /* CustomChatCell */,
 				283CC8E11D994D3D0064C6E8 /* Classes */,
 				283CC9C21D994D3D0064C6E8 /* Vendors */,
@@ -1679,6 +1690,20 @@
 				283CC9EF1D994D3D0064C6E8 /* UIView+NIMKitToast.m */,
 			);
 			path = Toast;
+			sourceTree = "<group>";
+		};
+		285D09371D9A609D009D69AB /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				285D09381D9A609D009D69AB /* NTESDemoFetchChatroomTask.h */,
+				285D09391D9A609D009D69AB /* NTESDemoFetchChatroomTask.m */,
+				285D093A1D9A609D009D69AB /* NTESDemoRegisterTask.h */,
+				285D093B1D9A609D009D69AB /* NTESDemoRegisterTask.m */,
+				285D093C1D9A609D009D69AB /* NTESDemoService.h */,
+				285D093D1D9A609D009D69AB /* NTESDemoService.m */,
+				285D093E1D9A609D009D69AB /* NTESDemoServiceTask.h */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		4F3AEDF6467615CA6A508FC0 /* Pods */ = {
@@ -3061,6 +3086,7 @@
 				A70F03571D9A4E8700D921C8 /* SessionConfig.m in Sources */,
 				A7760C221D73D0A600F630C5 /* ZHFirstViewController.m in Sources */,
 				283CCA291D994D3D0064C6E8 /* NIMTimestampModel.m in Sources */,
+				285D093F1D9A609D009D69AB /* NTESDemoFetchChatroomTask.m in Sources */,
 				A7F3E2DC1D9652C50035CB6D /* DiagnoseTableViewCell.m in Sources */,
 				A70F03181D9A4E3500D921C8 /* NTESDemoConfig.m in Sources */,
 				A70F03021D9A4E3500D921C8 /* UIScrollView+NTESDirection.m in Sources */,
@@ -3113,6 +3139,7 @@
 				A70F03131D9A4E3500D921C8 /* NTESChatroomMaker.m in Sources */,
 				283CCA001D994D3D0064C6E8 /* NIMMemberGroupView.m in Sources */,
 				A7B1A9811D701ABB00B5D601 /* AppDelegate.m in Sources */,
+				285D09411D9A609D009D69AB /* NTESDemoService.m in Sources */,
 				A70F03001D9A4E3500D921C8 /* UIImage+NTESColor.m in Sources */,
 				283CCA201D994D3D0064C6E8 /* NIMTipContentConfig.m in Sources */,
 				283CC9FB1D994D3D0064C6E8 /* NIMAvatarImageView.m in Sources */,
@@ -3210,6 +3237,7 @@
 				283CCA121D994D3D0064C6E8 /* NIMInputToolBar.m in Sources */,
 				283CCA171D994D3D0064C6E8 /* NIMUIConfig.m in Sources */,
 				283CCA501D994D3E0064C6E8 /* NIMAttributedLabelAttachment.m in Sources */,
+				285D09401D9A609D009D69AB /* NTESDemoRegisterTask.m in Sources */,
 				A75302AA1D8E76CC0073202F /* UIImage+Extension.m in Sources */,
 				A70F031B1D9A4E3500D921C8 /* NTESFPSLabel.m in Sources */,
 				283CCA511D994D3E0064C6E8 /* NIMAttributedLabelURL.m in Sources */,

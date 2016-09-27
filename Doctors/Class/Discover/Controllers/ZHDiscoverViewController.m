@@ -10,11 +10,15 @@
 #import "UIViewController+MMDrawerController.h"
 #import "HealthycircleCell.h"
 #import "ZHAddCircleViewController.h"
+#import "NTESSessionViewController.h"
+#import "UIImageView+WebCache.h"
 static NSString *ID=@"cell";
 
-@interface ZHDiscoverViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ZHDiscoverViewController ()<UITableViewDataSource,UITableViewDelegate,NIMTeamManagerDelegate>
 
 @property(nonatomic)UITableView*circleTabView;
+@property (strong, nonatomic) NSMutableArray *myTeams;
+
 @property(nonatomic,strong)NSMutableArray*dataArr;
 @property(nonatomic,strong)NSMutableArray*dataTopicArr;
 @property(nonatomic,strong)NSMutableArray*dataTimeArr;
@@ -42,11 +46,43 @@ static NSString *ID=@"cell";
     UIBarButtonItem*rightItem=[[UIBarButtonItem alloc]initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(discoverClickRight)];
 
     self.navigationItem.rightBarButtonItem=rightItem;
-    
+    self.myTeams = [self fetchTeams];
+    [[NIMSDK sharedSDK].teamManager addDelegate:self];
+
      [self setupUI];
     
 }
 
+- (NSMutableArray *)fetchTeams{
+    NSMutableArray *myTeams = [[NSMutableArray alloc]init];
+    for (NIMTeam *team in [NIMSDK sharedSDK].teamManager.allMyTeams) {
+        if (team.type == NIMTeamTypeAdvanced) {
+            [myTeams addObject:team];
+        }
+    }
+    return myTeams;
+}
+- (void)onTeamAdded:(NIMTeam *)team{
+    if (team.type == NIMTeamTypeAdvanced) {
+        self.myTeams = [self fetchTeams];
+    }
+    [_circleTabView reloadData];
+}
+
+- (void)onTeamUpdated:(NIMTeam *)team{
+    if (team.type == NIMTeamTypeAdvanced) {
+        self.myTeams = [self fetchTeams];
+    }
+    [_circleTabView reloadData];
+}
+
+
+- (void)onTeamRemoved:(NIMTeam *)team{
+    if (team.type == NIMTeamTypeAdvanced) {
+        self.myTeams = [self fetchTeams];
+    }
+    [_circleTabView reloadData];
+}
 
 -(void)discoverClickLeft{
     
@@ -90,7 +126,7 @@ static NSString *ID=@"cell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return self.dataArr.count;
+    return _myTeams.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -101,16 +137,19 @@ static NSString *ID=@"cell";
         cell=[[HealthycircleCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     
     }
-    HealthycircleModel*model=[[HealthycircleModel alloc]init];
+//    HealthycircleModel*model=[[HealthycircleModel alloc]init];
     
-    model.circleImage=@"circleDefault";
-    model.name=self.dataArr[indexPath.row];
-    model.time=self.dataTimeArr[indexPath.row];
-    model.topic=self.dataTopicArr[indexPath.row];
+    
+    NIMTeam *team = [_myTeams objectAtIndex:indexPath.row];
+    cell.nameLabel.text = team.teamName;
+    cell.topicLabel.text = team.intro;
+    cell.timeLabel.text = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:team.createTime]];
+    [cell.circleImage sd_setImageWithURL:[NSURL URLWithString:team.avatarUrl] placeholderImage:[UIImage imageNamed:@"navigationbar_back_withtext"]];
+   
    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
-    [cell HealthycircleCellWithObject:model];
+//    [cell HealthycircleCellWithObject:model];
     
     return cell;
 }
@@ -128,6 +167,13 @@ static NSString *ID=@"cell";
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     return 70;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NIMTeam *team = [_myTeams objectAtIndex:indexPath.row];
+    NIMSession *session = [NIMSession session:team.teamId type:NIMSessionTypeTeam];
+    NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (NSMutableArray *)dataArr {
