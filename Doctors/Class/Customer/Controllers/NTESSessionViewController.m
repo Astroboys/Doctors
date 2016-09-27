@@ -38,12 +38,12 @@
 #import "NIMNormalTeamCardViewController.h"
 #import "UIView+NTES.h"
 #import "NTESBundleSetting.h"
-//#import "NTESPersonalCardViewController.h"
+#import "NTESPersonalCardViewController.h"
 #import "NTESSessionSnapchatContentView.h"
 #import "NTESSessionLocalHistoryViewController.h"
 #import "NIMContactSelectViewController.h"
 #import "SVProgressHUD.h"
-//#import "NTESSessionCardViewController.h"
+#import "NTESSessionCardViewController.h"
 #import "NTESFPSLabel.h"
 #import "UIAlertView+NTESBlock.h"
 #import "NTESDataManager.h"
@@ -549,8 +549,8 @@ NIMContactSelectDelegate>
 
 
 - (void)onTapAvatar:(NSString *)userId{
-//    UIViewController *vc = [[NTESPersonalCardViewController alloc] initWithUserId:userId];
-//    [self.navigationController pushViewController:vc animated:YES];
+    UIViewController *vc = [[NTESPersonalCardViewController alloc] initWithUserId:userId];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -614,8 +614,11 @@ NIMContactSelectDelegate>
 
 #pragma mark - 导航按钮
 - (void)onTouchUpInfoBtn:(id)sender{
-//    NTESSessionCardViewController *vc = [[NTESSessionCardViewController alloc] initWithSession:self.session];
-//    [self.navigationController pushViewController:vc animated:YES];
+    if (self.session.sessionType == 0) {
+        return;
+    }
+    NTESSessionCardViewController *vc = [[NTESSessionCardViewController alloc] initWithSession:self.session];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)enterHistory:(id)sender{

@@ -8,7 +8,7 @@
 
 #import "ZHTabViewController.h"
 #import "ZHTabBar.h"
-#import "ZHCustomerViewController.h"
+#import "NTESSessionListViewController.h"
 #import "ZHServerViewController.h"
 #import "ZHDiscoverViewController.h"
 #import "ZHFirstViewController.h"
@@ -88,7 +88,7 @@
                           imageName:@"tabbar_home"
                   selectedImageName:@"tabbar_home_selected"];
     
-    [self addOneChildViewController:[[ZHNavViewController alloc]initWithRootViewController:[[ZHCustomerViewController alloc]init]]
+    [self addOneChildViewController:[[ZHNavViewController alloc]initWithRootViewController:[[NTESSessionListViewController alloc]init]]
                           WithTitle:@"客户"
                           imageName:@"tabbar_message_center"
                   selectedImageName:@"tabbar_message_center_selected"];
