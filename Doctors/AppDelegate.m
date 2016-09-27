@@ -19,6 +19,11 @@
 #import <IQKeyboardManager.h>
 #import "ZHLoginViewController.h"
 
+
+#import "DataProvider.h"
+#import "AttachmentDecoder.h"
+#define NIMSDKAppKey @"8fc95f505b6cbaedf613677c8e08fc0b"
+
 #define kScreenSize [UIScreen mainScreen].bounds
 
 @interface AppDelegate ()
@@ -61,9 +66,22 @@
     
     [self.window makeKeyAndVisible];
     
+    
+    [self registerNIM];
+    
     return YES;
 }
 
+-(void)registerNIM
+{
+    //注册APP，请将 NIMSDKAppKey 换成您自己申请的App Key
+    [[NIMSDK sharedSDK] registerWithAppID:NIMSDKAppKey cerName:nil];
+    //注入 NIMKit 内容提供者
+    [[NIMKit sharedKit] setProvider:[DataProvider new]];
+    
+    //需要自定义消息时使用
+    [NIMCustomObject registerCustomDecoder:[[AttachmentDecoder alloc]init]];
+}
 
 - (void)setupLoginViewController
 {
