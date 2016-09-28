@@ -15,10 +15,12 @@
 #import "SVProgressHUD.h"
 #import "NTESSessionViewController.h"
 #import "UIView+Toast.h"
-
+#import "UIImage+NIM.h"
+#import "UIView+NIMKitToast.h"
 @interface ZHAddCircleViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    NSString *urlStr;
+    UIImage *teamImage;
+    
 }
 @property(nonatomic,strong)UIButton*addBtn;
 
@@ -115,15 +117,18 @@
     option.type       = NIMTeamTypeAdvanced;
     option.joinMode   = NIMTeamJoinModeNoAuth;
     option.intro      = _circleIntroduce.text;
-    option.avatarUrl  = urlStr;
     option.postscript = @"邀请你加入群组";
     [SVProgressHUD show];
+//    [[NIMSDK sharedSDK].teamManager updateTeamAvatar:<#(nonnull NSString *)#> teamId:<#(nonnull NSString *)#> completion:^(NSError * _Nullable error) {
+//        
+//    }];
     [[NIMSDK sharedSDK].teamManager createTeam:option users:members completion:^(NSError *error, NSString *teamId) {
         [SVProgressHUD dismiss];
         if (!error) {
             NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
             NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
             [wself.navigationController pushViewController:vc animated:YES];
+            [wself uploadTeamImage:teamId];
         }else{
             [wself.view makeToast:@"创建失败" duration:2.0 position:CSToastPositionCenter];
         }
@@ -265,7 +270,7 @@
         //先把图片转成NSData
         UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         [_addBtn setImage:image forState:UIControlStateNormal];
-
+        teamImage = image;
         NSData *data;
         if (UIImagePNGRepresentation(image) == nil)
         {
@@ -287,10 +292,9 @@
         [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];
         [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
         
-        //得到选择后沙盒中图片的完整路径
-        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
-        NSURL *url = [NSURL fileURLWithPath: filePath];
-        urlStr = [url absoluteString];
+//        //得到选择后沙盒中图片的完整路径
+//        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+//        NSURL *url = [NSURL fileURLWithPath: filePath];
         //关闭相册界面
         [picker dismissModalViewControllerAnimated:YES];
         
@@ -300,6 +304,40 @@
         
     } 
     
+}
+#pragma mark - Private
+- (void)uploadTeamImage:(NSString *)teamID{
+    UIImage *imageForAvatarUpload = [teamImage nim_imageForAvatarUpload];
+    NSString *fileName = [[[[NSUUID UUID] UUIDString] lowercaseString] stringByAppendingPathExtension:@"jpg"];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    NSData *data = UIImageJPEGRepresentation(imageForAvatarUpload, 1.0);
+    BOOL success = data && [data writeToFile:filePath atomically:YES];
+    __weak typeof(self) wself = self;
+    if (success) {
+        [[NIMSDK sharedSDK].resourceManager upload:filePath progress:nil completion:^(NSString *urlString, NSError *error) {
+            if (!error && wself) {
+                [[NIMSDK sharedSDK].teamManager updateTeamAvatar:urlString teamId:teamID completion:^(NSError *error) {
+                    if (!error) {
+
+                        
+                    }else{
+                        [wself.view nimkit_makeToast:@"设置头像失败，请重试"
+                                            duration:2
+                                            position:NIMKitToastPositionCenter];
+                    }
+                }];
+                
+            }else{
+                [wself.view nimkit_makeToast:@"图片上传失败，请重试"
+                                    duration:2
+                                    position:NIMKitToastPositionCenter];
+            }
+        }];
+    }else{
+        [self.view nimkit_makeToast:@"图片保存失败，请重试"
+                           duration:2
+                           position:NIMKitToastPositionCenter];
+    }
 }
 
 

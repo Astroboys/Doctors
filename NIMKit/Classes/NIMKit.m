@@ -142,10 +142,11 @@ extern NSString *const NIMKitUserMuteListHasUpdatedNotification;
 
 - (NIMKitInfo *)infoByTeam:(NSString *)teamId
 {
-    NIMKitInfo *info = nil;
-    if (_provider && [_provider respondsToSelector:@selector(infoByTeam:)]) {
-        info = [_provider infoByTeam:teamId];
-    }
+    NIMTeam *team    = [[NIMSDK sharedSDK].teamManager teamById:teamId];
+    NIMKitInfo *info = [[NIMKitInfo alloc] init];
+    info.showName    = team.teamName;
+    info.infoId      = teamId;
+    info.avatarUrlString = team.thumbAvatarUrl;
     return info;
 
 }
