@@ -357,6 +357,8 @@
 		A719CF581D94BFE50007C922 /* ZHForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A719CF571D94BFE50007C922 /* ZHForgetViewController.m */; };
 		A72224D81D97C87D004861CB /* ZHAddCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72224D71D97C87D004861CB /* ZHAddCircleViewController.m */; };
 		A72874461D9B7A1E009747A6 /* ZHVerifyCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A72874451D9B7A1E009747A6 /* ZHVerifyCodeButton.m */; };
+		A72874491D9B95D4009747A6 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A72874471D9B95D4009747A6 /* save@2x.png */; };
+		A728744A1D9B95D4009747A6 /* save@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A72874481D9B95D4009747A6 /* save@3x.png */; };
 		A729F0C81D955AEC0040A30D /* ZHVerifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A729F0C71D955AEC0040A30D /* ZHVerifyViewController.m */; };
 		A75302761D8E20150073202F /* ZHDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A75302751D8E20150073202F /* ZHDetailsViewController.m */; };
 		A75302A41D8E70C10073202F /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A753029C1D8E70C10073202F /* MMDrawerBarButtonItem.m */; };
@@ -1071,6 +1073,8 @@
 		A722259F1D97D9B7004861CB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		A72874441D9B7A1E009747A6 /* ZHVerifyCodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVerifyCodeButton.h; sourceTree = "<group>"; };
 		A72874451D9B7A1E009747A6 /* ZHVerifyCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVerifyCodeButton.m; sourceTree = "<group>"; };
+		A72874471D9B95D4009747A6 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
+		A72874481D9B95D4009747A6 /* save@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@3x.png"; sourceTree = "<group>"; };
 		A729F0C61D955AEC0040A30D /* ZHVerifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVerifyViewController.h; sourceTree = "<group>"; };
 		A729F0C71D955AEC0040A30D /* ZHVerifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVerifyViewController.m; sourceTree = "<group>"; };
 		A75302741D8E20150073202F /* ZHDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDetailsViewController.h; sourceTree = "<group>"; };
@@ -1848,6 +1852,8 @@
 				A70F01C01D9A4AE000D921C8 /* pulldown@3x.png */,
 				A70F01C11D9A4AE000D921C8 /* select@2x.png */,
 				A70F01C21D9A4AE000D921C8 /* select@3x.png */,
+				A72874471D9B95D4009747A6 /* save@2x.png */,
+				A72874481D9B95D4009747A6 /* save@3x.png */,
 				A70F01C31D9A4AE000D921C8 /* tabbar */,
 				A70F01D41D9A4AE000D921C8 /* un_select@2x.png */,
 				A70F01D51D9A4AE000D921C8 /* un_select@3x.png */,
@@ -2990,6 +2996,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A728744A1D9B95D4009747A6 /* save@3x.png in Resources */,
 				A70F03281D9A4E3500D921C8 /* LICENSE in Resources */,
 				A70F01F31D9A4AE000D921C8 /* timeIcon@3x.png in Resources */,
 				A70F02001D9A4AE000D921C8 /* changeIcons@2x.png in Resources */,
@@ -3063,6 +3070,7 @@
 				A70F01E71D9A4AE000D921C8 /* 添加头像@3x.png in Resources */,
 				A70F02481D9A4AE000D921C8 /* tabbar_profile_selected@2x.png in Resources */,
 				A7B1A9871D701ABB00B5D601 /* Main.storyboard in Resources */,
+				A72874491D9B95D4009747A6 /* save@2x.png in Resources */,
 				A70F01FA1D9A4AE000D921C8 /* briefly@2x.png in Resources */,
 				A70F02271D9A4AE000D921C8 /* tabbar_message_center_selected@3x.png in Resources */,
 				A70F02421D9A4AE000D921C8 /* tabbar_message_center@2x.png in Resources */,

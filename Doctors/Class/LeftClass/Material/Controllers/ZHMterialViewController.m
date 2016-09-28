@@ -66,7 +66,7 @@
     // 告诉系统以后这张图片不进行默认的渲染
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    UIImage* image2 = [UIImage imageNamed:@"navigationbar_pop"];
+    UIImage* image2 = [UIImage imageNamed:@"save"];
     // 告诉系统以后这张图片不进行默认的渲染
     image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 
@@ -135,7 +135,7 @@
     _sexLbl.text =@"性别:";
     [_sexLbl setTextAlignment:NSTextAlignmentRight];
     [_sexLbl setFont:[UIFont systemFontOfSize:14]];
-    _sexText=[[UILabel alloc]initWithFrame:CGRectMake(100,100 , kWidth-80-20, 50)];
+    _sexText=[[UILabel alloc]initWithFrame:CGRectMake(100,100, kWidth-80-20, 50)];
     _sexText.text=@"男";
     [_sexText setFont:[UIFont systemFontOfSize:14]];
     [self.firstView addSubview:_sexLbl];
