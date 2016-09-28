@@ -323,29 +323,54 @@
 
 -(void)loginsbtn{
     
-    NSDictionary *dic = @{@"memPhone":_accountText.text,@"password":_passWordText.text};
-    
-    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.107:8080/newAngel/app/cus/login" withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+    if(_accountText.text.length<1 || _passWordText.text.length<1){
+        [MBManager showBriefMessage:@"帐号或密码不能为空" InView:self.view];
+        return;
+    }
+    [MBManager showLoadingInView:self.view];
+    NSDictionary *dic = @{@"mobile":_accountText.text,@"password":_passWordText.text};
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/login"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+        [MBManager hideAlert];
+        //200登陆成功，201登陆成功未认证
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *loginCode = responseObject[@"code"];
+            if (loginCode.intValue == 200) {
+                NSString *token = responseObject[@"token"];
+                [UConfig setLoginCode:loginCode];
+                [[NIMSDK sharedSDK].loginManager login:_accountText.text token:token completion:^(NSError *error) {
+                    if (!error) {
+                        NSLog(@"登录成功");
+                        [self loginMainView];
+                        
+                    }else{
+                        NSLog(@"登录失败");
+                    }
+                }];
+
+            }else if (loginCode.intValue == 201){
+                [UConfig setLoginCode:loginCode];
+                [self loginMainView];
+
+            }else{
+                [MBManager showBriefMessage:@"帐号或密码不正确" InView:self.view];
+            }
+            NSLog(@"%@",responseObject);
+
+        }
         
     } failure:^(NSError *error) {
-        
+        [MBManager hideAlert];
     }];
     
     
     
-    [[NIMSDK sharedSDK].loginManager login:NIMMyAccount token:NIMMyToken completion:^(NSError *error) {
-        if (!error) {
-            NSLog(@"登录成功");
-            //创建session,这里聊天对象预设为韩梅梅，此账号也是事先提交到此App下的
-//            NIMSession *session = [NIMSession session:NIMChatTarget type:NIMSessionTypeP2P];
-//            //创建聊天页，这个页面继承自 NIMKit 中的组件 NIMSessionViewController
-//            NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
-//            [self.navigationController pushViewController:vc animated:YES];
-        }else{
-            NSLog(@"登录失败");
-        }
-    }];
 
+    
+        
+}
+
+-(void)loginMainView
+{
     UIViewController*leftVc;
     
     YCLeftViewController *leftMenuViewController = [[YCLeftViewController alloc] init];
@@ -361,10 +386,8 @@
     drawerVc.closeDrawerGestureModeMask = MMCloseDrawerGestureModeAll;
     
     [self.navigationController pushViewController:drawerVc animated:YES];
-       
-    self.navigationController.navigationBar.hidden=YES;
     
-        
+    self.navigationController.navigationBar.hidden=YES;
 }
 
 -(void)loginClickleft{
