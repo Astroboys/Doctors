@@ -24,7 +24,7 @@
 #import "AttachmentDecoder.h"
 #import "UConfig.h"
 
-#define NIMSDKAppKey @"8fc95f505b6cbaedf613677c8e08fc0b"
+#define NIMSDKAppKey @"1127c69f80a7d3c0af0e9192bb0b1d08"
 
 #define kScreenSize [UIScreen mainScreen].bounds
 
