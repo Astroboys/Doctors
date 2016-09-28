@@ -11,6 +11,8 @@
 #import "SVProgressHUD.h"
 #import "NTESDemoService.h"
 #import "ZHVerifyCodeButton.h"
+#import "NetWorkingManager.h"
+#import "NSString+NTES.h"
 @interface ZHRegisterViewController ()
 
 @property(nonatomic,strong)UIView*registerView;
@@ -173,6 +175,8 @@
     [_registerbtn setTitle:@"立即注册" forState:UIControlStateNormal];
     _registerbtn.backgroundColor=DWColor(40, 128, 194);
     self.registerbtn.clipsToBounds=YES;
+    [_registerbtn addTarget:self action:@selector(registerAction) forControlEvents:UIControlEventTouchUpInside];
+
     [self.registerbtn.layer setCornerRadius:5];
     [self.registerView addSubview:_registerbtn];
     
@@ -363,6 +367,18 @@
 
 - (void)codeBtnVerification {
     
+    //type 1为注册 2为找回密码
+    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"type":@"1"};
+    
+    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.107:8080/newAngel/sysSendMessage/getCode" withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error.userInfo);
+
+    }];
+    
     // 调用短信验证码接口
     if(true){
         
@@ -379,51 +395,48 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)registerAction
+{
+    //性别暂为1
+    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":@"1",@"password":_passwordText.text};
+    
+    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.107:8080/newAngel/app/customer/addCustomer" withParamters:dic withProgress:^(float progress) {
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        
+        NTESRegisterData *data = [[NTESRegisterData alloc] init];
+        data.account = [_phoneText text];
+        data.nickname= [_passwordText text];
+        data.token = [_passwordText.text tokenByPassword];
+        
+        [SVProgressHUD show];
+        __weak typeof(self) weakSelf = self;
+        
+        [[NTESDemoService sharedService] registerUser:data
+                                           completion:^(NSError *error, NSString *errorMsg) {
+                                               [SVProgressHUD dismiss];
+                                               if (error == nil) {
+                                                   [weakSelf.navigationController popViewControllerAnimated:YES];
+                                                   
+                                               }
+                                               else
+                                               {
+                                                   
+                                               }
+                                               
+                                           }];
+        
+        
+    } failure:^(NSError *error) {
+        
+    }];
 
+}
 -(void)registerClickleft{
 
-    
-//    NTESRegisterData *data = [[NTESRegisterData alloc] init];
-//    data.account = [_accountTextfield text];
-//    data.nickname= [_nicknameTextfield text];
-//    data.token = [[_passwordTextfield text] tokenByPassword];
-//    if (![self check]) {
-//        return;
-//    }
-//
-//[SVProgressHUD show];
-//__weak typeof(self) weakSelf = self;
-//
-//[[NTESDemoService sharedService] registerUser:data
-//                                   completion:^(NSError *error, NSString *errorMsg) {
-//                                       [SVProgressHUD dismiss];
-//                                       if (error == nil) {
-//                                           [weakSelf.navigationController.view makeToast:@"注册成功"
-//                                                                                duration:2
-//                                                                                position:CSToastPositionCenter];
-//                                           if ([weakSelf.delegate respondsToSelector:@selector(registDidComplete:password:)]) {
-//                                               [weakSelf.delegate registDidComplete:data.account password:[_passwordTextfield text]];
-//                                           }
-//                                           [weakSelf.navigationController popViewControllerAnimated:YES];
-//                                       }
-//                                       else
-//                                       {
-//                                           if ([weakSelf.delegate respondsToSelector:@selector(registDidComplete:password:)]) {
-//                                               [weakSelf.delegate registDidComplete:nil password:nil];
-//                                           }
-//                                           
-//                                           NSString *toast = [NSString stringWithFormat:@"注册失败"];
-//                                           if ([errorMsg isKindOfClass:[NSString class]] &&errorMsg.length) {
-//                                               toast = [toast stringByAppendingFormat:@": %@",errorMsg];
-//                                           }
-//                                           [weakSelf.view makeToast:toast
-//                                                           duration:2
-//                                                           position:CSToastPositionCenter];
-//                                           
-//                                       }
-//                                       
-//                                   }];
-
+   
     [self.navigationController popViewControllerAnimated:YES];
 
 }

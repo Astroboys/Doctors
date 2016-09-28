@@ -16,6 +16,7 @@
 #import "ZHNavViewController.h"
 #import "ZHRegisterViewController.h"
 #import "ZHForgetViewController.h"
+#import "NetWorkingManager.h"
 #define NIMMyAccount   @"lilei"
 #define NIMMyToken     @"123456"
 #define NIMChatTarget  @"hanmeimei"
@@ -321,6 +322,15 @@
 }
 
 -(void)loginsbtn{
+    
+    NSDictionary *dic = @{@"memPhone":_accountText.text,@"password":_passWordText.text};
+    
+    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.107:8080/newAngel/app/cus/login" withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
     
     
     [[NIMSDK sharedSDK].loginManager login:NIMMyAccount token:NIMMyToken completion:^(NSError *error) {
