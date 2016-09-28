@@ -10,6 +10,7 @@
 #import "Masonry.h"
 #import "SVProgressHUD.h"
 #import "NTESDemoService.h"
+#import "ZHVerifyCodeButton.h"
 @interface ZHRegisterViewController ()
 
 @property(nonatomic,strong)UIView*registerView;
@@ -41,6 +42,9 @@
 
 @property(nonatomic,strong)UIButton*registerbtn;
 @property(nonatomic,strong)UIButton*backBtn;
+
+@property (nonatomic, strong) ZHVerifyCodeButton *codeBtn;
+
 
 @end
 
@@ -96,6 +100,10 @@
     _testText.placeholder=@"获取验证码";
     [_testText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_testText];
+    
+    _codeBtn = [ZHVerifyCodeButton buttonWithType:UIButtonTypeCustom];
+    [_codeBtn addTarget:self action:@selector(codeBtnVerification) forControlEvents:UIControlEventTouchUpInside];
+    [self.registerView addSubview:_codeBtn];
     
     _lineView2=[[UIView alloc]init];
     _lineView2.backgroundColor=[UIColor lightGrayColor];
@@ -221,56 +229,21 @@
         make.height.mas_equalTo(15);
     }];
     
-    [self.testText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineView.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.testLbl.mas_right).with.offset(5);
+    [self.codeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lineView.mas_bottom).with.offset(5);
         make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(15);
-    }];
-    
-    [self.lineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.testLbl.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(1);
-    }];
-    
-    [self.testLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineView.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
-        make.width.mas_equalTo(60);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(70);
+        make.height.mas_equalTo(30);
     }];
     
     [self.testText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineView.mas_bottom).with.offset(15);
         make.left.mas_equalTo(self.testLbl.mas_right).with.offset(5);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
+        make.right.mas_equalTo(self.codeBtn.mas_left).with.offset(-5);
         make.height.mas_equalTo(15);
     }];
     
-    [self.lineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.testLbl.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(1);
-    }];
 
-    
-    [self.testLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineView.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
-        make.width.mas_equalTo(60);
-        make.height.mas_equalTo(15);
-    }];
-    
-    [self.testText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineView.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.testLbl.mas_right).with.offset(5);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(15);
-    }];
-    
     [self.lineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.testLbl.mas_bottom).with.offset(15);
         make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
@@ -386,6 +359,19 @@
     }];
     
 
+}
+
+- (void)codeBtnVerification {
+    
+    // 调用短信验证码接口
+    if(true){
+        
+        [self.codeBtn timeFailBeginFrom:60];  // 倒计时60s
+    
+    }else{
+    
+        [self.codeBtn timeFailBeginFrom:1]; // 处理请求成功但是匹配不成功的情况，并不需要执行倒计时功能
+    }
 }
 
 -(void)backToLogin{

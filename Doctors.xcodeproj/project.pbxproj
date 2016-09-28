@@ -356,6 +356,7 @@
 		A70F03571D9A4E8700D921C8 /* SessionConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = A70F03521D9A4E8700D921C8 /* SessionConfig.m */; };
 		A719CF581D94BFE50007C922 /* ZHForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A719CF571D94BFE50007C922 /* ZHForgetViewController.m */; };
 		A72224D81D97C87D004861CB /* ZHAddCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A72224D71D97C87D004861CB /* ZHAddCircleViewController.m */; };
+		A72874461D9B7A1E009747A6 /* ZHVerifyCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A72874451D9B7A1E009747A6 /* ZHVerifyCodeButton.m */; };
 		A729F0C81D955AEC0040A30D /* ZHVerifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A729F0C71D955AEC0040A30D /* ZHVerifyViewController.m */; };
 		A75302761D8E20150073202F /* ZHDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A75302751D8E20150073202F /* ZHDetailsViewController.m */; };
 		A75302A41D8E70C10073202F /* MMDrawerBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A753029C1D8E70C10073202F /* MMDrawerBarButtonItem.m */; };
@@ -1068,6 +1069,8 @@
 		A72224D71D97C87D004861CB /* ZHAddCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHAddCircleViewController.m; sourceTree = "<group>"; };
 		A722259E1D97D9B7004861CB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		A722259F1D97D9B7004861CB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		A72874441D9B7A1E009747A6 /* ZHVerifyCodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVerifyCodeButton.h; sourceTree = "<group>"; };
+		A72874451D9B7A1E009747A6 /* ZHVerifyCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVerifyCodeButton.m; sourceTree = "<group>"; };
 		A729F0C61D955AEC0040A30D /* ZHVerifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVerifyViewController.h; sourceTree = "<group>"; };
 		A729F0C71D955AEC0040A30D /* ZHVerifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVerifyViewController.m; sourceTree = "<group>"; };
 		A75302741D8E20150073202F /* ZHDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDetailsViewController.h; sourceTree = "<group>"; };
@@ -2767,6 +2770,8 @@
 			children = (
 				A7B1AAF51D701F8F00B5D601 /* ChangeBtn.h */,
 				A7B1AAF61D701F8F00B5D601 /* ChangeBtn.m */,
+				A72874441D9B7A1E009747A6 /* ZHVerifyCodeButton.h */,
+				A72874451D9B7A1E009747A6 /* ZHVerifyCodeButton.m */,
 				A7B1AAF71D701F8F00B5D601 /* UIButton+ImageTitleSpacing.h */,
 				A7B1AAF81D701F8F00B5D601 /* UIButton+ImageTitleSpacing.m */,
 				A7B1AAF91D701F8F00B5D601 /* UIView+Frame.h */,
@@ -3279,6 +3284,7 @@
 				283CCA1A1D994D3D0064C6E8 /* NIMCellLayoutDefaultConfig.m in Sources */,
 				283CCA271D994D3D0064C6E8 /* NIMSessionViewController.m in Sources */,
 				A796F03D1D98BD7B002B3F64 /* LXSegmentScrollView.m in Sources */,
+				A72874461D9B7A1E009747A6 /* ZHVerifyCodeButton.m in Sources */,
 				283CCA081D994D3D0064C6E8 /* NIMContactSelectTabView.m in Sources */,
 				285D09761D9A9FBE009D69AB /* NTESSignSettingViewController.m in Sources */,
 				A7B1AB371D701F8F00B5D601 /* AddressPickView.m in Sources */,

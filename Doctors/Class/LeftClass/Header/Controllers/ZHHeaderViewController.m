@@ -37,9 +37,9 @@
         UIImage * image = [UIImage imageWithData:data];
         _iconView.image=image;
         
+        
     }
-
-   
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:[UIFont systemFontOfSize:19],
        NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -126,7 +126,6 @@
         
         //文件管理器
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        
         //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
         [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];
         [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
