@@ -134,6 +134,8 @@
             break;
     }
     [self.titleLabel sizeToFit];
+   
+
     self.titleLabel.centerX   = self.navigationItem.titleView.width * .5f;
     [self.header refreshWithType:ListHeaderTypeNetStauts value:@(step)];
     [self.view setNeedsLayout];
@@ -159,6 +161,7 @@
 - (UIView*)titleView:(NSString*)userID{
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.text =  SessionListTitle;
+    self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:15.f];
     [self.titleLabel sizeToFit];
     UILabel *subLabel  = [[UILabel alloc] initWithFrame:CGRectZero];

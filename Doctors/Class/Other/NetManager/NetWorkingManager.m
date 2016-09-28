@@ -48,7 +48,7 @@ static NetWorkingManager * defualt_shareMananger = nil;
         // 设置相应的缓存策略--URL应该加载源端数据，不使用本地缓存数据,忽略缓存直接从原始地址下载。
         self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
         // 设置超时时间
-        self.requestSerializer.timeoutInterval = 0.5;
+        self.requestSerializer.timeoutInterval = 60;
         // 设置请求内容的类型-- 复杂的参数类型 需要使用json传值-设置请求内容的类型
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"]; // 设置请求内容的类型
         

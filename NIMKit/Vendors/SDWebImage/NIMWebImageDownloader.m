@@ -119,7 +119,7 @@ static NSString *const kCompletedCallbackKey = @"completed";
     [self addProgressCallback:progressBlock andCompletedBlock:completedBlock forURL:url createCallback:^{
         NSTimeInterval timeoutInterval = wself.downloadTimeout;
         if (timeoutInterval == 0.0) {
-            timeoutInterval = 15.0;
+            timeoutInterval = 60.0;
         }
 
         // In order to prevent from potential duplicate caching (NSURLCache + NIMImageCache) we disable the cache for image requests if told otherwise
