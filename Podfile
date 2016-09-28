@@ -7,7 +7,8 @@ def pods
   pod 'NIMSDK', '~> 2.7.2'
   pod 'IQKeyboardManager', '~> 4.0.4'
   pod 'Reachability', '~> 3.2’
- 
+  pod 'MBProgressHUD', '~> 1.0.0'
+
 end
 target ‘Doctors’ do
   pods
