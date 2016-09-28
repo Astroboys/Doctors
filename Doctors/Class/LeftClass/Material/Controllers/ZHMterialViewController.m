@@ -9,6 +9,7 @@
 #import "ZHMterialViewController.h"
 #import "AddressPickView.h"
 #import "Masonry.h"
+#import "NetWorkingManager.h"
 
 @interface ZHMterialViewController ()
 
@@ -95,6 +96,8 @@
 }
 
 -(void)setupUI{
+    
+
 
     _mescroView=[[UIScrollView alloc]initWithFrame:self.view.frame];
     _mescroView.contentSize=CGSizeMake(kWidth, kHeight*2);
@@ -466,6 +469,17 @@
 
 
 -(void)mterialClickright{
+    
+    NSDictionary *dic = @{@"name":_nameText.text,@"mobile":_nichengText.text,@"sex":@"1",@"mobile":_phoneText,@"email":_emailText.text};
+
+    
+    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.113:8080/newAngel/app/doct/index" withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+
     
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"真实姓名必须是五个汉字之内的，不能含有其它字符。"
                                                                               message: @""

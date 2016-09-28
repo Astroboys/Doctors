@@ -362,7 +362,7 @@
         make.height.mas_equalTo(30);
     }];
     
-
+    
 }
 
 - (void)codeBtnVerification {

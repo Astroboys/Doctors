@@ -59,7 +59,7 @@
 - (void)timerFired {
     if (self.count != 1) {
         self.count -= 1;
-        [self setTitle:[NSString stringWithFormat:@"剩余%ld秒", self.count] forState:UIControlStateDisabled];
+        [self setTitle:[NSString stringWithFormat:@"剩余%ld秒", (long)self.count] forState:UIControlStateDisabled];
     } else {
         
         self.enabled = YES;
