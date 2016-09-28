@@ -13,6 +13,11 @@
 
 
 @interface ZHHeaderViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+{
+
+    NSString *urlStr;
+    NSString*openStr;
+}
 
 @property(nonatomic,strong)UIImagePickerController *imagePickerController;
 
@@ -22,7 +27,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    openStr=[defaults objectForKey:@"openStr"];
+   
+    if (openStr!=nil) {
+        
+        NSData * data = [NSData dataWithContentsOfFile:openStr];
+        UIImage * image = [UIImage imageWithData:data];
+        _iconView.image=image;
+        
+    }
 
+   
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:[UIFont systemFontOfSize:19],
        NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -81,19 +98,64 @@
     [self presentViewController:_imagePickerController animated:YES completion:nil];
 }
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    
+    //当选择的类型是图片
+    if ([type isEqualToString:@"public.image"])
+    {
+        //先把图片转成NSData
+        UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        self.iconView.image = image;
+        
+        NSData *data;
+        if (UIImagePNGRepresentation(image) == nil)
+        {
+            data = UIImageJPEGRepresentation(image, 1.0);
+        }
+        else
+        {
+            data = UIImagePNGRepresentation(image);
+        }
+        
+        //图片保存的路径
+        //这里将图片放在沙盒的documents文件夹中
+        NSString * DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+        
+        //文件管理器
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
+        [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];
+        [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
+        
+        //得到选择后沙盒中图片的完整路径
+        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+        NSURL *url = [NSURL fileURLWithPath: filePath];
+        urlStr = [url absoluteString];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:urlStr forKey:@"openStr"];
+    }
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 -(void)setupUI{
 
-    UIImageView*iconView=[[UIImageView alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
-    [iconView.layer setCornerRadius:50];
-    [iconView.layer setMasksToBounds:YES];
-    iconView.image=[UIImage imageNamed:@"changeIcons"];
+    _iconView=[[UIImageView alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
+    [_iconView.layer setCornerRadius:50];
+    [_iconView.layer setMasksToBounds:YES];
+    _iconView.image=[UIImage imageNamed:@"changeIcons"];
 
     
     UIButton*iconBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
     iconBtn.backgroundColor=[UIColor clearColor];
     [iconBtn.layer setCornerRadius:50];
     [iconBtn.layer setMasksToBounds:YES];
-    [self.view  addSubview:iconView];
+    [self.view  addSubview:_iconView];
     [self.view addSubview:iconBtn];
     
     UIButton*tixingBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-200)*0.5, 200, 200, 30)];
@@ -132,6 +194,8 @@
     [alertController addAction: [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //处理点击拍照
         
+        
+        
         [self selectImageFromCamera];
     }]];
     [alertController addAction: [UIAlertAction actionWithTitle: @"从相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
@@ -159,6 +223,8 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
 
 
 

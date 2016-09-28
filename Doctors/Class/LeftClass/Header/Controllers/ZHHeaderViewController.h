@@ -10,4 +10,9 @@
 
 @interface ZHHeaderViewController : UIViewController
 
+
+
+@property(nonatomic,strong) UIImageView*iconView;
+
+
 @end

@@ -126,7 +126,7 @@
     [_doctorView addSubview:_zizhiButton];
     
     _midView=[[UIView alloc]init];
-    _midView.backgroundColor = [UIColor lightGrayColor];
+    _midView.backgroundColor = DWColor(243, 243, 243);
     
     _zonghelab=[[UILabel alloc]init];
     _zonghelab.text=@"综合好评";

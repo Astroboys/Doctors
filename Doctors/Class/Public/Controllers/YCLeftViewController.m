@@ -221,6 +221,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         
     }else if(indexPath.row == 1){
         
+        
         ZHHeaderViewController *header = [[ZHHeaderViewController alloc ] init];
         [self addCurrentPageScreenshot];
         [self settingDrawerWhenPush];

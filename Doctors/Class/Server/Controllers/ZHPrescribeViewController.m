@@ -30,6 +30,11 @@
 @property(nonatomic,strong)UILabel*initdiaLbl;
 @property(nonatomic,strong)UITextView* diaTextView;
 
+@property(nonatomic,strong)UIView*prescriptionView;
+@property(nonatomic,strong)UILabel*medicName;
+@property(nonatomic,strong)UILabel*measure;
+@property(nonatomic,strong)UILabel*times;
+
 @end
 
 @implementation ZHPrescribeViewController
@@ -130,7 +135,6 @@
     [_diaTextView setFont:[UIFont systemFontOfSize:16]];
     [self.initdiagnoView addSubview:_diaTextView];
     
-    
 }
 
 -(void)manBtnClick{
@@ -213,12 +217,12 @@
     
     [self.womenBtn
      mas_makeConstraints:^(MASConstraintMaker *make) {
-        
+         
         make.top.equalTo(self.customerName.mas_bottom).with.offset(5);
         make.left.mas_equalTo(self.womenSex.mas_right).with.offset(8);
         make.height.mas_equalTo(30);
         make.width.mas_equalTo(30);
-        
+         
     }];
     
     [self.customerOffice mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -283,26 +287,6 @@
         make.right.mas_equalTo(self.view.mas_right).with.offset(-30);
         
     }];
-    
-    
-    
-
-    
-    
-    
-    
-    
-
-   
-    
-
-    
-    
-    
-
-    
-    
-    
     
 }
 
