@@ -89,54 +89,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Discover/Controllers/ZHAddCircleViewController.m"
-            timestampString = "496673402.897708"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
-            landmarkName = "-addCirclepop"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Discover/Controllers/ZHAddCircleViewController.m"
-            timestampString = "496673402.897708"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "-createAction"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Discover/Controllers/ZHAddCircleViewController.m"
-            timestampString = "496673402.897708"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "-createAction"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Customer/Controllers/NTESSessionViewController.m"
             timestampString = "496674126.055414"
             startingColumnNumber = "9223372036854775807"
@@ -153,13 +105,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NIMKit/Classes/Sections/SessionList/NIMSessionListViewController.m"
-            timestampString = "496674411.728232"
+            filePath = "Doctors/Class/Customer/Controllers/NTESSessionViewController.m"
+            timestampString = "496717567.109421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "551"
+            endingLineNumber = "551"
+            landmarkName = "-onTapAvatar:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -169,12 +121,42 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NIMKit/Classes/Sections/Common/NIMAvatarImageView.m"
-            timestampString = "496674531.083745"
+            filePath = "Doctors/Class/Discover/Controllers/ZHAddCircleViewController.m"
+            timestampString = "496722077.353002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "-selectImageFromCamera"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NIMKit/Classes/Sections/Team/NIMAdvancedTeamCardViewController.m"
+            timestampString = "496720948.315416"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1110"
+            endingLineNumber = "1110">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "NIMKit/Classes/Sections/Common/NIMAvatarImageView.m"
+            timestampString = "496722317.192267"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
             landmarkName = "-setAvatarBySession:"
             landmarkType = "5">
          </BreakpointContent>
@@ -185,13 +167,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NIMKit/Classes/Sections/SessionList/NIMSessionListViewController.m"
-            timestampString = "496674646.086599"
+            filePath = "NIMKit/Classes/Sections/Common/NIMAvatarImageView.m"
+            timestampString = "496722318.152167"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
-            landmarkName = "-messageContent:"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "-setAvatarBySession:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -201,13 +183,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NIMKit/Classes/Sections/Util/NIMKitUtil.m"
-            timestampString = "496674768.297932"
+            filePath = "Doctors/Class/Customer/Controllers/SessionView/NTESDataManager.m"
+            timestampString = "496722341.296667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "+showNick:inSession:"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "-infoByTeam:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,13 +199,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "NIMKit/Classes/NIMKit.m"
-            timestampString = "496674956.527266"
+            filePath = "Doctors/Class/Customer/Controllers/SessionView/NTESDataManager.m"
+            timestampString = "496722344.057086"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "-infoByUser:inSession:"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "-infoByTeam:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

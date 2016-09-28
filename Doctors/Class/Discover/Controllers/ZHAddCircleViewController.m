@@ -15,10 +15,12 @@
 #import "SVProgressHUD.h"
 #import "NTESSessionViewController.h"
 #import "UIView+Toast.h"
-
+#import "UIImage+NIM.h"
+#import "UIView+NIMKitToast.h"
 @interface ZHAddCircleViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
-    NSString *urlStr;
+    UIImage *teamImage;
+    
 }
 @property(nonatomic,strong)UIButton*addBtn;
 
@@ -115,15 +117,18 @@
     option.type       = NIMTeamTypeAdvanced;
     option.joinMode   = NIMTeamJoinModeNoAuth;
     option.intro      = _circleIntroduce.text;
-    option.avatarUrl  = urlStr;
     option.postscript = @"邀请你加入群组";
     [SVProgressHUD show];
+//    [[NIMSDK sharedSDK].teamManager updateTeamAvatar:<#(nonnull NSString *)#> teamId:<#(nonnull NSString *)#> completion:^(NSError * _Nullable error) {
+//        
+//    }];
     [[NIMSDK sharedSDK].teamManager createTeam:option users:members completion:^(NSError *error, NSString *teamId) {
         [SVProgressHUD dismiss];
         if (!error) {
             NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
             NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
             [wself.navigationController pushViewController:vc animated:YES];
+            [wself uploadTeamImage:teamId];
         }else{
             [wself.view makeToast:@"创建失败" duration:2.0 position:CSToastPositionCenter];
         }
@@ -183,37 +188,73 @@
 
 - (void)selectImageFromCamera
 {
-    NSUInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    // 判断是否支持相机
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                sourceType = UIImagePickerControllerSourceTypeCamera;
-//                sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
+    [self initCamera];
+    
     // 跳转到相机或相册页面
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
-    imagePickerController.sourceType = sourceType;
     
-    [self presentViewController:imagePickerController animated:YES completion:^{}];
-}
+    
+    UIImagePickerControllerSourceType type;
+    
+    type =  UIImagePickerControllerSourceTypeCamera;
+    
+    imagePickerController.sourceType = type;
+    imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+    [self presentViewController:imagePickerController animated:YES completion:nil];}
 
 
 - (void)selectImageFromAlbum
 {
-    // 判断是否支持相机
-    NSUInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    // 跳转到相机或相册页面
+        // 跳转到相机或相册页面
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
-    imagePickerController.sourceType = sourceType;
     
-    [self presentViewController:imagePickerController animated:YES completion:^{}];
+    
+    UIImagePickerControllerSourceType type;
+    
+    BOOL isCamraAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+    if (isCamraAvailable) {
+        type =  UIImagePickerControllerSourceTypeCamera;
+    }else{
+        type =  UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    imagePickerController.sourceType = type;
+    imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+    
+}
+- (void)initCamera{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        
+//        [UIAlertController alertControllerWithTitle:@"标题" message:@"检测不到相机设备" preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:@"检测不到相机设备"
+                                   delegate:nil
+                          cancelButtonTitle:@"确定"
+                          otherButtonTitles:nil] show];
+        return;
+    }
+    
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
+//        [UIAlertController alertControllerWithTitle:@"标题" message:@"相机权限受限" preferredStyle:UIAlertControllerStyleAlert];
+
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:@"相机权限受限"
+                                   delegate:nil
+                          cancelButtonTitle:@"确定"
+                          otherButtonTitles:nil] show];
+        return;
+        
+    }
 }
 
 //当选择一张图片后进入这里
@@ -229,7 +270,7 @@
         //先把图片转成NSData
         UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         [_addBtn setImage:image forState:UIControlStateNormal];
-
+        teamImage = image;
         NSData *data;
         if (UIImagePNGRepresentation(image) == nil)
         {
@@ -251,10 +292,9 @@
         [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];
         [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
         
-        //得到选择后沙盒中图片的完整路径
-        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
-        NSURL *url = [NSURL fileURLWithPath: filePath];
-        urlStr = [url absoluteString];
+//        //得到选择后沙盒中图片的完整路径
+//        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+//        NSURL *url = [NSURL fileURLWithPath: filePath];
         //关闭相册界面
         [picker dismissModalViewControllerAnimated:YES];
         
@@ -265,6 +305,40 @@
     } 
     
 }
+#pragma mark - Private
+- (void)uploadTeamImage:(NSString *)teamID{
+    UIImage *imageForAvatarUpload = [teamImage nim_imageForAvatarUpload];
+    NSString *fileName = [[[[NSUUID UUID] UUIDString] lowercaseString] stringByAppendingPathExtension:@"jpg"];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    NSData *data = UIImageJPEGRepresentation(imageForAvatarUpload, 1.0);
+    BOOL success = data && [data writeToFile:filePath atomically:YES];
+    __weak typeof(self) wself = self;
+    if (success) {
+        [[NIMSDK sharedSDK].resourceManager upload:filePath progress:nil completion:^(NSString *urlString, NSError *error) {
+            if (!error && wself) {
+                [[NIMSDK sharedSDK].teamManager updateTeamAvatar:urlString teamId:teamID completion:^(NSError *error) {
+                    if (!error) {
+
+                        
+                    }else{
+                        [wself.view nimkit_makeToast:@"设置头像失败，请重试"
+                                            duration:2
+                                            position:NIMKitToastPositionCenter];
+                    }
+                }];
+                
+            }else{
+                [wself.view nimkit_makeToast:@"图片上传失败，请重试"
+                                    duration:2
+                                    position:NIMKitToastPositionCenter];
+            }
+        }];
+    }else{
+        [self.view nimkit_makeToast:@"图片保存失败，请重试"
+                           duration:2
+                           position:NIMKitToastPositionCenter];
+    }
+}
 
 
 
@@ -272,15 +346,17 @@
     
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil                                                                             message: nil                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
     //添加Button
+    __weak typeof(self) wself = self;
+
     [alertController addAction: [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //处理点击拍照
         
-        [self selectImageFromCamera];
+        [wself selectImageFromCamera];
     }]];
     [alertController addAction: [UIAlertAction actionWithTitle: @"从相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
         //处理点击从相册选取
         
-        [self selectImageFromAlbum];
+        [wself selectImageFromAlbum];
     }]];
     [alertController addAction: [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler:nil]];
     
