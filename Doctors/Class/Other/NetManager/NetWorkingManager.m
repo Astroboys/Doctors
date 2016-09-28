@@ -91,11 +91,11 @@ static NetWorkingManager * defualt_shareMananger = nil;
     
     [[NetWorkingManager shareManager] GET:path parameters:paramters progress:^(NSProgress * _Nonnull downloadProgress) {
         
-        NSLog(@"downLoadProcess = %@",downLoadProgress);
-        if (downloadProgress) {
-
-            downLoadProgress(downloadProgress.completedUnitCount / downloadProgress.totalUnitCount);
-        }
+//        NSLog(@"downLoadProcess = %@",downLoadProgress);
+//        if (downloadProgress) {
+//
+//            downLoadProgress(downloadProgress.completedUnitCount / downloadProgress.totalUnitCount);
+//        }
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         

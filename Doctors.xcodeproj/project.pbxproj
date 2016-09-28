@@ -123,6 +123,9 @@
 		283CCA621D994D880064C6E8 /* NIMKitResouce.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 283CCA611D994D880064C6E8 /* NIMKitResouce.bundle */; };
 		283CCA641D994DD20064C6E8 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283CCA631D994DD20064C6E8 /* CoreText.framework */; };
 		283CCA671D9953000064C6E8 /* UIView+NTES.m in Sources */ = {isa = PBXBuildFile; fileRef = 283CCA661D9953000064C6E8 /* UIView+NTES.m */; };
+		285578A21D9BB250008CD582 /* MBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 285578A11D9BB250008CD582 /* MBManager.m */; };
+		285578A71D9BC883008CD582 /* MethodUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 285578A61D9BC883008CD582 /* MethodUtil.m */; };
+		285578AA1D9BD67C008CD582 /* UConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 285578A91D9BD67C008CD582 /* UConfig.m */; };
 		285D093F1D9A609D009D69AB /* NTESDemoFetchChatroomTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D09391D9A609D009D69AB /* NTESDemoFetchChatroomTask.m */; };
 		285D09401D9A609D009D69AB /* NTESDemoRegisterTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D093B1D9A609D009D69AB /* NTESDemoRegisterTask.m */; };
 		285D09411D9A609D009D69AB /* NTESDemoService.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D093D1D9A609D009D69AB /* NTESDemoService.m */; };
@@ -729,6 +732,12 @@
 		283CCA631D994DD20064C6E8 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		283CCA651D9953000064C6E8 /* UIView+NTES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NTES.h"; sourceTree = "<group>"; };
 		283CCA661D9953000064C6E8 /* UIView+NTES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NTES.m"; sourceTree = "<group>"; };
+		285578A01D9BB250008CD582 /* MBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBManager.h; sourceTree = "<group>"; };
+		285578A11D9BB250008CD582 /* MBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBManager.m; sourceTree = "<group>"; };
+		285578A51D9BC883008CD582 /* MethodUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodUtil.h; sourceTree = "<group>"; };
+		285578A61D9BC883008CD582 /* MethodUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodUtil.m; sourceTree = "<group>"; };
+		285578A81D9BD67C008CD582 /* UConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UConfig.h; sourceTree = "<group>"; };
+		285578A91D9BD67C008CD582 /* UConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UConfig.m; sourceTree = "<group>"; };
 		285D09381D9A609D009D69AB /* NTESDemoFetchChatroomTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESDemoFetchChatroomTask.h; sourceTree = "<group>"; };
 		285D09391D9A609D009D69AB /* NTESDemoFetchChatroomTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTESDemoFetchChatroomTask.m; sourceTree = "<group>"; };
 		285D093A1D9A609D009D69AB /* NTESDemoRegisterTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESDemoRegisterTask.h; sourceTree = "<group>"; };
@@ -1757,6 +1766,15 @@
 			path = Toast;
 			sourceTree = "<group>";
 		};
+		2855789F1D9BB250008CD582 /* MBManager */ = {
+			isa = PBXGroup;
+			children = (
+				285578A01D9BB250008CD582 /* MBManager.h */,
+				285578A11D9BB250008CD582 /* MBManager.m */,
+			);
+			path = MBManager;
+			sourceTree = "<group>";
+		};
 		285D09371D9A609D009D69AB /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -2763,6 +2781,7 @@
 		A7B1AAF31D701F8F00B5D601 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				2855789F1D9BB250008CD582 /* MBManager */,
 				A796F0301D98BD7B002B3F64 /* LXSegment */,
 				A7B1AAF41D701F8F00B5D601 /* Common */,
 				A753029A1D8E70C10073202F /* MMDrawerController */,
@@ -2774,6 +2793,10 @@
 		A7B1AAF41D701F8F00B5D601 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				285578A81D9BD67C008CD582 /* UConfig.h */,
+				285578A91D9BD67C008CD582 /* UConfig.m */,
+				285578A51D9BC883008CD582 /* MethodUtil.h */,
+				285578A61D9BC883008CD582 /* MethodUtil.m */,
 				A7B1AAF51D701F8F00B5D601 /* ChangeBtn.h */,
 				A7B1AAF61D701F8F00B5D601 /* ChangeBtn.m */,
 				A72874441D9B7A1E009747A6 /* ZHVerifyCodeButton.h */,
@@ -3211,6 +3234,7 @@
 				283CC9F11D994D3D0064C6E8 /* NIMExtensionHelper.m in Sources */,
 				A7B1AB6A1D701F8F00B5D601 /* ZHTabBar.m in Sources */,
 				A796F0401D98C019002B3F64 /* RecordView.m in Sources */,
+				285578A71D9BC883008CD582 /* MethodUtil.m in Sources */,
 				283CCA401D994D3D0064C6E8 /* NIMNormalTeamCardViewController.m in Sources */,
 				283CCA041D994D3D0064C6E8 /* NIMGroupedUsrInfo.m in Sources */,
 				A70F031A1D9A4E3500D921C8 /* NTESFileLocationHelper.m in Sources */,
@@ -3278,6 +3302,7 @@
 				A70F03131D9A4E3500D921C8 /* NTESChatroomMaker.m in Sources */,
 				283CCA001D994D3D0064C6E8 /* NIMMemberGroupView.m in Sources */,
 				285D09741D9A9FBE009D69AB /* NTESMobileSettingViewController.m in Sources */,
+				285578A21D9BB250008CD582 /* MBManager.m in Sources */,
 				A7B1A9811D701ABB00B5D601 /* AppDelegate.m in Sources */,
 				285D09411D9A609D009D69AB /* NTESDemoService.m in Sources */,
 				A70F03001D9A4E3500D921C8 /* UIImage+NTESColor.m in Sources */,
@@ -3323,6 +3348,7 @@
 				283CCA0A1D994D3D0064C6E8 /* NIMInputAudioRecordIndicatorView.m in Sources */,
 				A70F03371D9A4E3500D921C8 /* UIView+WebCacheOperation.m in Sources */,
 				A7F3E2E21D9653140035CB6D /* DiagnoseModel.m in Sources */,
+				285578AA1D9BD67C008CD582 /* UConfig.m in Sources */,
 				A70F03441D9A4E3500D921C8 /* NTESGLView.m in Sources */,
 				283CCA5D1D994D3E0064C6E8 /* UIView+NIMWebCacheOperation.m in Sources */,
 				283CCA4D1D994D3E0064C6E8 /* NIMPinyinConverter.m in Sources */,

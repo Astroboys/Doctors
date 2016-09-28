@@ -13,6 +13,7 @@
 #import "ZHVerifyCodeButton.h"
 #import "NetWorkingManager.h"
 #import "NSString+NTES.h"
+#import "MethodUtil.h"
 @interface ZHRegisterViewController ()
 
 @property(nonatomic,strong)UIView*registerView;
@@ -366,11 +367,16 @@
 }
 
 - (void)codeBtnVerification {
-    
+   
+    BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
+    if(!isMobile){
+        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+        return;
+    }
     //type 1为注册 2为找回密码
     NSDictionary *dic = @{@"memPhone":_phoneText.text,@"type":@"1"};
-    
-    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.107:8080/newAngel/sysSendMessage/getCode" withParamters:dic withProgress:^(float progress) {
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
         NSLog(@"%@",responseObject);
@@ -397,36 +403,28 @@
 
 -(void)registerAction
 {
+    BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
+    if(!isMobile){
+        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+        return;
+    }
+    if ([MethodUtil isCorrect:_identText.text]) {
+        [MBManager showBriefMessage:@"输入的身份证号不合法" InView:self.view];
+        return;
+    }
+    if (![_passwordText.text isEqualToString:_repassText.text]) {
+        [MBManager showBriefMessage:@"两次密码输入不一致" InView:self.view];
+        return;
+    }
     //性别暂为1
-    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":@"1",@"password":_passwordText.text};
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":@"1",@"password":_passwordText.text};
     
-    [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.107:8080/newAngel/app/customer/addCustomer" withParamters:dic withProgress:^(float progress) {
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/addDoctor"] withParamters:dic withProgress:^(float progress) {
         
-        [self.navigationController popViewControllerAnimated:YES];
         
     } success:^(BOOL isSuccess, id responseObject) {
         
-        NTESRegisterData *data = [[NTESRegisterData alloc] init];
-        data.account = [_phoneText text];
-        data.nickname= [_passwordText text];
-        data.token = [_passwordText.text tokenByPassword];
-        
-        [SVProgressHUD show];
-        __weak typeof(self) weakSelf = self;
-        
-        [[NTESDemoService sharedService] registerUser:data
-                                           completion:^(NSError *error, NSString *errorMsg) {
-                                               [SVProgressHUD dismiss];
-                                               if (error == nil) {
-                                                   [weakSelf.navigationController popViewControllerAnimated:YES];
-                                                   
-                                               }
-                                               else
-                                               {
-                                                   
-                                               }
-                                               
-                                           }];
+        NSLog(@"%@",responseObject);
         
         
     } failure:^(NSError *error) {

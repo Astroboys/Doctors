@@ -22,7 +22,7 @@ static NSString *ID=@"cell";
 @property(nonatomic,strong)NSMutableArray*dataArr;
 @property(nonatomic,strong)NSMutableArray*dataTopicArr;
 @property(nonatomic,strong)NSMutableArray*dataTimeArr;
-@property(nonatomic,strong)UISearchBar*searchCircle;
+//@property(nonatomic,strong)UISearchBar*searchCircle;
 
 @end
 
@@ -106,10 +106,10 @@ static NSString *ID=@"cell";
 }
 -(void)setupUI{
     
-    _searchCircle=[[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, kWidth, 40)];
-    [self.view addSubview:_searchCircle];
+//    _searchCircle=[[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, kWidth, 40)];
+//    [self.view addSubview:_searchCircle];
 
-    _circleTabView=[[UITableView alloc]initWithFrame:CGRectMake(0, 40, kWidth, kHeight-44-64) style:UITableViewStylePlain];
+    _circleTabView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-44-64) style:UITableViewStylePlain];
     _circleTabView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     [_circleTabView registerClass:[HealthycircleCell class] forCellReuseIdentifier:ID];
     [self.view addSubview:_circleTabView];

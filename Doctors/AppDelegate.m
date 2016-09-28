@@ -22,6 +22,8 @@
 
 #import "DataProvider.h"
 #import "AttachmentDecoder.h"
+#import "UConfig.h"
+
 #define NIMSDKAppKey @"8fc95f505b6cbaedf613677c8e08fc0b"
 
 #define kScreenSize [UIScreen mainScreen].bounds
@@ -52,7 +54,7 @@
     
     
 
-    if (true) {
+    if ([UConfig getLoginCode].length==0) {
         
         [self setupLoginViewController];
         
