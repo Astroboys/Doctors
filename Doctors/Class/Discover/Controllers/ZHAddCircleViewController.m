@@ -183,37 +183,73 @@
 
 - (void)selectImageFromCamera
 {
-    NSUInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    // 判断是否支持相机
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                sourceType = UIImagePickerControllerSourceTypeCamera;
-//                sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
+    [self initCamera];
+    
     // 跳转到相机或相册页面
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
-    imagePickerController.sourceType = sourceType;
     
-    [self presentViewController:imagePickerController animated:YES completion:^{}];
-}
+    
+    UIImagePickerControllerSourceType type;
+    
+    type =  UIImagePickerControllerSourceTypeCamera;
+    
+    imagePickerController.sourceType = type;
+    imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+    [self presentViewController:imagePickerController animated:YES completion:nil];}
 
 
 - (void)selectImageFromAlbum
 {
-    // 判断是否支持相机
-    NSUInteger sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    // 跳转到相机或相册页面
+        // 跳转到相机或相册页面
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
-    imagePickerController.sourceType = sourceType;
     
-    [self presentViewController:imagePickerController animated:YES completion:^{}];
+    
+    UIImagePickerControllerSourceType type;
+    
+    BOOL isCamraAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
+    if (isCamraAvailable) {
+        type =  UIImagePickerControllerSourceTypeCamera;
+    }else{
+        type =  UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    imagePickerController.sourceType = type;
+    imagePickerController.mediaTypes = @[(NSString *)kUTTypeImage];
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+    
+}
+- (void)initCamera{
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        
+//        [UIAlertController alertControllerWithTitle:@"标题" message:@"检测不到相机设备" preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:@"检测不到相机设备"
+                                   delegate:nil
+                          cancelButtonTitle:@"确定"
+                          otherButtonTitles:nil] show];
+        return;
+    }
+    
+    NSString *mediaType = AVMediaTypeVideo;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];
+    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
+//        [UIAlertController alertControllerWithTitle:@"标题" message:@"相机权限受限" preferredStyle:UIAlertControllerStyleAlert];
+
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:@"相机权限受限"
+                                   delegate:nil
+                          cancelButtonTitle:@"确定"
+                          otherButtonTitles:nil] show];
+        return;
+        
+    }
 }
 
 //当选择一张图片后进入这里
@@ -272,15 +308,17 @@
     
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: nil                                                                             message: nil                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
     //添加Button
+    __weak typeof(self) wself = self;
+
     [alertController addAction: [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //处理点击拍照
         
-        [self selectImageFromCamera];
+        [wself selectImageFromCamera];
     }]];
     [alertController addAction: [UIAlertAction actionWithTitle: @"从相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
         //处理点击从相册选取
         
-        [self selectImageFromAlbum];
+        [wself selectImageFromAlbum];
     }]];
     [alertController addAction: [UIAlertAction actionWithTitle: @"取消" style: UIAlertActionStyleCancel handler:nil]];
     

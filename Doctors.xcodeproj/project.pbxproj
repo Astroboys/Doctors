@@ -2487,8 +2487,8 @@
 				A70F02521D9A4E3500D921C8 /* SessionView */,
 				A70F02F51D9A4E3500D921C8 /* SessionViewController.h */,
 				A70F02F61D9A4E3500D921C8 /* SessionViewController.m */,
-				285D097C1D9AA32E009D69AB /* NTESSessionCardViewController.m */,
 				285D097D1D9AA32E009D69AB /* NTESSessionCardViewController.h */,
+				285D097C1D9AA32E009D69AB /* NTESSessionCardViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
