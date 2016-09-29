@@ -46,9 +46,14 @@ NO)
 
 #define KscViewH isiPhone4  ? 250 : (isiPhone6 ? 430 :(isiPhone6P? 490 :330))
 
+//适配字体
+#define SizeScale (kWidth!= 414 ? 1 : 1.2)
+#define kFont(value) [UIFont systemFontOfSize:value * SizeScale]
+//适配控件 6p
+
+
 #import "UIImage+Compression.h"
 #import "NetWorkingManager.h"
-//#import "Masonry.h"
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>

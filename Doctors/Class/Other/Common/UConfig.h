@@ -23,4 +23,7 @@
 +(void)setLoginCode:(NSString *)loginCode;
 +(NSString *)getLoginCode;
 
++(void)setPersonInfo:(NSDictionary *)personInfo;
++(NSDictionary *)getPersonInfo;
+
 @end

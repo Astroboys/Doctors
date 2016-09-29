@@ -10,7 +10,7 @@
 #import "ZHMterialViewController.h"
 #import "ZHHeaderViewController.h"
 #import "ZHEmailViewController.h"
-#import "ZHPhoneViewController.h"
+#import "ZHAboutViewController.h"
 #import "ZHPasswordViewController.h"
 #import "ZHNavViewController.h"
 #import "ZHLoginViewController.h"
@@ -106,8 +106,8 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     [self.view addSubview:self.loginout];
    
     
-    _lefs = @[@"基本资料", @"修改头像", @"修改密码", @"更换手机", @"邮箱认证", @"服务订单", @"我的咨询记录"];
-    _lefsImageArr= @[@"basicMaterial", @"changeIcon", @"changePassword", @"changePhone", @"changeEmail", @"serviceOrder", @"consult"];
+    _lefs = @[@"基本资料", @"修改头像", @"修改密码", @"邮箱认证", @"服务订单",@"我的咨询记录",@"关于"];
+    _lefsImageArr= @[@"basicMaterial", @"changeIcon", @"changePassword", @"changeEmail", @"serviceOrder", @"consult", @"aboutImg"];
     _tableView = [[UITableView alloc] init];
     _tableView.frame = CGRectMake(0, 144, self.view.frame.size.width, self.view.frame.size.height - 144-70);
     _tableView.dataSource = self;
@@ -236,17 +236,19 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         
     }else if(indexPath.row == 3){
         
-        ZHPhoneViewController *about = [[ZHPhoneViewController alloc ] init];
-        [self addCurrentPageScreenshot];
-        [self settingDrawerWhenPush];
-        [self.navigationController pushViewController:about animated:YES];
-        
-    }else if(indexPath.row == 4){
-        
         ZHEmailViewController *email = [[ZHEmailViewController alloc ] init];
         [self addCurrentPageScreenshot];
         [self settingDrawerWhenPush];
         [self.navigationController pushViewController:email animated:YES];
+
+        
+    }else if(indexPath.row == 6){
+        
+        ZHAboutViewController *about = [[ZHAboutViewController alloc ] init];
+        [self addCurrentPageScreenshot];
+        [self settingDrawerWhenPush];
+        [self.navigationController pushViewController:about animated:YES];
+
         
         
     }else{
