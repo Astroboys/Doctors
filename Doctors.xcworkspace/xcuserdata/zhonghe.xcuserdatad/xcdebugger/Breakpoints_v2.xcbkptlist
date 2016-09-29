@@ -216,7 +216,7 @@
                   moduleName = "Doctors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhonghe/Doctors/NIMKit/Classes/Sections/Team/NIMAdvancedTeamCardViewController.m"
-                  timestampString = "496808939.493094"
+                  timestampString = "496834243.057916"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "846"
@@ -231,7 +231,7 @@
                   moduleName = "Doctors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhonghe/Doctors/NIMKit/Classes/Sections/Team/NIMAdvancedTeamCardViewController.m"
-                  timestampString = "496808939.493297"
+                  timestampString = "496834243.058065"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "847"
@@ -264,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496749079.480613"
+            timestampString = "496833084.916886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "370"
-            endingLineNumber = "370"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "-codeBtnVerification"
             landmarkType = "5">
          </BreakpointContent>
@@ -280,43 +280,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496749079.480613"
+            timestampString = "496833084.916886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
-            landmarkName = "-codeBtnVerification"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496749079.480613"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
-            landmarkName = "-codeBtnVerification"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496822323.038796"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
             landmarkName = "-registerAction"
             landmarkType = "5">
          </BreakpointContent>
@@ -328,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496822323.038796"
+            timestampString = "496833084.916886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "432"
-            endingLineNumber = "432"
+            startingLineNumber = "467"
+            endingLineNumber = "467"
             landmarkName = "-registerAction"
             landmarkType = "5">
          </BreakpointContent>
@@ -344,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496822323.038796"
+            timestampString = "496833084.916886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "436"
-            endingLineNumber = "436"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
             landmarkName = "-registerAction"
             landmarkType = "5">
          </BreakpointContent>
@@ -376,7 +344,7 @@
                   moduleName = "Doctors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
-                  timestampString = "496808939.502076"
+                  timestampString = "496834243.06251"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "332"
@@ -391,7 +359,7 @@
                   moduleName = "Doctors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
-                  timestampString = "496808939.50226"
+                  timestampString = "496834243.062661"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "333"
@@ -439,45 +407,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Firster/Controllers/UploadCerViewController.m"
-            timestampString = "496808448.040056"
+            filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
+            timestampString = "496833084.916886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Firster/Controllers/UploadCerViewController.m"
-            timestampString = "496808448.040056"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Doctors/Class/Firster/Controllers/UploadCerViewController.m"
-            timestampString = "496808448.040056"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-collectionView:numberOfItemsInSection:"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
+            landmarkName = "-change:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

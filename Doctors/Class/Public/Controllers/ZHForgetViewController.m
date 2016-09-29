@@ -415,14 +415,16 @@
         [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
         return;
     }
-
+    [MBManager showLoadingInView:self.view];
     NSDictionary *dic = @{@"mobile":_phoneText.text,@"password":passwordText.text};
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
+        [MBManager hideAlert];
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
+        [MBManager hideAlert];
         NSLog(@"%@",error.userInfo);
         
     }];
@@ -431,7 +433,7 @@
     
 }
 -(void)forgetClickleft{
-    
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
     
 }

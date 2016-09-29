@@ -44,7 +44,7 @@
 }
 
 -(void)passwordClickleft{
-    
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.moreText resignFirstResponder];
     [self.yuanshiText resignFirstResponder];
     [self.xinsheText resignFirstResponder];

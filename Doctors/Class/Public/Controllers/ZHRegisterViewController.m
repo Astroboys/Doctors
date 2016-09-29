@@ -15,7 +15,9 @@
 #import "NSString+NTES.h"
 #import "MethodUtil.h"
 @interface ZHRegisterViewController ()
-
+{
+    NSString *sexStr;
+}
 @property(nonatomic,strong)UIView*registerView;
 @property(nonatomic,strong)UILabel*titleLbl;
 @property(nonatomic,strong)UILabel*phoneLbl;
@@ -31,7 +33,7 @@
 @property(nonatomic,strong)UIView*lineView3;
 
 @property(nonatomic,strong)UILabel*sexLbl;
-@property(nonatomic,strong)UISwitch*sexText;
+@property(nonatomic,strong)UISegmentedControl *segmentControl;
 @property(nonatomic,strong)UILabel*switchLbl;
 @property(nonatomic,strong)UIView*lineView4;
 
@@ -75,7 +77,7 @@
     _titleLbl.text=@"开启您的健康之旅";
     [_titleLbl setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:_titleLbl];
-    
+    sexStr = @"男";
     _registerView=[[UIView alloc]init];
     [self.view addSubview:_registerView];
     self.registerView.backgroundColor=[UIColor whiteColor];
@@ -131,14 +133,27 @@
     [_sexLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_sexLbl];
     
-    _sexText=[[UISwitch alloc]init];
-    [self.registerView addSubview:_sexText];
+    NSArray *array=@[@"男",@"女"];
+    _segmentControl=[[UISegmentedControl alloc]initWithItems:array];
+    //    segmentControl.segmentedControlStyle=UISegmentedControlStyleBordered;
+    //设置位置 大小
+    //    segmentControl.frame=CGRectMake(60, 100, 80, 40);
+    //默认选择
+    _segmentControl.selectedSegmentIndex=0;
+    //设置背景色
+    _segmentControl.tintColor=[UIColor colorWithRed:108/255.0 green:205/255.0 blue:123/255.0 alpha:1];
+    //设置监听事件
+    [_segmentControl addTarget:self action:@selector(change:) forControlEvents:UIControlEventValueChanged];
+    [self.registerView addSubview:_segmentControl];
     
-    _switchLbl=[[UILabel alloc]init];
-    _switchLbl.text=@"男";
-    [_switchLbl setFont:[UIFont systemFontOfSize:14]];
-    [self.registerView addSubview:_switchLbl];
+//    _switchLbl=[[UILabel alloc]init];
+//    _switchLbl.text=@"男";
+//    [_switchLbl setFont:[UIFont systemFontOfSize:14]];
+//    [self.registerView addSubview:_switchLbl];
 
+    
+    
+    
     
     _lineView4=[[UIView alloc]init];
     _lineView4.backgroundColor=[UIColor lightGrayColor];
@@ -285,16 +300,16 @@
     }];
     
    
-    [self.sexText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineView3.mas_bottom).with.offset(10);
+    [self.segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lineView3.mas_bottom).with.offset(8);
         make.left.mas_equalTo(self.sexLbl.mas_right).with.offset(5);
-        make.width.mas_equalTo(50);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(30);
     }];
     
     [self.switchLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineView3.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.sexText.mas_right).with.offset(10);
+        make.left.mas_equalTo(self.segmentControl.mas_right).with.offset(10);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
@@ -365,7 +380,17 @@
     
     
 }
-
+-(void)change:(UISegmentedControl *)Seg
+{
+    NSInteger index=Seg.selectedSegmentIndex;
+    if (index == 0) {
+        sexStr = @"男";
+    }else{
+        sexStr = @"女";
+    }
+    NSLog(@"%ld",index);
+    
+}
 - (void)codeBtnVerification {
    
     BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
@@ -398,6 +423,7 @@
 
 -(void)backToLogin{
 
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -421,8 +447,17 @@
         return;
     }
 
-    //性别暂为1
-    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":@"1",@"password":_passwordText.text};
+    //性别
+    NSString *sexCode;
+    if ([sexStr isEqualToString:@"男"]) {
+        sexCode = @"1";
+    }else{
+        sexCode = @"2";
+    }
+    
+    
+    
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":sexCode,@"password":_passwordText.text};
     
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/addDoctor"] withParamters:dic withProgress:^(float progress) {
         
