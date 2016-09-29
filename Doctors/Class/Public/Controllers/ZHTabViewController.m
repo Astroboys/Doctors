@@ -43,6 +43,14 @@
     
     //设置导航控制器颜色为蓝色
     [[UINavigationBar appearance] setBackgroundImage:[self imageWithColor:DWColor(40,128, 194)] forBarMetrics:UIBarMetricsDefault];
+    
+    
+    
+
+    
+    UIView *linview = [[UIView alloc] initWithFrame:CGRectMake(0, 1, kWidth, 1)];
+    linview.backgroundColor = [UIColor colorWithRed:223/255.0 green:223/255.0 blue:223/255.0 alpha:1];
+    [self.tabBar addSubview:linview];
 }
 
 #pragma mark -
@@ -103,6 +111,9 @@
                           WithTitle:@"服务"
                           imageName:@"tabbar_profile"
                   selectedImageName:@"tabbar_profile_selected"];
+    
+    
+    
     
 }
 

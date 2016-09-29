@@ -335,7 +335,7 @@
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSString *loginCode = responseObject[@"code"];
             if (loginCode.intValue == 200) {
-                NSString *token = responseObject[@"token"];
+                NSString *token = responseObject[@"data"][@"token"];
                 [UConfig setLoginCode:loginCode];
                 [[NIMSDK sharedSDK].loginManager login:_accountText.text token:token completion:^(NSError *error) {
                     if (!error) {
