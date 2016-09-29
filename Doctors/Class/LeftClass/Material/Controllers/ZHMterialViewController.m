@@ -9,6 +9,7 @@
 #import "ZHMterialViewController.h"
 #import "Masonry.h"
 #import "NetWorkingManager.h"
+#import "UConfig.h"
 
 @interface ZHMterialViewController ()
 
@@ -19,9 +20,9 @@
 
 @property(nonatomic,strong)UILabel*nichengLbl;
 @property(nonatomic,strong)UILabel*nichengText;
-
+//性别
 @property(nonatomic,strong)UILabel*sexLbl;
-@property(nonatomic,strong)UILabel*sexText;
+@property(nonatomic,strong)UISegmentedControl*sexSeg;
 
 @property(nonatomic,strong)UILabel*birLbl;
 @property(nonatomic,strong)UILabel*birText;
@@ -41,6 +42,8 @@
 @property(nonatomic,strong)UILabel*codeLbl;
 @property(nonatomic,strong)UITextField*codeText;
 
+@property(nonatomic,strong)NSDictionary*merdict;
+
 @end
 
 @implementation ZHMterialViewController
@@ -49,30 +52,40 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = DWColor(243, 243, 243);
-    
-    
-    self.title = @"基本资料";
-    [self.navigationController.navigationBar setTitleTextAttributes:
-  @{NSFontAttributeName:[UIFont systemFontOfSize:19],
-    NSForegroundColorAttributeName:[UIColor whiteColor]}];
 
-    UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
-    // 告诉系统以后这张图片不进行默认的渲染
-    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    UIImage* image2 = [UIImage imageNamed:@"save"];
-    // 告诉系统以后这张图片不进行默认的渲染
-    image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+   _merdict=[UConfig getPersonInfo];
+    NSLog(@"%111111111111@",_merdict);
 
-    // 创建活动的按钮
-     UIBarButtonItem* item1 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(mterialClickleft)];
-    
-    UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(mterialClickright)];
-    self.navigationItem.leftBarButtonItem = item1;
-    self.navigationItem.rightBarButtonItem = item2;
-    [self setupUI];
-    [self setupFrame];
-    
+    if (_merdict!=nil) {
+        
+        self.nameText.text=_merdict[@"name"];
+        self.phoneText.text=_merdict[@"mobile"];
+        self.emailText.text=_merdict[@"email"];
+        self.jobText.text=_merdict[@"job"];
+        self.addText.text=_merdict[@"code"];
+    }
+    NSLog(@"%@",_merdict);
+        self.title = @"基本资料";
+        [self.navigationController.navigationBar setTitleTextAttributes:
+         @{NSFontAttributeName:[UIFont systemFontOfSize:19],
+           NSForegroundColorAttributeName:[UIColor whiteColor]}];
+        
+        UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
+        // 告诉系统以后这张图片不进行默认的渲染
+        image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        UIImage* image2 = [UIImage imageNamed:@"save"];
+        // 告诉系统以后这张图片不进行默认的渲染
+        image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        
+        // 创建活动的按钮
+        UIBarButtonItem* item1 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(mterialClickleft)];
+        
+        UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(mterialClickright)];
+        self.navigationItem.leftBarButtonItem = item1;
+        self.navigationItem.rightBarButtonItem = item2;
+        [self setupUI];
+        [self setupFrame];
 }
 
 -(void)mterialClickleft{
@@ -87,7 +100,6 @@
 }
 
 -(void)setupUI{
-    
     
     _mterScroView=[[UIScrollView alloc]init];
        //姓名
@@ -106,7 +118,7 @@
     _nichengLbl=[[UILabel alloc]init];
     [_nichengLbl setFont:[UIFont systemFontOfSize:16]];
     _nichengLbl.text =@"昵称:";
-    [_nichengLbl setTextAlignment:NSTextAlignmentRight];
+    [_nichengLbl setTextAlignment:NSTextAlignmentLeft];
     _nichengText=[[UILabel alloc]init];
     [_nichengText setFont:[UIFont systemFontOfSize:16]];
     _nichengText.backgroundColor=DWColor(243, 243, 243);
@@ -117,13 +129,17 @@
     //性别
     _sexLbl=[[UILabel alloc]init];
     _sexLbl.text =@"性别:";
-    [_sexLbl setTextAlignment:NSTextAlignmentRight];
+    [_sexLbl setTextAlignment:NSTextAlignmentLeft];
     [_sexLbl setFont:[UIFont systemFontOfSize:16]];
-    _sexText=[[UILabel alloc]init];
-    _sexText.text=@"男";
-    [_sexText setFont:[UIFont systemFontOfSize:16]];
+    _sexSeg=[[UISegmentedControl alloc]initWithItems:@[@"男",@"女"]];
+    _sexSeg.selectedSegmentIndex = 0;
+    _sexSeg.tintColor = DWColor(70, 70, 70);
+    [_sexSeg addTarget:self action:@selector(segmentedAction:) forControlEvents:UIControlEventValueChanged]; //添加事件
+    [self.mterScroView addSubview:_sexSeg];
+
+
     [self.mterScroView addSubview:_sexLbl];
-    [self.mterScroView addSubview:_sexText];
+    [self.mterScroView addSubview:_sexSeg];
     
     //出生日期
     _birLbl=[[UILabel alloc]init];
@@ -206,8 +222,8 @@
     
     [self.mterScroView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top);
-        make.left.mas_equalTo(self.view.mas_left);
-        make.right.mas_equalTo(self.view.mas_right);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(5);
+        make.right.mas_equalTo(self.view.mas_right).with.offset(-5);
         make.bottom.mas_equalTo(self.view.mas_bottom);
         
     }];
@@ -245,11 +261,11 @@
         make.height.mas_equalTo(30);
         make.width.mas_equalTo(70);
     }];
-    [self.sexText mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.sexSeg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.nichengText.mas_bottom).with.offset(10);
         make.left.mas_equalTo(self.nichengLbl.mas_right);
         make.height.mas_equalTo(30);
-        make.right.equalTo(self.view.mas_right).with.offset(-20);
+        make.width.mas_equalTo(100);
     }];
     
     [self.birLbl mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -259,7 +275,7 @@
         make.width.mas_equalTo(70);
     }];
     [self.birText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.sexText.mas_bottom).with.offset(10);
+        make.top.equalTo(self.sexSeg.mas_bottom).with.offset(10);
         make.left.mas_equalTo(self.sexLbl.mas_right);
         make.height.mas_equalTo(30);
         make.right.equalTo(self.view.mas_right).with.offset(-20);
@@ -350,11 +366,23 @@
 
 }
 
+- (void) segmentedAction:(id)sender {
+    if ([sender isKindOfClass:[UISegmentedControl class]]) {
+        UISegmentedControl * segment = sender;
+        if (segment.selectedSegmentIndex == 0) {
+            self.view.backgroundColor = [UIColor redColor];
+        }else if (segment.selectedSegmentIndex == 1) {
+            self.view.backgroundColor = [UIColor brownColor];
+        }
+    }
+}
 -(void)mterialClickright{
     
-   // NSDictionary*dicInfo
+    //点击保存 储存
+    NSDictionary*meteDict= @{@"name":_nameText.text,@"sex":@"1",@"mobile":_phoneText.text,@"email":_emailText.text,@"job":_jobText.text,@"add":_addText.text,@"code":_codeText.text};
+    [UConfig setPersonInfo:meteDict];
     
-    NSDictionary *dic = @{@"name":_nameText.text,@"mobile":_nichengText.text,@"sex":@"1",@"mobile":_phoneText,@"email":_emailText.text};
+    NSDictionary *dic = @{@"name":_nameText.text,@"mobile":_nichengText.text,@"sex":@"1",@"mobile":_phoneText.text,@"email":_emailText.text};
 
     
     [NetWorkingManager requestGETDataWithPath:@"http://10.1.1.113:8080/newAngel/app/doct/index" withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
@@ -372,7 +400,6 @@
         
     }]];
     [self presentViewController:alertController animated:YES completion:nil];
-    
 }
 
 - (void)didReceiveMemoryWarning {

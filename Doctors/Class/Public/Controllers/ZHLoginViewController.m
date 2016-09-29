@@ -236,7 +236,6 @@
             make.height.mas_equalTo(40);
         }];
 
-        
     }else{
     //登录
     [self.loginView mas_makeConstraints:^(MASConstraintMaker *make) {

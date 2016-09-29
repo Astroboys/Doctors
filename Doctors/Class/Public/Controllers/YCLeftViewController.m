@@ -106,7 +106,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     [self.view addSubview:self.loginout];
    
     
-    _lefs = @[@"基本资料", @"修改头像", @"邮箱认证", @"服务订单",@"我的咨询记录",@"意见反馈",@"关于"];
+    _lefs = @[@"基本资料", @"修改头像", @"修改密码", @"服务订单",@"我的咨询记录",@"意见反馈",@"关于"];
     _lefsImageArr= @[@"basicMaterial", @"changeIcon", @"changePassword",  @"serviceOrder", @"consult", @"changeEmail",@"aboutImg"];
     _tableView = [[UITableView alloc] init];
     _tableView.frame = CGRectMake(0, 144, self.view.frame.size.width, self.view.frame.size.height - 144-70);
