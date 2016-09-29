@@ -26,4 +26,7 @@
 +(void)setPersonInfo:(NSDictionary *)personInfo;
 +(NSDictionary *)getPersonInfo;
 
++(void)logoutInfomation;
+
+
 @end

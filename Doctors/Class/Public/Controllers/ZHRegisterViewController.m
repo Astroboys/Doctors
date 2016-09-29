@@ -374,7 +374,7 @@
         return;
     }
     //type 1为注册 2为找回密码
-    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"type":@"1"};
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"type":@"1"};
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         

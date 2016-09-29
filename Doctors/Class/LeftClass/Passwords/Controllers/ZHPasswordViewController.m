@@ -74,7 +74,7 @@
     UILabel*xinsheLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 50, 80, 50)];
     xinsheLbl.text =@"新设密码:";
     _xinsheText=[[UITextField alloc]initWithFrame:CGRectMake(100,50 , kWidth-80-20, 50)];
-    _xinsheText.placeholder =@"请输入原密码";
+    _xinsheText.placeholder =@"请输入新密码";
     [self.firstView addSubview:_xinsheText];
     [self.firstView addSubview:xinsheLbl];
     
@@ -82,7 +82,7 @@
     UILabel*moreLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, 80, 50)];
     moreLbl.text =@"重复密码:";
     _moreText=[[UITextField alloc]initWithFrame:CGRectMake(100,100 , kWidth-80-20, 50)];
-    _moreText.placeholder =@"请输入原密码";
+    _moreText.placeholder =@"请输入新密码";
     [self.firstView addSubview:moreLbl];
     [self.firstView addSubview:_moreText];
     
@@ -91,7 +91,7 @@
     UIButton*quereBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 180, kWidth-40, 30)];
     
     quereBtn.backgroundColor=[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] ;
-    
+    [quereBtn addTarget:self action:@selector(quereAction) forControlEvents:UIControlEventTouchUpInside];
     [quereBtn setTitle:@"确认修改" forState:UIControlStateNormal];
     
     [quereBtn.layer setCornerRadius:5];
@@ -100,7 +100,29 @@
     [self.view addSubview:quereBtn];
     
 }
+-(void)quereAction
+{
+    if (![_xinsheText.text isEqualToString:_moreText.text]) {
+        [MBManager showBriefMessage:@"两次新密码输入不一致" InView:self.view];
+        return;
+    }
+    if (_xinsheText.text.length<1 || _moreText.text.length<1) {
+        [MBManager showBriefMessage:@"新密码不能为空" InView:self.view];
+        return;
+    }
+    
+    NSDictionary *dic = @{@"mobile":[UConfig getLoginNumber],@"oldPassword":_yuanshiText.text,@"password":_xinsheText.text};
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error.userInfo);
+        
+    }];
 
+}
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.moreText resignFirstResponder];
     [self.yuanshiText resignFirstResponder];
