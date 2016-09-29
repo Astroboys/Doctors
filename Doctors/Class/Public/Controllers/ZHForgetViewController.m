@@ -11,14 +11,29 @@
 #import "Masonry.h"
 
 @interface ZHForgetViewController ()
+{
+    UIView *oneView;
+    UIView *twoView;
+    UIView *threeView;
+    
+    UITextField *codeText;
+    UIButton *registerTwoBtn;
 
-@property(nonatomic,strong)UIView*registerView;
+    UITextField *passwordText;
+    UITextField *rePasswordText;
+    UIButton *registerThreeBtn;
+    
+    
+    UIView*lineOneView;
+    UIView*lineTwoView;
+    UIView*lineThreeView;
+
+}
 @property(nonatomic,strong)UILabel*titleLbl;
 @property(nonatomic,strong)UILabel*phoneLbl;
 @property(nonatomic,strong)UITextField*phoneText;
-@property(nonatomic,strong)UIView*lineView;
 @property(nonatomic,strong)UIButton*registerbtn;
-
+////
 @end
 
 @implementation ZHForgetViewController
@@ -35,35 +50,67 @@
     self.navigationItem.title=@"找回密码";
     self.navigationItem.leftBarButtonItem = item2;
     
-    [self setupUI];
-    [self setupFrame];
     
+   
+    oneView=[[UIView alloc]init];
+    oneView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:oneView];
+    
+    [self setupOneViewUI];
+    [self setupOneViewFrame];
+//
+    
+    twoView=[[UIView alloc]init];
+    twoView.backgroundColor=[UIColor whiteColor];
+    twoView.hidden = YES;
+    [self.view addSubview:twoView];
+    
+    [self setupTwoViewUI];
+    [self setupTwoViewFrame];
+
+
+    
+    threeView=[[UIView alloc]init];
+    threeView.hidden = YES;
+    threeView.backgroundColor=[UIColor whiteColor];
+    [self.view addSubview:threeView];
+    
+    [self setupThreeViewUI];
+    [self setupThreeViewFrame];
+    
+    
+    
+    
+    
+    
+    
+   
+
 }
 
--(void)setupUI{
+-(void)setupOneViewUI{
 
+    
     _titleLbl=[[UILabel alloc]init];
     _titleLbl.text=@"开启您的健康之旅";
     [_titleLbl setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:_titleLbl];
     
-    _registerView=[[UIView alloc]init];
-    [self.view addSubview:_registerView];
-    self.registerView.backgroundColor=[UIColor whiteColor];
+   
     
     _phoneLbl=[[UILabel alloc]init];
     _phoneLbl.text=@"手机号";
     [_phoneLbl setFont:[UIFont systemFontOfSize:14]];
-    [self.registerView addSubview:_phoneLbl];
+    [oneView addSubview:_phoneLbl];
     
     _phoneText=[[UITextField alloc]init];
     _phoneText.placeholder=@"请输入您的手机号";
     [_phoneText setFont:[UIFont systemFontOfSize:14]];
-    [self.registerView addSubview:_phoneText];
+    [oneView addSubview:_phoneText];
     
-    _lineView=[[UIView alloc]init];
-    _lineView.backgroundColor=[UIColor lightGrayColor];
-    [self.registerView addSubview:_lineView];
+    lineOneView=[[UIView alloc]init];
+    lineOneView.backgroundColor=[UIColor lightGrayColor];
+    [oneView addSubview:lineOneView];
     
     _registerbtn=[[UIButton alloc]init];
     [_registerbtn setTitle:@"下一步" forState:UIControlStateNormal];
@@ -71,10 +118,10 @@
     _registerbtn.backgroundColor=DWColor(40, 128, 194);
     self.registerbtn.clipsToBounds=YES;
     [self.registerbtn.layer setCornerRadius:5];
-    [self.registerView addSubview:_registerbtn];
+    [oneView addSubview:_registerbtn];
 }
 
--(void)setupFrame{
+-(void)setupOneViewFrame{
 
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(15);
@@ -83,7 +130,7 @@
         make.height.mas_equalTo(15);
     }];
     
-    [self.registerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [oneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top);
         make.left.mas_equalTo(self.view.mas_left);
         make.width.mas_equalTo(kWidth);
@@ -91,30 +138,30 @@
     }];
     
     [self.phoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.registerView.mas_top).with.offset(80);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
+        make.top.equalTo(oneView.mas_top).with.offset(80);
+        make.left.mas_equalTo(oneView.mas_left).with.offset(30);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
     
     [self.phoneText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.registerView.mas_top).with.offset(80);
+        make.top.equalTo(oneView.mas_top).with.offset(80);
         make.left.mas_equalTo(self.phoneLbl.mas_right).with.offset(5);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
+        make.right.mas_equalTo(oneView.mas_right).with.offset(-30);
         make.height.mas_equalTo(15);
     }];
     
-    [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.phoneLbl.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
+    [lineOneView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.phoneText.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(oneView.mas_left).with.offset(30);
+        make.right.mas_equalTo(oneView.mas_right).with.offset(-30);
         make.height.mas_equalTo(1);
     }];
     
     [self.registerbtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.lineView.mas_bottom).with.offset(15);
-        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
-        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
+        make.top.equalTo(lineOneView.mas_bottom).with.offset(40);
+        make.left.mas_equalTo(oneView.mas_left).with.offset(30);
+        make.right.mas_equalTo(oneView.mas_right).with.offset(-30);
         make.height.mas_equalTo(30);
     }];
 
@@ -122,11 +169,187 @@
 
 }
 
--(void)nextBtnClick{
 
+
+
+-(void)setupTwoViewUI{
+    
+    
+    _titleLbl=[[UILabel alloc]init];
+    _titleLbl.text=@"开启您的健康之旅";
+    [_titleLbl setFont:[UIFont systemFontOfSize:14]];
+    [self.view addSubview:_titleLbl];
+    
+    
+    
+    
+    codeText=[[UITextField alloc]init];
+    codeText.placeholder=@"请输入验证码";
+    [codeText setFont:[UIFont systemFontOfSize:14]];
+    [twoView addSubview:codeText];
+    
+    lineTwoView=[[UIView alloc]init];
+    lineTwoView.backgroundColor=[UIColor lightGrayColor];
+    [twoView addSubview:lineTwoView];
+    
+    registerTwoBtn=[[UIButton alloc]init];
+    [registerTwoBtn setTitle:@"下一步" forState:UIControlStateNormal];
+    [registerTwoBtn addTarget:self action:@selector(nextTwoBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    registerTwoBtn.backgroundColor=DWColor(40, 128, 194);
+    registerTwoBtn.clipsToBounds=YES;
+    [registerTwoBtn.layer setCornerRadius:5];
+    [twoView addSubview:registerTwoBtn];
+}
+
+-(void)setupTwoViewFrame{
+    
+    [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(15);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(15);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(15);
+    }];
+    
+    [twoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.width.mas_equalTo(kWidth);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    
+    
+    [codeText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(twoView.mas_top).with.offset(80);
+        make.left.mas_equalTo(twoView.mas_left).with.offset(30);
+        make.right.mas_equalTo(twoView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(15);
+    }];
+    
+  
+    
+    [lineTwoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(codeText.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(twoView.mas_left).with.offset(30);
+        make.right.mas_equalTo(twoView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(1);
+    }];
+    
+    [registerTwoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(lineTwoView.mas_bottom).with.offset(40);
+        make.left.mas_equalTo(twoView.mas_left).with.offset(30);
+        make.right.mas_equalTo(twoView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(30);
+    }];
+    
+    
     
 }
 
+
+-(void)setupThreeViewUI{
+    
+    
+    _titleLbl=[[UILabel alloc]init];
+    _titleLbl.text=@"开启您的健康之旅";
+    [_titleLbl setFont:[UIFont systemFontOfSize:14]];
+    [self.view addSubview:_titleLbl];
+    
+    
+    
+    
+    passwordText=[[UITextField alloc]init];
+    passwordText.placeholder=@"请输入新密码";
+    [passwordText setFont:[UIFont systemFontOfSize:14]];
+    [threeView addSubview:passwordText];
+    
+    lineThreeView=[[UIView alloc]init];
+    lineThreeView.backgroundColor=[UIColor lightGrayColor];
+    [threeView addSubview:lineThreeView];
+    
+    
+    rePasswordText=[[UITextField alloc]init];
+    rePasswordText.placeholder=@"请确认新密码";
+    [rePasswordText setFont:[UIFont systemFontOfSize:14]];
+    [threeView addSubview:rePasswordText];
+    
+    
+    registerThreeBtn=[[UIButton alloc]init];
+    [registerThreeBtn setTitle:@"完成" forState:UIControlStateNormal];
+    [registerThreeBtn addTarget:self action:@selector(nextThreeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    registerThreeBtn.backgroundColor=DWColor(40, 128, 194);
+    registerThreeBtn.clipsToBounds=YES;
+    [registerThreeBtn.layer setCornerRadius:5];
+    [threeView addSubview:registerThreeBtn];
+}
+
+-(void)setupThreeViewFrame{
+    
+    [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).with.offset(15);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(15);
+        make.width.mas_equalTo(120);
+        make.height.mas_equalTo(15);
+    }];
+    
+    [threeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.width.mas_equalTo(kWidth);
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    
+    
+    [passwordText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(threeView.mas_top).with.offset(80);
+        make.left.mas_equalTo(threeView.mas_left).with.offset(30);
+        make.right.mas_equalTo(threeView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(15);
+    }];
+    
+    [lineThreeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(passwordText.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(threeView.mas_left).with.offset(30);
+        make.right.mas_equalTo(threeView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(1);
+    }];
+    
+    [rePasswordText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(lineThreeView.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(threeView.mas_left).with.offset(30);
+        make.right.mas_equalTo(threeView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(15);
+    }];
+    
+    [registerThreeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(rePasswordText.mas_bottom).with.offset(40);
+        make.left.mas_equalTo(threeView.mas_left).with.offset(30);
+        make.right.mas_equalTo(threeView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(30);
+    }];
+    
+    
+    
+}
+
+
+
+-(void)nextBtnClick{
+
+    oneView.hidden = YES;
+    twoView.hidden = NO;
+}
+
+-(void)nextTwoBtnClick
+{
+    oneView.hidden = YES;
+    twoView.hidden = YES;
+    threeView.hidden = NO;
+}
+
+-(void)nextThreeBtnClick
+{
+    
+}
 -(void)forgetClickleft{
     
     [self.navigationController popViewControllerAnimated:YES];

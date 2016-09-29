@@ -14,7 +14,7 @@
 #import "ChangeBtn.h"
 #import "ZHDetailsViewController.h"
 #import "UIViewController+MMDrawerController.h"
-
+#import "UploadCerViewController.h"
 @interface ZHFirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UIImageView*imageView;
@@ -107,7 +107,8 @@
     [_zizhiButton setImage:[UIImage imageNamed:@"credentials"] forState:UIControlStateNormal];
     [_zizhiButton setTitle:@"资质认证" forState:UIControlStateNormal];
     _zizhiButton.backgroundColor = [UIColor clearColor];
-    _zizhiButton.userInteractionEnabled=NO;
+    [_zizhiButton addTarget:self action:@selector(zizhiAction) forControlEvents:UIControlEventTouchUpInside];
+//    _zizhiButton.userInteractionEnabled=NO;
     
     _shenheButton =[[ChangeBtn alloc]init];
     [_shenheButton setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
@@ -744,6 +745,13 @@
 
     }
     
+}
+
+-(void)zizhiAction
+{
+    UploadCerViewController *vc = [[UploadCerViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 -(void)firstClickleft{
