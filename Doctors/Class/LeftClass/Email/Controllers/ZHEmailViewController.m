@@ -8,6 +8,9 @@
 
 #import "ZHEmailViewController.h"
 #import "Masonry.h"
+#import "ZHVerifyCodeButton.h"
+#import "NetWorkingManager.h"
+#import "MethodUtil.h"
 
 @interface ZHEmailViewController ()
 
@@ -27,6 +30,8 @@
 @property(nonatomic,strong)UITextField*yanzhengText;
 
 @property(nonatomic,strong)UIButton*quereBtn;
+
+@property (nonatomic, strong) ZHVerifyCodeButton *codeBtn;
 
 @end
 
@@ -58,7 +63,6 @@
     
     [self.renzhengText resignFirstResponder];
     [self.yanzhengText resignFirstResponder];
-    [self.tuyanText resignFirstResponder];
     
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -82,23 +86,17 @@
     [self.firstView addSubview:_renzhengLbl];
     [self.firstView addSubview:_renzhengText];
     
-    //昵称
-    //UILabel*tuyanLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 50, 80, 50)];
-    _tuyanLbl=[[UILabel alloc]init];
-    _tuyanLbl.text =@"图验证码:";
-    //UITextField*tuyanText=[[UITextField alloc]initWithFrame:CGRectMake(100,50 , kWidth-80-20, 50)];
-    _tuyanText=[[UITextField alloc]init];
-    _tuyanText.placeholder =@"图片验证码";
-    [self.firstView addSubview:_tuyanText];
-    [self.firstView addSubview:_tuyanLbl];
     
-    //性别
     //UILabel*yanzhengLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, 80, 50)];
     _yanzhengLbl=[[UILabel alloc]init];
     _yanzhengLbl.text =@"验证码:";
     //UITextField*yanzhengText=[[UITextField alloc]initWithFrame:CGRectMake(100,100 , kWidth-80-20, 50)];
     _yanzhengText=[[UITextField alloc]init];
     _yanzhengText.placeholder =@"邮箱验证码";
+    
+    _codeBtn = [ZHVerifyCodeButton buttonWithType:UIButtonTypeCustom];
+    [_codeBtn addTarget:self action:@selector(codeBtnVerification) forControlEvents:UIControlEventTouchUpInside];
+    [self.firstView addSubview:_codeBtn];
     [self.firstView addSubview:_yanzhengLbl];
     [self.firstView addSubview:_yanzhengText];
     
@@ -115,9 +113,6 @@
     [_quereBtn.layer setMasksToBounds:YES];
     [self.view addSubview:_quereBtn];
     
-    
-    
-    
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -133,7 +128,7 @@
         make.top.equalTo(self.view.mas_top).with.offset(10);
         make.left.mas_equalTo(self.view.mas_left).with.offset(5);
         make.right.mas_equalTo(self.view.mas_right).with.offset(-5);
-        make.height.mas_equalTo(120);
+        make.height.mas_equalTo(80);
     }];
     
     [self.renzhengLbl mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -150,29 +145,17 @@
         make.right.equalTo(self.view.mas_right).with.offset(-20);
     }];
     
-    [self.tuyanLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.renzhengLbl.mas_bottom);
-        make.left.mas_equalTo(self.renzhengLbl.mas_left);
-        make.height.mas_equalTo(40);
-        make.width.mas_equalTo(80);
-    }];
-    [self.tuyanText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.renzhengText.mas_bottom);
-        make.left.mas_equalTo(self.renzhengText.mas_left);
-        make.height.mas_equalTo(40);
-        make.right.equalTo(self.view.mas_right).with.offset(-20);
-    }];
-    
+
     [self.yanzhengLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tuyanLbl.mas_bottom);
+        make.top.equalTo(self.renzhengLbl.mas_bottom);
         make.left.mas_equalTo(self.renzhengLbl.mas_left);
         make.height.mas_equalTo(40);
         make.width.mas_equalTo(80);
     }];
     
     [self.yanzhengText mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tuyanText.mas_bottom);
-        make.left.mas_equalTo(self.tuyanLbl.mas_right);
+        make.top.equalTo(self.renzhengText.mas_bottom);
+        make.left.mas_equalTo(self.renzhengLbl.mas_right);
         make.height.mas_equalTo(40);
         make.right.equalTo(self.view.mas_right).with.offset(-20);
     }];
@@ -186,6 +169,31 @@
 
     
 }
+
+//- (void)codeBtnVerification {
+//    
+//    BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
+//    if(!isMobile){
+//        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+//        return;
+//    }
+//    //type 1为注册 2为找回密码
+//    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"type":@"1"};
+//    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+//    [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
+//        
+//    } success:^(BOOL isSuccess, id responseObject) {
+//        NSLog(@"%@",responseObject);
+//    } failure:^(NSError *error) {
+//        NSLog(@"%@",error.userInfo);
+//        
+//    }];
+//    
+//    // 调用短信验证码接口
+//    [self.codeBtn timeFailBeginFrom:60];  // 倒计时60s
+//}
+//
+
 
 
 - (void)didReceiveMemoryWarning {

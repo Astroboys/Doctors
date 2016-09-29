@@ -153,6 +153,11 @@
 		285D097E1D9AA32E009D69AB /* NTESSessionCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 285D097C1D9AA32E009D69AB /* NTESSessionCardViewController.m */; };
 		285F26EA1D9CA901003F4B1E /* cer_default_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 285F26E91D9CA901003F4B1E /* cer_default_image.png */; };
 		3BB88014F60CC8B103247097 /* libPods-Doctors.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8A57D431CFDE05414DC03F4 /* libPods-Doctors.a */; };
+		A70137A71D9CAA3000D4B02D /* ZHAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A70137A61D9CAA3000D4B02D /* ZHAboutViewController.m */; };
+		A70137AC1D9CB55200D4B02D /* aboutIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137A81D9CB55200D4B02D /* aboutIcon@2x.png */; };
+		A70137AD1D9CB55200D4B02D /* aboutIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137A91D9CB55200D4B02D /* aboutIcon@3x.png */; };
+		A70137AE1D9CB55200D4B02D /* aboutImg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137AA1D9CB55200D4B02D /* aboutImg@2x.png */; };
+		A70137AF1D9CB55200D4B02D /* aboutImg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137AB1D9CB55200D4B02D /* aboutImg@3x.png */; };
 		A70292AA1D93DF6900A32DF1 /* ZHVipInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A70292A91D93DF6900A32DF1 /* ZHVipInfoViewController.m */; };
 		A707FBB51D923B440021E7DB /* NetWorkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A707FBB21D923B440021E7DB /* NetWorkingManager.m */; };
 		A707FBB61D923B440021E7DB /* UIImage+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = A707FBB41D923B440021E7DB /* UIImage+Compression.m */; };
@@ -384,7 +389,6 @@
 		A75302BE1D8E9DE00073202F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A75302BD1D8E9DE00073202F /* libz.tbd */; };
 		A76DF85C1D9A144C0045DBA3 /* ZHPrescribeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A76DF85A1D9A13530045DBA3 /* ZHPrescribeViewController.m */; };
 		A774B01E1D8FCA5E00EFC6C7 /* BaseNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A774B01D1D8FCA5E00EFC6C7 /* BaseNetManager.m */; };
-		A7760C1F1D73CF9700F630C5 /* ZHPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7760C1C1D73CF9700F630C5 /* ZHPhoneViewController.m */; };
 		A7760C221D73D0A600F630C5 /* ZHFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7760C211D73D0A600F630C5 /* ZHFirstViewController.m */; };
 		A796F03A1D98BD7B002B3F64 /* CALayer+LXAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = A796F0331D98BD7B002B3F64 /* CALayer+LXAdd.m */; };
 		A796F03B1D98BD7B002B3F64 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A796F0351D98BD7B002B3F64 /* NSString+Size.m */; };
@@ -792,6 +796,12 @@
 		285D097D1D9AA32E009D69AB /* NTESSessionCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTESSessionCardViewController.h; sourceTree = "<group>"; };
 		285F26E91D9CA901003F4B1E /* cer_default_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cer_default_image.png; sourceTree = "<group>"; };
 		89EAB130DD4003B4C037CC22 /* Pods-Doctors.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Doctors.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Doctors/Pods-Doctors.debug.xcconfig"; sourceTree = "<group>"; };
+		A70137A51D9CAA3000D4B02D /* ZHAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHAboutViewController.h; sourceTree = "<group>"; };
+		A70137A61D9CAA3000D4B02D /* ZHAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHAboutViewController.m; sourceTree = "<group>"; };
+		A70137A81D9CB55200D4B02D /* aboutIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutIcon@2x.png"; sourceTree = "<group>"; };
+		A70137A91D9CB55200D4B02D /* aboutIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutIcon@3x.png"; sourceTree = "<group>"; };
+		A70137AA1D9CB55200D4B02D /* aboutImg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutImg@2x.png"; sourceTree = "<group>"; };
+		A70137AB1D9CB55200D4B02D /* aboutImg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutImg@3x.png"; sourceTree = "<group>"; };
 		A70292A81D93DF6900A32DF1 /* ZHVipInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVipInfoViewController.h; sourceTree = "<group>"; };
 		A70292A91D93DF6900A32DF1 /* ZHVipInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVipInfoViewController.m; sourceTree = "<group>"; };
 		A707FBB11D923B440021E7DB /* NetWorkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkingManager.h; sourceTree = "<group>"; };
@@ -1122,8 +1132,6 @@
 		A774B01C1D8FCA5E00EFC6C7 /* BaseNetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNetManager.h; sourceTree = "<group>"; };
 		A774B01D1D8FCA5E00EFC6C7 /* BaseNetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNetManager.m; sourceTree = "<group>"; };
 		A7760C071D73C52500F630C5 /* Doctors-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Doctors-Prefix.pch"; sourceTree = "<group>"; };
-		A7760C1B1D73CF9700F630C5 /* ZHPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHPhoneViewController.h; sourceTree = "<group>"; };
-		A7760C1C1D73CF9700F630C5 /* ZHPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHPhoneViewController.m; sourceTree = "<group>"; };
 		A7760C201D73D0A600F630C5 /* ZHFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHFirstViewController.h; sourceTree = "<group>"; };
 		A7760C211D73D0A600F630C5 /* ZHFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHFirstViewController.m; sourceTree = "<group>"; };
 		A796F0321D98BD7B002B3F64 /* CALayer+LXAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+LXAdd.h"; sourceTree = "<group>"; };
@@ -1859,6 +1867,39 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A70137A11D9CAA1100D4B02D /* About */ = {
+			isa = PBXGroup;
+			children = (
+				A70137A21D9CAA1100D4B02D /* Controllers */,
+				A70137A31D9CAA1100D4B02D /* Models */,
+				A70137A41D9CAA1100D4B02D /* Views */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
+		A70137A21D9CAA1100D4B02D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A70137A51D9CAA3000D4B02D /* ZHAboutViewController.h */,
+				A70137A61D9CAA3000D4B02D /* ZHAboutViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		A70137A31D9CAA1100D4B02D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A70137A41D9CAA1100D4B02D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		A70F01591D9A4AE000D921C8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1945,6 +1986,10 @@
 		A70F017F1D9A4AE000D921C8 /* left */ = {
 			isa = PBXGroup;
 			children = (
+				A70137A81D9CB55200D4B02D /* aboutIcon@2x.png */,
+				A70137A91D9CB55200D4B02D /* aboutIcon@3x.png */,
+				A70137AA1D9CB55200D4B02D /* aboutImg@2x.png */,
+				A70137AB1D9CB55200D4B02D /* aboutImg@3x.png */,
 				285F26E91D9CA901003F4B1E /* cer_default_image.png */,
 				A70F01801D9A4AE000D921C8 /* basicMaterial@2x.png */,
 				A70F01811D9A4AE000D921C8 /* basicMaterial@3x.png */,
@@ -2356,39 +2401,6 @@
 			path = NetManager;
 			sourceTree = "<group>";
 		};
-		A7760C191D73CF9700F630C5 /* Phone */ = {
-			isa = PBXGroup;
-			children = (
-				A7760C1A1D73CF9700F630C5 /* Controllers */,
-				A7760C1D1D73CF9700F630C5 /* Models */,
-				A7760C1E1D73CF9700F630C5 /* Views */,
-			);
-			path = Phone;
-			sourceTree = "<group>";
-		};
-		A7760C1A1D73CF9700F630C5 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				A7760C1B1D73CF9700F630C5 /* ZHPhoneViewController.h */,
-				A7760C1C1D73CF9700F630C5 /* ZHPhoneViewController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		A7760C1D1D73CF9700F630C5 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		A7760C1E1D73CF9700F630C5 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		A796F0301D98BD7B002B3F64 /* LXSegment */ = {
 			isa = PBXGroup;
 			children = (
@@ -2631,7 +2643,7 @@
 				A7B1AAC11D701F8F00B5D601 /* Email */,
 				A7B1AACD1D701F8F00B5D601 /* Header */,
 				A7B1AAD31D701F8F00B5D601 /* Material */,
-				A7760C191D73CF9700F630C5 /* Phone */,
+				A70137A11D9CAA1100D4B02D /* About */,
 				A7B1AAE11D701F8F00B5D601 /* Passwords */,
 			);
 			path = LeftClass;
@@ -3075,6 +3087,7 @@
 				A70F022C1D9A4AE000D921C8 /* un_select@2x.png in Resources */,
 				A70F02181D9A4AE000D921C8 /* select@2x.png in Resources */,
 				A70F01DE1D9A4AE000D921C8 /* hospital@2x.png in Resources */,
+				A70137AD1D9CB55200D4B02D /* aboutIcon@3x.png in Resources */,
 				A70F02101D9A4AE000D921C8 /* hospital@2x.png in Resources */,
 				A70F021C1D9A4AE000D921C8 /* tabbar_discover@2x.png in Resources */,
 				A70F02161D9A4AE000D921C8 /* realName@2x.png in Resources */,
@@ -3095,6 +3108,7 @@
 				A7B1AB341D701F8F00B5D601 /* Address.plist in Resources */,
 				A7B1A98C1D701ABB00B5D601 /* Assets.xcassets in Resources */,
 				A70F02041D9A4AE000D921C8 /* changePhone@2x.png in Resources */,
+				A70137AC1D9CB55200D4B02D /* aboutIcon@2x.png in Resources */,
 				A70F01FF1D9A4AE000D921C8 /* changeIcon@3x.png in Resources */,
 				A70F033D1D9A4E3500D921C8 /* NTESVideoViewController.xib in Resources */,
 				A70F02401D9A4AE000D921C8 /* tabbar_home_selected@2x.png in Resources */,
@@ -3131,6 +3145,7 @@
 				A70F02141D9A4AE000D921C8 /* pulldown@2x.png in Resources */,
 				A70F022A1D9A4AE000D921C8 /* tabbar_profile_selected@2x.png in Resources */,
 				A70F021D1D9A4AE000D921C8 /* tabbar_discover@3x.png in Resources */,
+				A70137AE1D9CB55200D4B02D /* aboutImg@2x.png in Resources */,
 				A70F01EA1D9A4AE000D921C8 /* addIcon@2x.png in Resources */,
 				A70F01DD1D9A4AE000D921C8 /* cure@3x.png in Resources */,
 				A70F01DB1D9A4AE000D921C8 /* credentials@3x.png in Resources */,
@@ -3159,6 +3174,7 @@
 				A70F020E1D9A4AE000D921C8 /* defaultIcon@2x.png in Resources */,
 				A70F023B1D9A4AE000D921C8 /* tabbar_discover@3x.png in Resources */,
 				A70F01E91D9A4AE000D921C8 /* addcircle@3x.png in Resources */,
+				A70137AF1D9CB55200D4B02D /* aboutImg@3x.png in Resources */,
 				A70F02231D9A4AE000D921C8 /* tabbar_home_selected@3x.png in Resources */,
 				A70F01E01D9A4AE000D921C8 /* indexIcon@2x.png in Resources */,
 				A70F01DC1D9A4AE000D921C8 /* cure@2x.png in Resources */,
@@ -3321,6 +3337,7 @@
 				285D09411D9A609D009D69AB /* NTESDemoService.m in Sources */,
 				A70F03001D9A4E3500D921C8 /* UIImage+NTESColor.m in Sources */,
 				283CCA201D994D3D0064C6E8 /* NIMTipContentConfig.m in Sources */,
+				A70137A71D9CAA3000D4B02D /* ZHAboutViewController.m in Sources */,
 				283CC9FB1D994D3D0064C6E8 /* NIMAvatarImageView.m in Sources */,
 				285D097E1D9AA32E009D69AB /* NTESSessionCardViewController.m in Sources */,
 				A70F03051D9A4E3500D921C8 /* UIView+Toast.m in Sources */,
@@ -3378,7 +3395,6 @@
 				A70F031D1D9A4E3500D921C8 /* NTESLocationPoint.m in Sources */,
 				A729F0C81D955AEC0040A30D /* ZHVerifyViewController.m in Sources */,
 				A75302A51D8E70C10073202F /* MMDrawerController.m in Sources */,
-				A7760C1F1D73CF9700F630C5 /* ZHPhoneViewController.m in Sources */,
 				285D09751D9A9FBE009D69AB /* NTESNickNameSettingViewController.m in Sources */,
 				A70F03091D9A4E3500D921C8 /* NTESSessionCustomLayoutConfig.m in Sources */,
 				A7B1AB2E1D701F8F00B5D601 /* ZHHeaderViewController.m in Sources */,
