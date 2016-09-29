@@ -234,7 +234,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         [self settingDrawerWhenPush];
         [self.navigationController pushViewController:password animated:YES];
         
-    }else if(indexPath.row == 3){
+    }else if(indexPath.row == 5){
         
         ZHFeedbackViewController *email = [[ZHFeedbackViewController alloc ] init];
         [self addCurrentPageScreenshot];
