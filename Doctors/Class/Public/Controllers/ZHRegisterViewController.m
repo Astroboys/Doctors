@@ -416,6 +416,11 @@
         [MBManager showBriefMessage:@"两次密码输入不一致" InView:self.view];
         return;
     }
+    if (_passwordText.text.length<1 || _repassText.text.length<1) {
+        [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
+        return;
+    }
+
     //性别暂为1
     NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":@"1",@"password":_passwordText.text};
     
