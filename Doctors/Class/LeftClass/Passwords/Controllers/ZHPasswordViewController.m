@@ -52,8 +52,6 @@
     
 }
 
-
-
 -(void)setupUI{
     
     //姓名
@@ -106,7 +104,6 @@
     [self.yuanshiText resignFirstResponder];
     [self.xinsheText resignFirstResponder];
 
-    
 }
 
 -(void)setupFrame{
@@ -117,10 +114,6 @@
         make.right.mas_equalTo(self.view.mas_right).with.offset(-5);
         make.height.mas_equalTo(150);
     }];
-
-    
-    
-    
 
 }
 

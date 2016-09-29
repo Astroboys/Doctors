@@ -49,13 +49,8 @@
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     NSData *data = [userDef objectForKey:@"LNPersonInfo"];
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-
     return dict;
 }
-
-
-
-
 
 +(void)setLoginCode:(NSString *)loginCode
 {

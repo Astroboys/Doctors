@@ -177,7 +177,9 @@
     _lastView.backgroundColor=[UIColor whiteColor];
     
     _detailLbl=[[UILabel alloc]init];
+    [_guanzhula setFont:[UIFont systemFontOfSize:14]];
     _detailLbl.text=@"详情介绍:";
+    [_detailLbl setFont:[UIFont systemFontOfSize:16]];
     _detailtab=[[UITableView alloc]init];
 
     [_lastView addSubview:self.detailLbl];
@@ -204,13 +206,13 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
     cell.textLabel.text=self.dataArr[indexPath.row];
+    [cell.textLabel setFont:[UIFont systemFontOfSize:15]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.imageView.image=[UIImage imageNamed:_dataImageArr[indexPath.row]];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     
     
 }

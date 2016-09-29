@@ -2990,6 +2990,7 @@
 					A7B1A9781D701ABB00B5D601 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = NB6P3U5WXU;
+						ProvisioningStyle = Automatic;
 					};
 					A7B1A9941D701ABB00B5D601 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -3693,16 +3694,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: xuehuiwang Education(Beijing) Technology Co.,Ltd. (NB6P3U5WXU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = NB6P3U5WXU;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctors/Class/Other/Common/Doctors-Prefix.pch";
 				INFOPLIST_FILE = Doctors/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edu.XueHuiWang.Doctors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7ac74d31-d6a0-4d9a-8de1-474117afa745";
-				PROVISIONING_PROFILE_SPECIFIER = doctors;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -3712,16 +3713,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: xuehuiwang Education(Beijing) Technology Co.,Ltd. (NB6P3U5WXU)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = NB6P3U5WXU;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Doctors/Class/Other/Common/Doctors-Prefix.pch";
 				INFOPLIST_FILE = Doctors/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.edu.XueHuiWang.Doctors;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7ac74d31-d6a0-4d9a-8de1-474117afa745";
-				PROVISIONING_PROFILE_SPECIFIER = doctors;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
