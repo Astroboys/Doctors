@@ -291,7 +291,16 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         [self presentViewController:nav animated:YES completion:nil];
         
         [self removeFromParentViewController];
+        
+//        [UConfig logoutInfomation];//清除存储的信息
+        if ([UConfig getLoginCode].intValue == 200) {
+            [[NIMSDK sharedSDK].loginManager logout:^(NSError * _Nullable error) {//退出登录
+                
+            }];
+            
 
+        }
+        
         //[self.sideMenuViewController removeFromParentViewController];
         
 //        ZHPhoneViewController *about = [[ZHPhoneViewController alloc ] init];

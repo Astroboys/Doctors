@@ -28,6 +28,10 @@
     UIView*lineOneView;
     UIView*lineTwoView;
     UIView*lineThreeView;
+    
+    
+    
+    NSString *codeStr;
 
 }
 @property(nonatomic,strong)UILabel*titleLbl;
@@ -352,26 +356,23 @@
         return;
     }
     //type 1为注册 2为找回密码
-    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"type":@"2"};
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"type":@"2"};
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
         NSLog(@"%@",responseObject);
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            codeStr = responseObject[@"code"];
+
+        }
     } failure:^(NSError *error) {
         NSLog(@"%@",error.userInfo);
         
     }];
     
     // 调用短信验证码接口
-    if(true){
-        
-        [codeBtn timeFailBeginFrom:60];  // 倒计时60s
-        
-    }else{
-        
-        [codeBtn timeFailBeginFrom:1]; // 处理请求成功但是匹配不成功的情况，并不需要执行倒计时功能
-    }
+    [codeBtn timeFailBeginFrom:60];  // 倒计时60s
 }
 
 
@@ -392,6 +393,13 @@
         [MBManager showBriefMessage:@"验证码不能为空" InView:self.view];
         return;
     }
+    if(![codeText.text isEqualToString:codeText.text]){
+        [MBManager showBriefMessage:@"验证码不正确" InView:self.view];
+        return;
+    }
+    
+    [codeBtn timeFailBeginFrom:1]; // 处理请求成功但是匹配不成功的情况，并不需要执行倒计时功能
+
     oneView.hidden = YES;
     twoView.hidden = YES;
     threeView.hidden = NO;
@@ -407,10 +415,25 @@
         [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
         return;
     }
+    [MBManager showLoadingInView:self.view];
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"password":passwordText.text};
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        [MBManager hideAlert];
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        [MBManager hideAlert];
+        NSLog(@"%@",error.userInfo);
+        
+    }];
 
+    
+    
 }
 -(void)forgetClickleft{
-    
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
     
 }

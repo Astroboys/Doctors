@@ -42,7 +42,7 @@
     
     [self.feedbackView resignFirstResponder];
     [self.phoneText resignFirstResponder];
-    
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -60,6 +60,7 @@
     
     _feedbackBtn=[[UIButton alloc]init];
     [_feedbackBtn setTitle:@"发送" forState:UIControlStateNormal];
+    [_feedbackBtn addTarget:self action:@selector(feedbackBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [_feedbackBtn setTintColor:[UIColor whiteColor]];
     _feedbackBtn.backgroundColor=DWColor(80, 198, 238);
     _feedbackBtn.clipsToBounds=YES;
@@ -67,7 +68,32 @@
     [self.view addSubview:_feedbackBtn];
 
 }
+-(void)feedbackBtnAction
+{
+    if(_phoneText.text.length<1) {
+        [MBManager showBriefMessage:@"手机号码不能为空" InView:self.view];
+        return;
+    }
+    if (self.feedbackView.text.length<1) {
+        [MBManager showBriefMessage:@"内容不能为空" InView:self.view];
+        return;
+    }
 
+    [MBManager showLoadingInView:self.view];
+    NSDictionary *dic = @{@"content":self.feedbackView.text,@"createBy":_phoneText.text};
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        [MBManager hideAlert];
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        [MBManager hideAlert];
+        NSLog(@"%@",error.userInfo);
+        
+    }];
+
+}
 -(void)setupFrame{
     
     [self.feedbackView mas_makeConstraints:^(MASConstraintMaker *make) {
