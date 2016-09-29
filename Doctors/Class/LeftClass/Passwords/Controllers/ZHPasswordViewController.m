@@ -28,7 +28,7 @@
      @{NSFontAttributeName:[UIFont systemFontOfSize:19],
        NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
-    self.view.backgroundColor = DWColor(243, 243, 243);
+    self.view.backgroundColor=DWColor(245, 245, 245);
     self.title = @"修改密码";
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
     // 告诉系统以后这张图片不进行默认的渲染

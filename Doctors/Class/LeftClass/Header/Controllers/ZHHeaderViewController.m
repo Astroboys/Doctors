@@ -44,7 +44,7 @@
      @{NSFontAttributeName:[UIFont systemFontOfSize:19],
        NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
-    self.view.backgroundColor = DWColor(243, 243, 243);
+   self.view.backgroundColor=DWColor(245, 245, 245);
     self.title = @"修改头像";
     
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
