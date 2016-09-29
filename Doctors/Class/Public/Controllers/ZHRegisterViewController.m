@@ -434,7 +434,7 @@
         [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
         return;
     }
-    if ([MethodUtil isCorrect:_identText.text]) {
+    if (![MethodUtil isCorrect:_identText.text]) {
         [MBManager showBriefMessage:@"输入的身份证号不合法" InView:self.view];
         return;
     }

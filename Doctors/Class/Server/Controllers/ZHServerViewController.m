@@ -41,7 +41,6 @@
     
     _infotab.delegate=self;
     _infotab.dataSource=self;
-    
     [self.view addSubview:_infotab];
     
 }
@@ -69,13 +68,18 @@
         
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.numberOfLines = 0;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+   
+    cell.textLabel.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.imageView.image=[UIImage imageNamed:@"healthIcon"];
     int random=arc4random_uniform(3);
     cell.textLabel.text=self.dataArr[random][0];
     cell.detailTextLabel.numberOfLines=0;
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:149/255.0 green:149/255.0 blue:149/255.0 alpha:1];
     cell.detailTextLabel.text=self.dataArr[random][1];
+    cell.detailTextLabel.numberOfLines = 1;
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
     cell.accessoryView = imageView;
     
@@ -112,7 +116,7 @@
 - (NSMutableArray *)dataArr {
     if(_dataArr == nil) {
         _dataArr = [NSMutableArray array];
-        NSArray *first=@[@"陈金明",@"先天性心脏病、风湿性心脏病、高血压"];
+        NSArray *first=@[@"陈金明",@"先天性心脏病、风湿性心脏病、高血压sadfasdfasdfasdfsdfasdfasdfasdfasdfasd"];
         NSArray *second=@[@"李国庆",@"先心病、冠心病、房颤以及各种心脏病"];
         NSArray *third=@[@"张立群",@"糖尿病1型"];
         [_dataArr addObject:first];
