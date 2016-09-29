@@ -19,6 +19,11 @@
 #define DWColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define DWRandomColor DWColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255))
 
+#define MANISCREENSIZE [UIScreen mainScreen].bounds.size
+#define KDeviceWidth [UIScreen mainScreen].bounds.size.width
+#define KDeviceHeight [UIScreen mainScreen].bounds.size.height
+//设备相关
+#define kDeviceWidth [UIScreen mainScreen].bounds.size.width
 
 #define isiPhone6P               ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? \
 CGSizeEqualToSize(CGSizeMake(1242, 2208), \
