@@ -9,7 +9,7 @@
 
 #import "ZHForgetViewController.h"
 #import "Masonry.h"
-
+#import "ZHVerifyCodeButton.h"
 @interface ZHForgetViewController ()
 {
     UIView *oneView;
@@ -17,6 +17,7 @@
     UIView *threeView;
     
     UITextField *codeText;
+    ZHVerifyCodeButton *codeBtn;
     UIButton *registerTwoBtn;
 
     UITextField *passwordText;
@@ -188,6 +189,12 @@
     [codeText setFont:[UIFont systemFontOfSize:14]];
     [twoView addSubview:codeText];
     
+    
+    codeBtn = [ZHVerifyCodeButton buttonWithType:UIButtonTypeCustom];
+    [codeBtn addTarget:self action:@selector(codeBtnVerification) forControlEvents:UIControlEventTouchUpInside];
+    [twoView addSubview:codeBtn];
+
+    
     lineTwoView=[[UIView alloc]init];
     lineTwoView.backgroundColor=[UIColor lightGrayColor];
     [twoView addSubview:lineTwoView];
@@ -225,7 +232,13 @@
         make.height.mas_equalTo(15);
     }];
     
-  
+    [codeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(twoView.mas_top).with.offset(80);
+        make.right.mas_equalTo(twoView.mas_right).with.offset(-30);
+        make.width.mas_equalTo(70);
+        make.height.mas_equalTo(30);
+    }];
+
     
     [lineTwoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(codeText.mas_bottom).with.offset(15);
@@ -331,9 +344,43 @@
     
 }
 
+- (void)codeBtnVerification {
+    
+    BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
+    if(!isMobile){
+        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+        return;
+    }
+    //type 1为注册 2为找回密码
+    NSDictionary *dic = @{@"memPhone":_phoneText.text,@"type":@"2"};
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error.userInfo);
+        
+    }];
+    
+    // 调用短信验证码接口
+    if(true){
+        
+        [codeBtn timeFailBeginFrom:60];  // 倒计时60s
+        
+    }else{
+        
+        [codeBtn timeFailBeginFrom:1]; // 处理请求成功但是匹配不成功的情况，并不需要执行倒计时功能
+    }
+}
 
 
 -(void)nextBtnClick{
+    BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
+    if(!isMobile){
+        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+        return;
+    }
 
     oneView.hidden = YES;
     twoView.hidden = NO;
@@ -341,6 +388,10 @@
 
 -(void)nextTwoBtnClick
 {
+    if(codeText.text.length<1){
+        [MBManager showBriefMessage:@"验证码不能为空" InView:self.view];
+        return;
+    }
     oneView.hidden = YES;
     twoView.hidden = YES;
     threeView.hidden = NO;
@@ -348,7 +399,15 @@
 
 -(void)nextThreeBtnClick
 {
-    
+    if (![passwordText.text isEqualToString:rePasswordText.text]) {
+        [MBManager showBriefMessage:@"两次密码输入不一致" InView:self.view];
+        return;
+    }
+    if (passwordText.text.length<1 || rePasswordText.text.length<1) {
+        [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
+        return;
+    }
+
 }
 -(void)forgetClickleft{
     

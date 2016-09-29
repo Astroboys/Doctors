@@ -312,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496753841.663297"
+            timestampString = "496822323.038796"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "420"
-            endingLineNumber = "420"
+            startingLineNumber = "425"
+            endingLineNumber = "425"
             landmarkName = "-registerAction"
             landmarkType = "5">
          </BreakpointContent>
@@ -328,11 +328,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496753841.663297"
+            timestampString = "496822323.038796"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "427"
-            endingLineNumber = "427"
+            startingLineNumber = "432"
+            endingLineNumber = "432"
             landmarkName = "-registerAction"
             landmarkType = "5">
          </BreakpointContent>
@@ -344,11 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Public/Controllers/ZHRegisterViewController.m"
-            timestampString = "496753841.663297"
+            timestampString = "496822323.038796"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
             landmarkName = "-registerAction"
             landmarkType = "5">
          </BreakpointContent>

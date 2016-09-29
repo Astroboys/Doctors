@@ -386,7 +386,14 @@
     }];
     
     // 调用短信验证码接口
+    if(true){
+        
         [self.codeBtn timeFailBeginFrom:60];  // 倒计时60s
+    
+    }else{
+    
+        [self.codeBtn timeFailBeginFrom:1]; // 处理请求成功但是匹配不成功的情况，并不需要执行倒计时功能
+    }
 }
 
 -(void)backToLogin{
@@ -409,9 +416,11 @@
         [MBManager showBriefMessage:@"两次密码输入不一致" InView:self.view];
         return;
     }
-    
-    [self.codeBtn timeFailBeginFrom:1]; // 处理请求成功但是匹配不成功的情况，并不需要执行倒计时功能
-    
+    if (_passwordText.text.length<1 || _repassText.text.length<1) {
+        [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
+        return;
+    }
+
     //性别暂为1
     NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":@"1",@"password":_passwordText.text};
     
@@ -430,6 +439,7 @@
 }
 -(void)registerClickleft{
 
+   
     [self.navigationController popViewControllerAnimated:YES];
 
 }
