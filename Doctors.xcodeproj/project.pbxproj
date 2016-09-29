@@ -158,6 +158,7 @@
 		A70137AD1D9CB55200D4B02D /* aboutIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137A91D9CB55200D4B02D /* aboutIcon@3x.png */; };
 		A70137AE1D9CB55200D4B02D /* aboutImg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137AA1D9CB55200D4B02D /* aboutImg@2x.png */; };
 		A70137AF1D9CB55200D4B02D /* aboutImg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A70137AB1D9CB55200D4B02D /* aboutImg@3x.png */; };
+		A70137BD1D9CEFC600D4B02D /* ZHFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A70137BC1D9CEFC600D4B02D /* ZHFeedbackViewController.m */; };
 		A70292AA1D93DF6900A32DF1 /* ZHVipInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A70292A91D93DF6900A32DF1 /* ZHVipInfoViewController.m */; };
 		A707FBB51D923B440021E7DB /* NetWorkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A707FBB21D923B440021E7DB /* NetWorkingManager.m */; };
 		A707FBB61D923B440021E7DB /* UIImage+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = A707FBB41D923B440021E7DB /* UIImage+Compression.m */; };
@@ -412,9 +413,6 @@
 		A7B1AB1F1D701F8F00B5D601 /* ZHDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAB11D701F8F00B5D601 /* ZHDiscoverViewController.m */; };
 		A7B1AB201D701F8F00B5D601 /* ZHDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAB11D701F8F00B5D601 /* ZHDiscoverViewController.m */; };
 		A7B1AB211D701F8F00B5D601 /* ZHDiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAB11D701F8F00B5D601 /* ZHDiscoverViewController.m */; };
-		A7B1AB281D701F8F00B5D601 /* ZHEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAC41D701F8F00B5D601 /* ZHEmailViewController.m */; };
-		A7B1AB291D701F8F00B5D601 /* ZHEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAC41D701F8F00B5D601 /* ZHEmailViewController.m */; };
-		A7B1AB2A1D701F8F00B5D601 /* ZHEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAC41D701F8F00B5D601 /* ZHEmailViewController.m */; };
 		A7B1AB2E1D701F8F00B5D601 /* ZHHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAD01D701F8F00B5D601 /* ZHHeaderViewController.m */; };
 		A7B1AB2F1D701F8F00B5D601 /* ZHHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAD01D701F8F00B5D601 /* ZHHeaderViewController.m */; };
 		A7B1AB301D701F8F00B5D601 /* ZHHeaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B1AAD01D701F8F00B5D601 /* ZHHeaderViewController.m */; };
@@ -802,6 +800,8 @@
 		A70137A91D9CB55200D4B02D /* aboutIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutIcon@3x.png"; sourceTree = "<group>"; };
 		A70137AA1D9CB55200D4B02D /* aboutImg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutImg@2x.png"; sourceTree = "<group>"; };
 		A70137AB1D9CB55200D4B02D /* aboutImg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "aboutImg@3x.png"; sourceTree = "<group>"; };
+		A70137BB1D9CEFC600D4B02D /* ZHFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHFeedbackViewController.h; sourceTree = "<group>"; };
+		A70137BC1D9CEFC600D4B02D /* ZHFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHFeedbackViewController.m; sourceTree = "<group>"; };
 		A70292A81D93DF6900A32DF1 /* ZHVipInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHVipInfoViewController.h; sourceTree = "<group>"; };
 		A70292A91D93DF6900A32DF1 /* ZHVipInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHVipInfoViewController.m; sourceTree = "<group>"; };
 		A707FBB11D923B440021E7DB /* NetWorkingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkingManager.h; sourceTree = "<group>"; };
@@ -1169,8 +1169,6 @@
 		A7B1AAAB1D701F8F00B5D601 /* ZHCustomerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCustomerViewController.m; sourceTree = "<group>"; };
 		A7B1AAB01D701F8F00B5D601 /* ZHDiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHDiscoverViewController.h; sourceTree = "<group>"; };
 		A7B1AAB11D701F8F00B5D601 /* ZHDiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHDiscoverViewController.m; sourceTree = "<group>"; };
-		A7B1AAC31D701F8F00B5D601 /* ZHEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHEmailViewController.h; sourceTree = "<group>"; };
-		A7B1AAC41D701F8F00B5D601 /* ZHEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHEmailViewController.m; sourceTree = "<group>"; };
 		A7B1AACF1D701F8F00B5D601 /* ZHHeaderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHeaderViewController.h; sourceTree = "<group>"; };
 		A7B1AAD01D701F8F00B5D601 /* ZHHeaderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHHeaderViewController.m; sourceTree = "<group>"; };
 		A7B1AAD51D701F8F00B5D601 /* ZHMterialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHMterialViewController.h; sourceTree = "<group>"; };
@@ -1898,6 +1896,23 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A70137B61D9CEF6A00D4B02D /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				A70137B71D9CEF6A00D4B02D /* Controllers */,
+			);
+			path = Feedback;
+			sourceTree = "<group>";
+		};
+		A70137B71D9CEF6A00D4B02D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A70137BB1D9CEFC600D4B02D /* ZHFeedbackViewController.h */,
+				A70137BC1D9CEFC600D4B02D /* ZHFeedbackViewController.m */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A70F01591D9A4AE000D921C8 /* Resources */ = {
@@ -2640,46 +2655,13 @@
 		A7B1AABA1D701F8F00B5D601 /* LeftClass */ = {
 			isa = PBXGroup;
 			children = (
-				A7B1AAC11D701F8F00B5D601 /* Email */,
 				A7B1AACD1D701F8F00B5D601 /* Header */,
+				A70137B61D9CEF6A00D4B02D /* Feedback */,
 				A7B1AAD31D701F8F00B5D601 /* Material */,
 				A70137A11D9CAA1100D4B02D /* About */,
 				A7B1AAE11D701F8F00B5D601 /* Passwords */,
 			);
 			path = LeftClass;
-			sourceTree = "<group>";
-		};
-		A7B1AAC11D701F8F00B5D601 /* Email */ = {
-			isa = PBXGroup;
-			children = (
-				A7B1AAC21D701F8F00B5D601 /* Controllers */,
-				A7B1AAC51D701F8F00B5D601 /* Models */,
-				A7B1AAC61D701F8F00B5D601 /* views */,
-			);
-			path = Email;
-			sourceTree = "<group>";
-		};
-		A7B1AAC21D701F8F00B5D601 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				A7B1AAC31D701F8F00B5D601 /* ZHEmailViewController.h */,
-				A7B1AAC41D701F8F00B5D601 /* ZHEmailViewController.m */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		A7B1AAC51D701F8F00B5D601 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		A7B1AAC61D701F8F00B5D601 /* views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = views;
 			sourceTree = "<group>";
 		};
 		A7B1AACD1D701F8F00B5D601 /* Header */ = {
@@ -3265,6 +3247,7 @@
 				A7B1AB6A1D701F8F00B5D601 /* ZHTabBar.m in Sources */,
 				A796F0401D98C019002B3F64 /* RecordView.m in Sources */,
 				285578A71D9BC883008CD582 /* MethodUtil.m in Sources */,
+				A70137BD1D9CEFC600D4B02D /* ZHFeedbackViewController.m in Sources */,
 				283CCA401D994D3D0064C6E8 /* NIMNormalTeamCardViewController.m in Sources */,
 				283CCA041D994D3D0064C6E8 /* NIMGroupedUsrInfo.m in Sources */,
 				A70F031A1D9A4E3500D921C8 /* NTESFileLocationHelper.m in Sources */,
@@ -3321,7 +3304,6 @@
 				283CCA341D994D3D0064C6E8 /* NIMSessionUnknowContentView.m in Sources */,
 				283CCA3C1D994D3D0064C6E8 /* NIMTeamInfoData.m in Sources */,
 				283CCA531D994D3E0064C6E8 /* NIMImageCache.m in Sources */,
-				A7B1AB281D701F8F00B5D601 /* ZHEmailViewController.m in Sources */,
 				A70F03081D9A4E3500D921C8 /* NTESSessionCustomContentConfig.m in Sources */,
 				283CCA4F1D994D3E0064C6E8 /* NIMAttributedLabel.m in Sources */,
 				285D09771D9A9FBE009D69AB /* NTESUserInfoSettingViewController.m in Sources */,
@@ -3538,7 +3520,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7B1AB291D701F8F00B5D601 /* ZHEmailViewController.m in Sources */,
 				A7B1AB5F1D701F8F00B5D601 /* ZHNavViewController.m in Sources */,
 				A7B1AB3B1D701F8F00B5D601 /* UIViewExt.m in Sources */,
 				A7B1AB1D1D701F8F00B5D601 /* ZHCustomerViewController.m in Sources */,
@@ -3565,7 +3546,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7B1AB2A1D701F8F00B5D601 /* ZHEmailViewController.m in Sources */,
 				A7B1AB601D701F8F00B5D601 /* ZHNavViewController.m in Sources */,
 				A7B1AB3C1D701F8F00B5D601 /* UIViewExt.m in Sources */,
 				A7B1AB1E1D701F8F00B5D601 /* ZHCustomerViewController.m in Sources */,

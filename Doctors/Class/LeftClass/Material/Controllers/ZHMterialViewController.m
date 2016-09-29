@@ -7,7 +7,6 @@
 //
 
 #import "ZHMterialViewController.h"
-#import "AddressPickView.h"
 #import "Masonry.h"
 #import "NetWorkingManager.h"
 
@@ -352,6 +351,8 @@
 }
 
 -(void)mterialClickright{
+    
+   // NSDictionary*dicInfo
     
     NSDictionary *dic = @{@"name":_nameText.text,@"mobile":_nichengText.text,@"sex":@"1",@"mobile":_phoneText,@"email":_emailText.text};
 
