@@ -22,6 +22,7 @@
     UIImage *teamImage;
     
 }
+
 @property(nonatomic,strong)UIButton*addBtn;
 
 @property(nonatomic,strong)UITextField*circleName;
@@ -67,6 +68,7 @@
 
 -(void)setupUI{
     
+    
     _addBtn=[[UIButton alloc]init];
     [_addBtn setImage:[UIImage imageNamed:@"addIcon"] forState:UIControlStateNormal];
     [_addBtn addTarget:self action:@selector(touchbtn1) forControlEvents:UIControlEventTouchUpInside];
@@ -106,6 +108,14 @@
     _imagePickerController.allowsEditing = YES;
     
 }
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    [self.circleName resignFirstResponder];
+    [self.circleIntroduce resignFirstResponder];
+    
+}
+
 -(void)createAction
 {
     __weak typeof(self) wself = self;
@@ -135,6 +145,7 @@
     }];
 
 }
+
 -(void)setupFrame{
     
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -183,7 +194,7 @@
         make.right.mas_equalTo(self.view.mas_right).with.offset(-30);
         make.left.mas_equalTo(self.view.mas_left).with.offset(30);
     }];
-    
+
 }
 
 - (void)selectImageFromCamera
