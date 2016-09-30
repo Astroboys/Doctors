@@ -52,13 +52,17 @@
     
     _versionLbl=[[UILabel alloc]init];
     _versionLbl.text=@"当前版本 v3.1.0";
+    
     [_versionLbl setFont:[UIFont systemFontOfSize:16]];
     [_versionLbl setTextAlignment:NSTextAlignmentCenter];
+    _versionLbl.textColor=DWColor(85, 85, 85);
     [self.view addSubview:_versionLbl];
-    
-    _aboutTextView=[[UITextView alloc]init];
+        _aboutTextView=[[UITextView alloc]init];
     _aboutTextView.editable=NO;
     _aboutTextView.text=@"        天使团队借鉴国外成熟的健康管理模式，又结合中国国情和现状，创造性地推出了适合中国人就医观念的健康管理新模式——天使健康管理（HEAP），以临床医学、预防医学、社会医学、中医养生学、心理学、运动学、营养学等理论知识为核心，通过专业技术人员对客户健康状况、重大疾病风险、心理特质等进行评估分析，继而提供个性化的健康处方、养生保健、慢病管理、名医预约等增值服务，帮助客户将病症消除在萌芽状态，始终保持良好的健康与活力。开启了中国大陆健康行业的新天地，深获各界好评。";
+    _aboutTextView.textColor=DWColor(85, 85, 85);
+    _aboutTextView.showsVerticalScrollIndicator=NO;
+    _aboutTextView.backgroundColor=DWColor(245, 245, 245);
     [_aboutTextView setFont:[UIFont systemFontOfSize:16]];
     [self.view addSubview:_aboutTextView];
  
@@ -67,11 +71,15 @@
     
     _companyLbl=[[UILabel alloc]init];
     _companyLbl.text=@"天使健康管理有限公司";
+    _companyLbl.textColor=DWColor(85, 85, 85);
+    [_companyLbl setFont:[UIFont systemFontOfSize:14]];
     [_companyLbl setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:_companyLbl];
     
     _eCompanyLbl=[[UILabel alloc]init];
     _eCompanyLbl.text=@"Angel Health Management.Ltd";
+    [_eCompanyLbl setFont:[UIFont systemFontOfSize:14]];
+     _eCompanyLbl.textColor=DWColor(85, 85, 85);
     [_eCompanyLbl setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:_eCompanyLbl];
     
@@ -108,6 +116,7 @@
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.height.mas_equalTo(30);
     }];
+    
     [self.companyLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self.eCompanyLbl.mas_top).with.offset(-10);
         make.width.mas_equalTo(kWidth-60);

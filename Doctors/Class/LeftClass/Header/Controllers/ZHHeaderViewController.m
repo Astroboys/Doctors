@@ -37,7 +37,6 @@
         UIImage * image = [UIImage imageWithData:data];
         _iconView.image=image;
         
-        
     }
     
     [self.navigationController.navigationBar setTitleTextAttributes:
@@ -149,7 +148,6 @@
     [_iconView.layer setMasksToBounds:YES];
     _iconView.image=[UIImage imageNamed:@"changeIcons"];
 
-    
     UIButton*iconBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
     iconBtn.backgroundColor=[UIColor clearColor];
     [iconBtn.layer setCornerRadius:50];
@@ -157,7 +155,7 @@
     [self.view  addSubview:_iconView];
     [self.view addSubview:iconBtn];
     
-    UIButton*tixingBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-200)*0.5, 200, 200, 30)];
+    UIButton*tixingBtn=[[UIButton alloc]initWithFrame:CGRectMake(30, 200, kWidth-60, 35)];
     
     tixingBtn.backgroundColor=[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] ;
     [tixingBtn setTitle:@"修改头像" forState:UIControlStateNormal];
@@ -178,7 +176,6 @@
                                                                        preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
-        
     }]];
     [self presentViewController:alertController animated:YES completion:nil];
     
@@ -192,8 +189,6 @@
     //添加Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //处理点击拍照
-        
-        
         
         [self selectImageFromCamera];
     }]];

@@ -58,12 +58,12 @@
    //_firstView=[[UIView alloc]initWithFrame:CGRectMake(0, 94,kWidth, 250)];
     _firstView=[[UIView alloc]init];
     _firstView.backgroundColor=[UIColor whiteColor];
-    //_firstView.backgroundColor =[UIColor yellowColor];
-    
 
     UILabel*yuanshiLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 0, 80, 50)];
     yuanshiLbl.text =@"原始密码:";
+    [yuanshiLbl setFont:[UIFont systemFontOfSize:16]];
     _yuanshiText=[[UITextField alloc]initWithFrame:CGRectMake(100,0 , kWidth-80-20, 50)];
+    [_yuanshiText setFont:[UIFont systemFontOfSize:16]];
     _yuanshiText.placeholder =@"请输入原密码";
     [self.firstView addSubview:yuanshiLbl];
     [self.firstView addSubview:_yuanshiText];
@@ -71,27 +71,31 @@
     //昵称
     UILabel*xinsheLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 50, 80, 50)];
     xinsheLbl.text =@"新设密码:";
+    [xinsheLbl setFont:[UIFont systemFontOfSize:16]];
     _xinsheText=[[UITextField alloc]initWithFrame:CGRectMake(100,50 , kWidth-80-20, 50)];
     _xinsheText.placeholder =@"请输入新密码";
+    [_xinsheText setFont:[UIFont systemFontOfSize:16]];
     [self.firstView addSubview:_xinsheText];
     [self.firstView addSubview:xinsheLbl];
     
     //性别
     UILabel*moreLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, 80, 50)];
     moreLbl.text =@"重复密码:";
+    [moreLbl setFont:[UIFont systemFontOfSize:16]];
     _moreText=[[UITextField alloc]initWithFrame:CGRectMake(100,100 , kWidth-80-20, 50)];
     _moreText.placeholder =@"请输入新密码";
+    [_moreText setFont:[UIFont systemFontOfSize:16]];
     [self.firstView addSubview:moreLbl];
     [self.firstView addSubview:_moreText];
     
     [self.view addSubview:_firstView];
     
-    UIButton*quereBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 180, kWidth-40, 30)];
+    UIButton*quereBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 230, kWidth-40, 35)];
     
     quereBtn.backgroundColor=[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] ;
     [quereBtn addTarget:self action:@selector(quereAction) forControlEvents:UIControlEventTouchUpInside];
     [quereBtn setTitle:@"确认修改" forState:UIControlStateNormal];
-    
+     [quereBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [quereBtn.layer setCornerRadius:5];
     [quereBtn.layer setMasksToBounds:YES];
     

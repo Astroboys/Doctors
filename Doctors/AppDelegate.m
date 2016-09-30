@@ -18,8 +18,6 @@
 #import "NIMSDK.h"
 #import <IQKeyboardManager.h>
 #import "ZHLoginViewController.h"
-
-
 #import "DataProvider.h"
 #import "AttachmentDecoder.h"
 #import "UConfig.h"
@@ -51,14 +49,16 @@
     drawerVc.openDrawerGestureModeMask = MMOpenDrawerGestureModeNone;
     drawerVc.closeDrawerGestureModeMask = MMCloseDrawerGestureModeAll;
     
-    if ([UConfig getLoginCode].length==0) {
-        
-        [self setupLoginViewController];
-        
-    }else{
+//    if ([UConfig getLoginCode].length==0) {
+//        
+//        [self setupLoginViewController];
+//        
+//    }else{
+//    
+//        self.window.rootViewController=drawerVc;
+//    }
     
-        self.window.rootViewController=drawerVc;
-    }
+    self.window.rootViewController=drawerVc;
     
     self.window.backgroundColor = [UIColor whiteColor];
     
