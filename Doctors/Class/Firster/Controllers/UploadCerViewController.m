@@ -28,6 +28,8 @@
     [super viewDidLoad];
     imageDic = [NSMutableDictionary dictionary];
     [imageDic setObject:@"" forKey:@"0"];
+    
+//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
     UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(36, 0, KDeviceWidth - 72, 40)];
     descLabel.text = @"请如实填写您本人的身份信息和相关证件文件，以认证为实名专家！";

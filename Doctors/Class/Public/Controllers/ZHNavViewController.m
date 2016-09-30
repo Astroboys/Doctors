@@ -48,7 +48,12 @@
 {
     if (self.viewControllers.count > 0) { // 如果现在push的不是栈底控制器
         viewController.hidesBottomBarWhenPushed = YES;
+        
+        [self.navigationBar setTintColor:[UIColor whiteColor]];
+        viewController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
     }
+    
     
     [super pushViewController:viewController animated:animated];
 }

@@ -216,7 +216,7 @@
                   moduleName = "Doctors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhonghe/Doctors/NIMKit/Classes/Sections/Team/NIMAdvancedTeamCardViewController.m"
-                  timestampString = "496843058.967288"
+                  timestampString = "496891201.001911"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "846"
@@ -231,7 +231,7 @@
                   moduleName = "Doctors"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/zhonghe/Doctors/NIMKit/Classes/Sections/Team/NIMAdvancedTeamCardViewController.m"
-                  timestampString = "496843058.967472"
+                  timestampString = "496891201.002059"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "847"
@@ -335,38 +335,6 @@
             endingLineNumber = "332"
             landmarkName = "-loginsbtn"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ZHLoginViewController loginsbtn]"
-                  moduleName = "Doctors"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
-                  timestampString = "496843058.972595"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "332"
-                  endingLineNumber = "332"
-                  offsetFromSymbolStart = "688">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__34-[ZHLoginViewController loginsbtn]_block_invoke"
-                  moduleName = "Doctors"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
-                  timestampString = "496843058.97279"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "333"
-                  endingLineNumber = "333"
-                  offsetFromSymbolStart = "58">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -392,11 +360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Doctors/Class/Firster/Controllers/UploadCerViewController.m"
-            timestampString = "496808828.607244"
+            timestampString = "496890852.620586"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "-imagePickerController:didFinishPickingMediaWithInfo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -479,6 +447,53 @@
             endingLineNumber = "346"
             landmarkName = "-loginsbtn"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[ZHLoginViewController loginsbtn]_block_invoke_2"
+                  moduleName = "Doctors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
+                  timestampString = "496891201.011868"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "347"
+                  endingLineNumber = "347"
+                  offsetFromSymbolStart = "125">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__copy_helper_block_.302"
+                  moduleName = "Doctors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
+                  timestampString = "496891201.012036"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "347"
+                  endingLineNumber = "347"
+                  offsetFromSymbolStart = "51">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.303"
+                  moduleName = "Doctors"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
+                  timestampString = "496891201.01221"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "347"
+                  endingLineNumber = "347"
+                  offsetFromSymbolStart = "29">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -495,38 +510,6 @@
             endingLineNumber = "340"
             landmarkName = "-loginsbtn"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__34-[ZHLoginViewController loginsbtn]_block_invoke"
-                  moduleName = "Doctors"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
-                  timestampString = "496843101.890583"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "340"
-                  endingLineNumber = "340"
-                  offsetFromSymbolStart = "321">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__34-[ZHLoginViewController loginsbtn]_block_invoke_2"
-                  moduleName = "Doctors"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/zhonghe/Doctors/Doctors/Class/Public/Controllers/ZHLoginViewController.m"
-                  timestampString = "496843101.890885"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "341"
-                  endingLineNumber = "341"
-                  offsetFromSymbolStart = "44">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
