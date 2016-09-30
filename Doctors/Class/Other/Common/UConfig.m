@@ -38,18 +38,16 @@
 
 +(void)setPersonInfo:(NSDictionary *)personInfo
 {
-    NSData *data =[NSJSONSerialization dataWithJSONObject:personInfo options:NSJSONWritingPrettyPrinted error:nil];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:data forKey:@"LNPersonInfo"];
+    [userDefault setObject:personInfo forKey:@"LNPersonInfo"];
     [userDefault synchronize];
 }
 
 +(NSDictionary *)getPersonInfo
 {
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    NSData *data = [userDef objectForKey:@"LNPersonInfo"];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    return dict;
+    NSDictionary *dic = [userDef objectForKey:@"LNPersonInfo"];
+    return dic;
 }
 
 +(void)setLoginCode:(NSString *)loginCode

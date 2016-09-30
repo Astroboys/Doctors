@@ -41,7 +41,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
-    
     YCLeftViewController*leftVc = [[YCLeftViewController alloc] init];
     ZHNavViewController*leftNav=[[ZHNavViewController alloc]initWithRootViewController:leftVc];
     ZHTabViewController*tabNav=[[ZHTabViewController alloc]init];

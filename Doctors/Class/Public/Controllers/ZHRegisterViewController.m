@@ -17,6 +17,7 @@
 @interface ZHRegisterViewController ()
 {
     NSString *sexStr;
+    int checkCode;
 }
 @property(nonatomic,strong)UIView*registerView;
 @property(nonatomic,strong)UILabel*titleLbl;
@@ -405,6 +406,11 @@
         
     } success:^(BOOL isSuccess, id responseObject) {
         NSLog(@"%@",responseObject);
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *checkCodeStr = responseObject[@"code"];
+            checkCode = checkCodeStr.intValue;
+
+        }
     } failure:^(NSError *error) {
         NSLog(@"%@",error.userInfo);
 
@@ -444,6 +450,10 @@
     }
     if (_passwordText.text.length<1 || _repassText.text.length<1) {
         [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
+        return;
+    }
+    if (_testText.text.length<1 || checkCode != _testText.text.intValue) {
+        [MBManager showBriefMessage:@"验证码不能为空或验证码不正确" InView:self.view];
         return;
     }
 
