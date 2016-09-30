@@ -53,20 +53,20 @@
     
    self.view.backgroundColor=DWColor(245, 245, 245);
 
-   _merdict=[UConfig getPersonInfo];
-    NSLog(@"%111111111111@",_merdict);
-
-    if (_merdict!=nil) {
-        
-        _nameText.text=self.merdict[@"name"];
-        NSLog(@"%@",self.nameText.text);
-        self.phoneText.text=_merdict[@"mobile"];
-        self.emailText.text=_merdict[@"email"];
-        self.jobText.text=_merdict[@"job"];
-        self.addText.text=_merdict[@"code"];
-        
-    }
-    NSLog(@"%@",_merdict);
+//   _merdict=[UConfig getPersonInfo];
+//    NSLog(@"%111111111111@",_merdict);
+//
+//    if (_merdict!=nil) {
+//        
+//        _nameText.text=self.merdict[@"name"];
+//        NSLog(@"%@",self.nameText.text);
+//        self.phoneText.text=_merdict[@"mobile"];
+//        self.emailText.text=_merdict[@"email"];
+//        self.jobText.text=_merdict[@"job"];
+//        self.addText.text=_merdict[@"code"];
+//        
+//    }
+//    NSLog(@"%@",_merdict);
         self.title = @"基本资料";
         [self.navigationController.navigationBar setTitleTextAttributes:
          @{NSFontAttributeName:[UIFont systemFontOfSize:19],
@@ -104,6 +104,9 @@
 -(void)setupUI{
     
     _mterScroView=[[UIScrollView alloc]init];
+    _mterScroView.showsVerticalScrollIndicator=NO;
+    _mterScroView.showsHorizontalScrollIndicator=NO;
+    _mterScroView.bounces=NO;
        //姓名
     _nameLbl=[[UILabel alloc]init];
     [_nameLbl setFont:[UIFont systemFontOfSize:16]];
@@ -146,7 +149,7 @@
     //出生日期
     _birLbl=[[UILabel alloc]init];
     _birLbl.text =@"出生日期:";
-    [_birLbl setTextAlignment:NSTextAlignmentRight];
+    [_birLbl setTextAlignment:NSTextAlignmentLeft];
     [_birLbl setFont:[UIFont systemFontOfSize:16]];
     
     _birText=[[UILabel alloc]init];
@@ -159,7 +162,7 @@
     //手机号
     _phoneLbl=[[UILabel alloc]init];
     _phoneLbl.text =@"手机号:";
-    [_phoneLbl setTextAlignment:NSTextAlignmentRight];
+    [_phoneLbl setTextAlignment:NSTextAlignmentLeft];
     [_phoneLbl setFont:[UIFont systemFontOfSize:16]];
     _phoneText=[[UILabel alloc]init];
     _phoneText.text=@"13532238947";
@@ -170,7 +173,7 @@
     //电子邮箱
     _emailLbl=[[UILabel alloc]init];
     _emailLbl.text =@"电子邮箱:";
-    [_emailLbl setTextAlignment:NSTextAlignmentRight];
+    [_emailLbl setTextAlignment:NSTextAlignmentLeft];
     [_emailLbl setFont:[UIFont systemFontOfSize:16]];
 
     _emailText=[[UITextField alloc]init];
@@ -184,7 +187,7 @@
     //工作单位
     _jobLbl=[[UILabel alloc]init];
     _jobLbl.text =@"工作单位:";
-    [_jobLbl setTextAlignment:NSTextAlignmentRight];
+    [_jobLbl setTextAlignment:NSTextAlignmentLeft];
     [_jobLbl setFont:[UIFont systemFontOfSize:16]];
 
     _jobText=[[UITextField alloc]init];
@@ -196,7 +199,7 @@
     //通信地址
     _addLbl=[[UILabel alloc]init];
     _addLbl.text =@"通信地址:";
-    [_addLbl setTextAlignment:NSTextAlignmentRight];
+    [_addLbl setTextAlignment:NSTextAlignmentLeft];
     [_addLbl setFont:[UIFont systemFontOfSize:16]];
     
     _addText=[[UITextField alloc]init];
@@ -208,7 +211,7 @@
     //邮编
     _codeLbl=[[UILabel alloc]init];
     _codeLbl.text =@"邮编:";
-    [_codeLbl setTextAlignment:NSTextAlignmentRight];
+    [_codeLbl setTextAlignment:NSTextAlignmentLeft];
     [_codeLbl setFont:[UIFont systemFontOfSize:16]];
     _codeText=[[UITextField alloc]init];
     [_codeText setFont:[UIFont systemFontOfSize:16]];
@@ -224,8 +227,8 @@
     
     [self.mterScroView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top);
-        make.left.mas_equalTo(self.view.mas_left).with.offset(5);
-        make.right.mas_equalTo(self.view.mas_right).with.offset(-5);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
         make.bottom.mas_equalTo(self.view.mas_bottom);
         
     }];

@@ -160,7 +160,7 @@
             make.left.mas_equalTo(self.view.mas_left);
             make.width.mas_equalTo(kWidth);
             make.height.mas_equalTo(200);
-            //self.loginView.backgroundColor=[UIColor redColor];
+
         }];
         
         [self.loginImg mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -212,7 +212,6 @@
             make.left.mas_equalTo(self.view.mas_left);
             make.width.mas_equalTo(kWidth);
             make.height.mas_equalTo(180);
-            //self.loginBtnView.backgroundColor=[UIColor blueColor];
         }];
         
         [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {

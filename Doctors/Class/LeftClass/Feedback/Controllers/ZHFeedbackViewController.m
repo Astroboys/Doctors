@@ -50,9 +50,11 @@
 -(void)setupUI{
 
     _feedbackView=[[UITextView alloc]init];
+    [_feedbackView setFont:[UIFont systemFontOfSize:16]];
     [self.view addSubview:_feedbackView];
     
     _phoneText=[[UITextField alloc]init];
+    [_phoneText setFont:[UIFont systemFontOfSize:16]];
     _phoneText.backgroundColor=[UIColor whiteColor];
     _phoneText.placeholder=@"点击输入您的联系方式（必填）";
 
@@ -63,11 +65,19 @@
     [_feedbackBtn addTarget:self action:@selector(feedbackBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [_feedbackBtn setTintColor:[UIColor whiteColor]];
     _feedbackBtn.backgroundColor=DWColor(80, 198, 238);
+    [_feedbackBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     _feedbackBtn.clipsToBounds=YES;
     [_feedbackBtn.layer setCornerRadius:5];
     [self.view addSubview:_feedbackBtn];
 
 }
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    [self.feedbackView resignFirstResponder];
+    [self.phoneText resignFirstResponder];
+}
+
 -(void)feedbackBtnAction
 {
     if(_phoneText.text.length<1) {
@@ -118,7 +128,5 @@
     }];
 
 }
-
-
 
 @end

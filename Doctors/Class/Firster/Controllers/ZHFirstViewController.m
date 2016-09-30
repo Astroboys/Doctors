@@ -178,9 +178,10 @@
     _detailLbl=[[UILabel alloc]init];
     [_guanzhula setFont:[UIFont systemFontOfSize:14]];
     _detailLbl.text=@"详情介绍:";
+    _detailLbl.textColor=DWColor(24, 144, 203);
     [_detailLbl setFont:[UIFont systemFontOfSize:16]];
+    
     _detailtab=[[UITableView alloc]init];
-
     [_lastView addSubview:self.detailLbl];
     [_lastView addSubview:self.detailtab];
     _detailtab.delegate=self;
@@ -205,7 +206,7 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
     cell.textLabel.text=self.dataArr[indexPath.row];
-    [cell.textLabel setFont:[UIFont systemFontOfSize:15]];
+    [cell.textLabel setFont:kFont(14)];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.imageView.image=[UIImage imageNamed:_dataImageArr[indexPath.row]];
     return cell;
@@ -228,7 +229,7 @@
         
     }else if (isiPhone5){
         
-        return 40;
+        return 35;
         
     }else{
         

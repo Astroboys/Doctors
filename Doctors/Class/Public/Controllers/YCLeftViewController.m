@@ -47,7 +47,6 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     
     self.navigationController.delegate=self;
     
-    
     _totalView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
     self.totalView.backgroundColor
     =[UIColor colorWithRed:40/255.0 green:128/255.0 blue:194/255.0 alpha:1];

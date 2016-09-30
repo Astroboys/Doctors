@@ -37,7 +37,6 @@
         UIImage * image = [UIImage imageWithData:data];
         _iconView.image=image;
         
-        
     }
     
     [self.navigationController.navigationBar setTitleTextAttributes:
@@ -157,7 +156,7 @@
     [self.view  addSubview:_iconView];
     [self.view addSubview:iconBtn];
     
-    UIButton*tixingBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-200)*0.5, 200, 200, 30)];
+    UIButton*tixingBtn=[[UIButton alloc]initWithFrame:CGRectMake(30, 200, kWidth-60, 35)];
     
     tixingBtn.backgroundColor=[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] ;
     [tixingBtn setTitle:@"修改头像" forState:UIControlStateNormal];
