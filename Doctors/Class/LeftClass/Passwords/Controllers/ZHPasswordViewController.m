@@ -58,8 +58,6 @@
    //_firstView=[[UIView alloc]initWithFrame:CGRectMake(0, 94,kWidth, 250)];
     _firstView=[[UIView alloc]init];
     _firstView.backgroundColor=[UIColor whiteColor];
-    //_firstView.backgroundColor =[UIColor yellowColor];
-    
 
     UILabel*yuanshiLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 0, 80, 50)];
     yuanshiLbl.text =@"原始密码:";

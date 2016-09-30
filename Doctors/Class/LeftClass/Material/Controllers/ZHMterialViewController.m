@@ -141,10 +141,7 @@
     _sexSeg.tintColor = DWColor(70, 70, 70);
     [_sexSeg addTarget:self action:@selector(segmentedAction:) forControlEvents:UIControlEventValueChanged]; //添加事件
     [self.mterScroView addSubview:_sexSeg];
-
-
     [self.mterScroView addSubview:_sexLbl];
-    [self.mterScroView addSubview:_sexSeg];
     
     //出生日期
     _birLbl=[[UILabel alloc]init];
@@ -352,7 +349,6 @@
         make.right.equalTo(self.view.mas_right).with.offset(-20);
     }];
     [self.mterScroView.superview layoutIfNeeded];
-
 
     CGFloat scroH=CGRectGetMaxY(self.codeText.frame);
        NSLog(@"%f",scroH);

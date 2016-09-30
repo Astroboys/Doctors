@@ -148,7 +148,6 @@
     [_iconView.layer setMasksToBounds:YES];
     _iconView.image=[UIImage imageNamed:@"changeIcons"];
 
-    
     UIButton*iconBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
     iconBtn.backgroundColor=[UIColor clearColor];
     [iconBtn.layer setCornerRadius:50];
@@ -177,7 +176,6 @@
                                                                        preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         
-        
     }]];
     [self presentViewController:alertController animated:YES completion:nil];
     
@@ -191,8 +189,6 @@
     //添加Button
     [alertController addAction: [UIAlertAction actionWithTitle: @"拍照" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //处理点击拍照
-        
-        
         
         [self selectImageFromCamera];
     }]];

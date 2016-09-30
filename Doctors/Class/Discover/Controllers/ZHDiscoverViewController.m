@@ -148,8 +148,6 @@ static NSString *ID=@"cell";
    
    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-//    [cell HealthycircleCellWithObject:model];
     
     return cell;
 }

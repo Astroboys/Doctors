@@ -176,10 +176,9 @@
     _lastView.backgroundColor=[UIColor whiteColor];
     
     _detailLbl=[[UILabel alloc]init];
-    [_guanzhula setFont:[UIFont systemFontOfSize:14]];
+    [_detailLbl setFont:[UIFont systemFontOfSize:14]];
     _detailLbl.text=@"详情介绍:";
     _detailLbl.textColor=DWColor(24, 144, 203);
-    [_detailLbl setFont:[UIFont systemFontOfSize:16]];
     
     _detailtab=[[UITableView alloc]init];
     [_lastView addSubview:self.detailLbl];

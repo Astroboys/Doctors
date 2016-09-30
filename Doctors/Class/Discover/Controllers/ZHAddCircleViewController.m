@@ -68,7 +68,6 @@
 
 -(void)setupUI{
     
-    
     _addBtn=[[UIButton alloc]init];
     [_addBtn setImage:[UIImage imageNamed:@"addIcon"] forState:UIControlStateNormal];
     [_addBtn addTarget:self action:@selector(touchbtn1) forControlEvents:UIControlEventTouchUpInside];
@@ -82,7 +81,6 @@
     _LineView=[[UIView alloc]init];
     _LineView.backgroundColor=[UIColor lightGrayColor];
     [self.view addSubview:_LineView];
-    
     
     _circleIntroduce=[[UITextField alloc]init];
     [self.view addSubview:_circleIntroduce];
@@ -99,7 +97,6 @@
     _createBtn.clipsToBounds=YES;
     _createBtn.userInteractionEnabled = YES;
     [_createBtn addTarget:self action:@selector(createAction) forControlEvents:UIControlEventTouchUpInside];
-
     [self.view addSubview:_createBtn];
     
     _imagePickerController = [[UIImagePickerController alloc] init];
@@ -139,6 +136,7 @@
             NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
             [wself.navigationController pushViewController:vc animated:YES];
             [wself uploadTeamImage:teamId];
+            
         }else{
             [wself.view makeToast:@"创建失败" duration:2.0 position:CSToastPositionCenter];
         }
@@ -264,7 +262,6 @@
                           cancelButtonTitle:@"确定"
                           otherButtonTitles:nil] show];
         return;
-        
     }
 }
 
@@ -311,8 +308,6 @@
         
         //创建一个选择后图片的小图标放在下方
         //类似微薄选择图后的效果
-        
-        
     } 
     
 }
@@ -329,7 +324,6 @@
             if (!error && wself) {
                 [[NIMSDK sharedSDK].teamManager updateTeamAvatar:urlString teamId:teamID completion:^(NSError *error) {
                     if (!error) {
-
                         
                     }else{
                         [wself.view nimkit_makeToast:@"设置头像失败，请重试"
@@ -350,7 +344,6 @@
                            position:NIMKitToastPositionCenter];
     }
 }
-
 
 
 -(void)touchbtn1{
@@ -386,9 +379,6 @@
 }
 
 -(void)addCirclepop{
-
-    
-    
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -396,15 +386,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
