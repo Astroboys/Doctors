@@ -51,18 +51,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = DWColor(243, 243, 243);
+   self.view.backgroundColor=DWColor(245, 245, 245);
 
    _merdict=[UConfig getPersonInfo];
     NSLog(@"%111111111111@",_merdict);
 
     if (_merdict!=nil) {
         
-        self.nameText.text=_merdict[@"name"];
+        _nameText.text=self.merdict[@"name"];
+        NSLog(@"%@",self.nameText.text);
         self.phoneText.text=_merdict[@"mobile"];
         self.emailText.text=_merdict[@"email"];
         self.jobText.text=_merdict[@"job"];
         self.addText.text=_merdict[@"code"];
+        
     }
     NSLog(@"%@",_merdict);
         self.title = @"基本资料";
@@ -381,6 +383,7 @@
     //点击保存 储存
     NSDictionary*meteDict= @{@"name":_nameText.text,@"sex":@"1",@"mobile":_phoneText.text,@"email":_emailText.text,@"job":_jobText.text,@"add":_addText.text,@"code":_codeText.text};
     [UConfig setPersonInfo:meteDict];
+    
     
     NSDictionary *dic = @{@"name":_nameText.text,@"mobile":_nichengText.text,@"sex":@"1",@"mobile":_phoneText.text,@"email":_emailText.text};
 
