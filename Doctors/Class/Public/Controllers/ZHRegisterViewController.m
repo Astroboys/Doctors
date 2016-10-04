@@ -29,6 +29,11 @@
 @property(nonatomic,strong)UITextField*testText;
 @property(nonatomic,strong)UIView*lineView2;
 
+
+@property(nonatomic,strong)UILabel*nameLbl;
+@property(nonatomic,strong)UITextField*nameText;
+@property(nonatomic,strong)UIView*lineView1;
+
 @property(nonatomic,strong)UILabel*identLbl;
 @property(nonatomic,strong)UITextField*identText;
 @property(nonatomic,strong)UIView*lineView3;
@@ -59,7 +64,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor=[UIColor lightGrayColor];
+    self.view.backgroundColor=[UIColor whiteColor];
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -114,6 +119,23 @@
     _lineView2=[[UIView alloc]init];
     _lineView2.backgroundColor=[UIColor lightGrayColor];
     [self.registerView addSubview:_lineView2];
+    
+    
+    _nameLbl=[[UILabel alloc]init];
+    _nameLbl.text=@"姓名";
+    [_nameLbl setFont:[UIFont systemFontOfSize:14]];
+    [self.registerView addSubview:_nameLbl];
+    
+    _nameText=[[UITextField alloc]init];
+    _nameText.placeholder=@"请输您的真实姓名";
+    [_nameText setFont:[UIFont systemFontOfSize:14]];
+    [self.registerView addSubview:_nameText];
+    
+    _lineView1=[[UIView alloc]init];
+    _lineView1.backgroundColor=[UIColor lightGrayColor];
+    [self.registerView addSubview:_lineView1];
+
+    
     
     _identLbl=[[UILabel alloc]init];
     _identLbl.text=@"身份证";
@@ -272,15 +294,38 @@
         make.height.mas_equalTo(1);
     }];
     
-    [self.identLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineView2.mas_bottom).with.offset(15);
         make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
     
-    [self.identText mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.nameText mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineView2.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(self.identLbl.mas_right).with.offset(5);
+        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(15);
+    }];
+
+    [self.lineView1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.nameText.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
+        make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
+        make.height.mas_equalTo(1);
+    }];
+
+    
+    [self.identLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lineView1.mas_bottom).with.offset(15);
+        make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(15);
+    }];
+    
+    [self.identText mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.lineView1.mas_bottom).with.offset(15);
         make.left.mas_equalTo(self.identLbl.mas_right).with.offset(5);
         make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
         make.height.mas_equalTo(15);
@@ -369,7 +414,7 @@
         make.top.equalTo(self.lineView6.mas_bottom).with.offset(15);
         make.left.mas_equalTo(self.registerView.mas_left).with.offset(30);
         make.right.mas_equalTo(self.registerView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     [self.backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -401,7 +446,7 @@
     }
     //type 1为注册 2为找回密码
     NSDictionary *dic = @{@"mobile":_phoneText.text,@"type":@"1"};
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/getCode"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
@@ -456,7 +501,10 @@
         [MBManager showBriefMessage:@"验证码不能为空或验证码不正确" InView:self.view];
         return;
     }
-
+    if (_nameText.text.length<1) {
+        [MBManager showBriefMessage:@"姓名不能为空" InView:self.view];
+        return;
+    }
     //性别
     NSString *sexCode;
     if ([sexStr isEqualToString:@"男"]) {
@@ -467,7 +515,7 @@
     
     
     
-    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":sexCode,@"password":_passwordText.text};
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":sexCode,@"password":_passwordText.text,@"name":_nameText.text};
     
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/addDoctor"] withParamters:dic withProgress:^(float progress) {
         

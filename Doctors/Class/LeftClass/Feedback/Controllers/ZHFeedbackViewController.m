@@ -91,14 +91,16 @@
 
     [MBManager showLoadingInView:self.view];
     NSDictionary *dic = @{@"content":self.feedbackView.text,@"createBy":_phoneText.text};
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"/app/opinion/addOpinion"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
         [MBManager hideAlert];
+        [MBManager showBriefMessage:@"发送成功" InView:self.view];
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
         [MBManager hideAlert];
+        [MBManager showBriefMessage:@"发送失败" InView:self.view];
         NSLog(@"%@",error.userInfo);
         
     }];

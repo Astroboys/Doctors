@@ -13,7 +13,9 @@
 static NSString *ID=@"cell";
 
 @interface DiagnoseView()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    NSArray *dataArray;
+}
 @property(nonatomic,strong)UITableView*diatabView;
 
 @property(nonatomic,strong)NSArray*dataArr;
@@ -30,7 +32,38 @@ static NSString *ID=@"cell";
     }
     return self;
 }
+-(void)setCustomId:(NSString *)customId
+{
+    _customId = customId;
+    if (self.customId.intValue>0) {
+        NSDictionary *dic = @{@"customerId":customId};
+        
+        
+        dispatch_queue_t diagnose = dispatch_queue_create("diagnose", NULL);
 
+        dispatch_async(diagnose, ^{
+            [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/allotCustToDoc"] withParamters:dic withProgress:^(float progress) {
+                
+            } success:^(BOOL isSuccess, id responseObject) {
+                
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                        dataArray = responseObject[@"data"];
+                        [_diatabView reloadData];
+                    }
+                }
+                NSLog(@"%@",responseObject);
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error);
+            }];
+
+        });
+        
+        
+        
+    }
+
+}
 -(void)setupUI{
 
     self.backgroundColor=[UIColor lightGrayColor];
@@ -45,6 +78,9 @@ static NSString *ID=@"cell";
     [self addSubview:_diatabView];
 
 
+    
+    
+    
 }
 
 
@@ -55,7 +91,7 @@ static NSString *ID=@"cell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 8;
+    return dataArray.count;
     
 }
 
@@ -69,12 +105,15 @@ static NSString *ID=@"cell";
         
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    NSDictionary *dic = dataArray[indexPath.row];
+    
     DiagnoseModel*model = [[DiagnoseModel alloc]init];
     
-    model.title = @"已回复";
+//    model.title = @"已回复";
     model.timeImagename=@"timeIcon";
-    model.time=@"12:00";
-    model.consultTopic=@"最近腿有点痛，心脏不适，严重";
+    model.time=dic[@"createTime"];
+    model.consultTopic=dic[@"question"];
     model.consult=@"向您咨询:";
     
     [cell DiagnoseTableViewCellWithObject:model];

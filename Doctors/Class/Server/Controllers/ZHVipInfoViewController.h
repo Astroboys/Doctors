@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZHVipInfoViewController : UIViewController
-
+@property(nonatomic,strong)NSDictionary *dataDic;
 @end

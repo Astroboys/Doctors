@@ -21,12 +21,13 @@
 #import "DataProvider.h"
 #import "AttachmentDecoder.h"
 #import "UConfig.h"
-
+#import "WelcomeViewController.h"
+#import "NIMSystemNotification.h"
 #define NIMSDKAppKey @"d5bec89ed06e23760b46d260f706ddf6"
 
 #define kScreenSize [UIScreen mainScreen].bounds
 
-@interface AppDelegate ()
+@interface AppDelegate ()<NIMSystemNotificationManagerDelegate>
 
 @end
 
@@ -37,8 +38,44 @@
     
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+     [self registerNIM];
+//    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
     
-    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
+    
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = NO;
+
+    
+    if ([UConfig getWelcome] == YES) {
+        [self showMainVC];
+    }else{
+        [self showWelcomeVC];
+    }
+    
+    id<NIMSystemNotificationManager> systemNotificationManager = [[NIMSDK sharedSDK] systemNotificationManager];
+    [systemNotificationManager addDelegate:self];
+    
+    NSArray *notifications = [systemNotificationManager fetchSystemNotifications:NIMSystemNotificationTypeTeamApply
+                                                                           limit:20];
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    [self.window makeKeyAndVisible];
+    
+    
+   
+    
+    return YES;
+}
+-(void)showWelcomeVC
+{
+    self.window.rootViewController=[WelcomeViewController new];
+
+}
+-(void)showMainVC
+{
     YCLeftViewController*leftVc = [[YCLeftViewController alloc] init];
     ZHNavViewController*leftNav=[[ZHNavViewController alloc]initWithRootViewController:leftVc];
     ZHTabViewController*tabNav=[[ZHTabViewController alloc]init];
@@ -48,26 +85,24 @@
     drawerVc.showsShadow = YES;
     drawerVc.openDrawerGestureModeMask = MMOpenDrawerGestureModeNone;
     drawerVc.closeDrawerGestureModeMask = MMCloseDrawerGestureModeAll;
+    if ([UConfig getLoginNumber].length==0) {
+        
+        [self setupLoginViewController];
+        
+    }else{
     
-//    if ([UConfig getLoginCode].length==0) {
-//        
-//        [self setupLoginViewController];
-//        
-//    }else{
-//    
-//        self.window.rootViewController=drawerVc;
-//    }
-    
-    self.window.rootViewController=drawerVc;
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    
-    [self.window makeKeyAndVisible];
-    
-    
-    [self registerNIM];
-    
-    return YES;
+        [[NIMSDK sharedSDK].loginManager login:[NSString stringWithFormat:@"_%@",[UConfig getLoginNumber]] token:[UConfig getLoginToken] completion:^(NSError *error) {
+            if (!error) {
+                NSLog(@"登录成功");
+                
+            }else{
+                NSLog(@"登录失败");
+            }
+        }];
+        
+        self.window.rootViewController=drawerVc;
+    }
+
 }
 
 -(void)registerNIM
@@ -85,6 +120,12 @@
     ZHLoginViewController*loginController = [[ZHLoginViewController alloc] init];
     ZHNavViewController *nav = [[ZHNavViewController alloc] initWithRootViewController:loginController];
     self.window.rootViewController = nav;
+}
+
+
+-(void)onReceiveSystemNotification:(NIMSystemNotification *)notification
+{
+    NSLog(@"%@",notification);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

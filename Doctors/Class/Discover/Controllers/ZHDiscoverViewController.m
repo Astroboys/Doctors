@@ -30,7 +30,7 @@ static NSString *ID=@"cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor redColor];
+    self.view.backgroundColor=DWColor(243, 243, 243);
     
     self.navigationItem.title=@"健康圈";
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
@@ -112,6 +112,8 @@ static NSString *ID=@"cell";
     _circleTabView=[[UITableView alloc]initWithFrame:CGRectMake(0, 0, kWidth, kHeight-44-64) style:UITableViewStylePlain];
     _circleTabView.tableFooterView=[[UIView alloc]initWithFrame:CGRectZero];
     [_circleTabView registerClass:[HealthycircleCell class] forCellReuseIdentifier:ID];
+    _circleTabView.separatorColor = [UIColor clearColor];
+    _circleTabView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_circleTabView];
     
     _circleTabView.delegate=self;
@@ -143,11 +145,12 @@ static NSString *ID=@"cell";
     NIMTeam *team = [_myTeams objectAtIndex:indexPath.row];
     cell.nameLabel.text = team.teamName;
     cell.topicLabel.text = team.intro;
-    cell.timeLabel.text = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:team.createTime]];
-    [cell.circleImage sd_setImageWithURL:[NSURL URLWithString:team.avatarUrl] placeholderImage:[UIImage imageNamed:@"navigationbar_back_withtext"]];
+    cell.backgroundColor = [UIColor clearColor];
+    NSInteger timeValue = team.createTime;
+    cell.timeLabel.text = [MethodUtil timeWithTimeIntervalString:[NSString stringWithFormat:@"%ld",timeValue]];
+    [cell.circleImage sd_setImageWithURL:[NSURL URLWithString:team.avatarUrl] placeholderImage:[UIImage imageNamed:@"indexIcon"]];
    
-   
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

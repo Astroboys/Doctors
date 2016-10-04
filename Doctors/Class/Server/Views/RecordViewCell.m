@@ -8,6 +8,8 @@
 
 #import "RecordViewCell.h"
 #import "Masonry.h"
+#import "MoreActionView.h"
+
 @implementation RecordViewCell
 
 - (void)awakeFromNib {
@@ -35,7 +37,11 @@
 
 - (void)RecordViewCellWithObject:(RecordModel *)model
 {
-    self.postImageView.image=[UIImage imageNamed:model.postImageName];
+//    self.postImageView.image=[UIImage imageNamed:model.postImageName];
+    NSString *imageStr = model.postImageName;
+    
+    NSArray *imageArr = [imageStr componentsSeparatedByString:@","];
+    _postImageView.imageArray = imageArr;
     self.nameLabel.text=model.name;
     [self.nameLabel setFont:[UIFont systemFontOfSize:13]];
     self.hospitalLabel.text = model.hospitalName;
@@ -64,14 +70,14 @@
         
     }];
     
-    [self.postImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.mas_equalTo(self.nameLabel.mas_bottom).with.offset(8);
-        make.left.mas_equalTo(self.nameLabel.mas_left);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
-        
-    }];
+//    [self.postImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.mas_equalTo(self.nameLabel.mas_bottom).with.offset(8);
+//        make.left.mas_equalTo(self.nameLabel.mas_left);
+//        make.width.mas_equalTo(kWidth-20);
+//        make.height.mas_equalTo(40);
+//        
+//    }];
     
     
     [self.hospitalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,10 +129,12 @@
     
 }
 
--(UIImageView *)postImageView{
+-(MoreActionView *)postImageView{
     
     if (_postImageView==nil) {
-        _postImageView=[[UIImageView alloc]init];
+        _postImageView=[[MoreActionView alloc]initWithFrame:CGRectMake(10, 25, kWidth-20, 60)];
+        
+        
         
     }
     
@@ -174,5 +182,6 @@
 
     // Configure the view for the selected state
 }
+
 
 @end

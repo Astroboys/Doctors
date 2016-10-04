@@ -11,23 +11,25 @@
 
 @interface ZHPrescribeViewController ()
 {
-    UIScrollView *scrollView;
+//    UIScrollView *scrollView;
     
     
     UIView *useView;
     UILabel *useDetail;
     UITextView *useDetailText;
     
-    
-    
-    UIView *doctorMethod;
-    UILabel *doctorName;
-    UITextField *doctorText;
-    UILabel *doctorUnit;
-    UITextView *doctorUnitText;
+    NSInteger sextValue;
+    UIDatePicker *datePicker;
+//    UIView *doctorMethod;
+//    UILabel *doctorName;
+//    UITextField *doctorText;
+//    UILabel *doctorUnit;
+//    UITextView *doctorUnitText;
     
     
 }
+
+@property(nonatomic,strong)UIScrollView *scrollView;
 @property(nonatomic,strong)UIView* infoView;
 @property(nonatomic,strong)UILabel* customerName;
 @property(nonatomic,strong)UILabel* customerSex;
@@ -41,7 +43,7 @@
 @property(nonatomic,strong)UIButton*womenBtn;
 
 @property(nonatomic,strong)UITextField*contentOffice;
-@property(nonatomic,strong)UITextField*contentTime;
+@property(nonatomic,strong)UIButton *contentTime;
 
 @property(nonatomic,strong)UIView*initdiagnoView;
 @property(nonatomic,strong)UILabel*initdiaLbl;
@@ -67,24 +69,57 @@
     UIBarButtonItem* item1 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(prescribeClickleft)];
     
     self.navigationItem.leftBarButtonItem=item1;
+    UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(clickright)];
+                              
+                              
+    self.navigationItem.rightBarButtonItem = item2;
+    
+    
+    
+    
+    
+    
     
     [self setupUI];
     [self setupFrame];
     
+    
+    // 初始化UIDatePicker，旋转滚动选择日期类
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kHeight-64-216, kWidth, 216)];
+    datePicker.backgroundColor = DWColor(243, 243, 243);
+    [datePicker setLocale:[[NSLocale alloc]initWithLocaleIdentifier:@"zh_CN"]];
+    // 设置时区
+    [datePicker setTimeZone:[NSTimeZone localTimeZone]];
+    datePicker.hidden = YES;
+    // 设置当前显示时间
+    [datePicker setDate:[NSDate date] animated:YES];
+    // 设置显示最大时间（此处为当前时间）
+    [datePicker setMaximumDate:[NSDate date]];
+    // 设置UIDatePicker的显示模式
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
+    // 当值发生改变的时候调用的方法
+    [datePicker addTarget:self action:@selector(datePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.scrollView addSubview:datePicker];
+    
+    UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(btnAction)];
+    [self.scrollView addGestureRecognizer:tap];
 }
+
 
 -(void)setupUI{
     
-    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    scrollView.scrollEnabled = YES;
-    scrollView.backgroundColor=DWColor(243, 243, 243);
-
-    [self.view addSubview:scrollView];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //    _mterScroView=[[UIScrollView alloc]init];
+    self.scrollView.showsVerticalScrollIndicator=NO;
+    self.scrollView.showsHorizontalScrollIndicator=NO;
+    self.scrollView.bounces=NO;
+    self.scrollView.backgroundColor=DWColor(243, 243, 243);
+    [self.view addSubview:self.scrollView];
     
     _infoView=[[UIView alloc]init];
     _infoView.userInteractionEnabled = YES;
     _infoView.backgroundColor=[UIColor whiteColor];
-    [scrollView addSubview:_infoView];
+    [self.scrollView addSubview:_infoView];
     
     //姓名
     _customerName=[[UILabel alloc]init];
@@ -94,10 +129,10 @@
     [self.infoView addSubview:_customerName];
     
     _contentsName=[[UITextField alloc]init];
+    _contentsName.text = self.personInfo[@"name"];
     _contentsName.placeholder=@"请输入就诊人姓名";
     [_contentsName setFont:[UIFont systemFontOfSize:16]];
     [self.infoView addSubview:_contentsName];
-    
     
    
     
@@ -117,6 +152,9 @@
 
     [self.infoView addSubview:_manSex];
     
+    
+    
+    
     _manBtn=[[UIButton alloc]init];
     [_manBtn setImage:[UIImage imageNamed:@"un_select"] forState:UIControlStateNormal];
     [_manBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateSelected];
@@ -135,7 +173,19 @@
     [_womenBtn setImage:[UIImage imageNamed:@"select"] forState:UIControlStateSelected];
     [_womenBtn addTarget:self action:@selector(womenBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.infoView addSubview:_womenBtn];
+    NSString *sexStr = self.personInfo[@"sex"];
+    sextValue = sexStr.integerValue;
+    
+    if (sextValue==1) {
+        _manBtn.selected = YES;
+        _womenBtn.selected = NO;
+    }else{
+        _womenBtn.selected = YES;
+        _manBtn.selected = NO;
+    }
 
+    
+    
     //
     _customerOffice=[[UILabel alloc]init];
     _customerOffice.text=@"科室";
@@ -157,14 +207,16 @@
 
     [self.infoView addSubview:_seeTime];
     
-    _contentTime=[[UITextField alloc]init];
-    [_contentTime setFont:[UIFont systemFontOfSize:16]];
-    _contentTime.placeholder=@"请输入就诊时间";
+    _contentTime=[UIButton buttonWithType:UIButtonTypeCustom];
+    _contentTime.titleLabel.font = [UIFont systemFontOfSize:16];
+    [_contentTime setTitleColor:[UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1] forState:UIControlStateNormal];
+    [_contentTime setTitle:@"选择就诊时间" forState:UIControlStateNormal];
+    [_contentTime addTarget:self action:@selector(clientPickDate) forControlEvents:UIControlEventTouchUpInside];
     [self.infoView addSubview:_contentTime];
     
     _initdiagnoView=[[UIView alloc]init];
     _initdiagnoView.backgroundColor=[UIColor whiteColor];
-    [scrollView addSubview:_initdiagnoView];
+    [self.scrollView addSubview:_initdiagnoView];
     
     _initdiaLbl=[[UILabel alloc]init];
     [_initdiaLbl setFont:[UIFont systemFontOfSize:16]];
@@ -184,9 +236,9 @@
     
     
     useView=[[UIView alloc]init];
-    useView.userInteractionEnabled = YES;
+//    useView.userInteractionEnabled = YES;
     useView.backgroundColor=[UIColor whiteColor];
-    [scrollView addSubview:useView];
+    [self.scrollView addSubview:useView];
 
     
     useDetail=[[UILabel alloc]init];
@@ -204,44 +256,44 @@
     [useView addSubview:useDetailText];
     
     
-
     
     
     
     
     
     
-    doctorMethod=[[UIView alloc]init];
-    doctorMethod.userInteractionEnabled = YES;
-
-    doctorMethod.backgroundColor=[UIColor whiteColor];
-    [scrollView addSubview:doctorMethod];
-    
-    //药名
-    doctorName=[[UILabel alloc]init];
-    [doctorName setFont:[UIFont systemFontOfSize:16]];
-    doctorName.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
-    doctorName.text=@"医生名称";
-    [doctorMethod addSubview:doctorName];
-    
-    doctorText=[[UITextField alloc]init];
-    doctorText.placeholder=@"点击输入医生名称";
-    [doctorText setFont:[UIFont systemFontOfSize:16]];
-    [doctorMethod addSubview:doctorText];
-
-    
-    //使用方法
-    doctorUnit=[[UILabel alloc]init];
-    [doctorUnit setFont:[UIFont systemFontOfSize:14]];
-    doctorUnit.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
-    doctorUnit.text=@"医生单位";
-    [doctorMethod addSubview:doctorUnit];
-    
-    doctorUnitText=[[UITextView alloc]init];
-//    usageText.placeholder=@"点击输入使用方法";
-    [doctorUnitText setFont:[UIFont systemFontOfSize:14]];
-    [doctorMethod addSubview:doctorUnitText];
-
+//    
+//    doctorMethod=[[UIView alloc]init];
+//    doctorMethod.userInteractionEnabled = YES;
+//
+//    doctorMethod.backgroundColor=[UIColor whiteColor];
+//    [scrollView addSubview:doctorMethod];
+//    
+//    //药名
+//    doctorName=[[UILabel alloc]init];
+//    [doctorName setFont:[UIFont systemFontOfSize:16]];
+//    doctorName.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
+//    doctorName.text=@"医生名称";
+//    [doctorMethod addSubview:doctorName];
+//    
+//    doctorText=[[UITextField alloc]init];
+//    doctorText.placeholder=@"点击输入医生名称";
+//    [doctorText setFont:[UIFont systemFontOfSize:16]];
+//    [doctorMethod addSubview:doctorText];
+//
+//    
+//    //使用方法
+//    doctorUnit=[[UILabel alloc]init];
+//    [doctorUnit setFont:[UIFont systemFontOfSize:14]];
+//    doctorUnit.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
+//    doctorUnit.text=@"医生单位";
+//    [doctorMethod addSubview:doctorUnit];
+//    
+//    doctorUnitText=[[UITextView alloc]init];
+////    usageText.placeholder=@"点击输入使用方法";
+//    [doctorUnitText setFont:[UIFont systemFontOfSize:14]];
+//    [doctorMethod addSubview:doctorUnitText];
+//
     
 //    //
 //    useTime=[[UILabel alloc]init];
@@ -266,11 +318,11 @@
 
     self.manBtn.selected=YES;
     self.womenBtn.selected=NO;
-
+    sextValue = 1;
 }
 
 -(void)womenBtnClick{
-
+    sextValue = 2;
     self.womenBtn.selected=YES;
     self.manBtn.selected=NO;
 }
@@ -280,8 +332,8 @@
     
     [self.infoView mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.equalTo(scrollView.mas_top);
-        make.left.mas_equalTo(scrollView.mas_left);
+        make.top.equalTo(self.scrollView.mas_top);
+        make.left.mas_equalTo(self.scrollView.mas_left);
         make.height.mas_equalTo(170);
         make.width.mas_equalTo(kWidth);
         
@@ -390,7 +442,7 @@
         make.top.equalTo(self.contentOffice.mas_bottom).with.offset(5);
         make.left.mas_equalTo(self.seeTime.mas_right).with.offset(8);
         make.height.mas_equalTo(35);
-        make.right.mas_equalTo(self.infoView.mas_right).with.offset(-15);
+        make.width.mas_equalTo(100);;
         
     }];
     
@@ -430,7 +482,7 @@
     [useView mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.top.equalTo(self.initdiagnoView.mas_bottom).with.offset(10);
-        make.left.mas_equalTo(scrollView.mas_left);
+        make.left.mas_equalTo(self.scrollView.mas_left);
         make.height.mas_equalTo(140);
         make.width.mas_equalTo(kWidth);
         
@@ -452,62 +504,65 @@
         
     }];
     
+    [self.scrollView.superview layoutIfNeeded];
+
+    
+    CGFloat scroH=CGRectGetMaxY(useView.frame);
+    NSLog(@"%f",scroH);
+    
+    self.scrollView.contentSize=CGSizeMake(kWidth, scroH*1.3);
 
     
     
     
-    
-    
-    [doctorMethod mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(useView.mas_bottom).with.offset(10);
-        make.left.mas_equalTo(scrollView.mas_left);
-        make.height.mas_equalTo(90);
-        make.width.mas_equalTo(kWidth);
-
-        
-    }];
-    
-    [doctorName mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(doctorMethod.mas_top).with.offset(10);
-        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
-        make.height.mas_equalTo(35);
-        make.width.mas_equalTo(70);
-        
-    }];
-    
-    [doctorText mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(doctorMethod.mas_top).with.offset(10);
-        make.left.mas_equalTo(doctorName.mas_right).with.offset(8);
-        make.height.mas_equalTo(35);
-        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
-        
-    }];
-    [self setLineView:doctorMethod offView:doctorText];
-
-    
-    [doctorUnit mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(doctorText.mas_bottom).with.offset(5);
-        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
-        make.height.mas_equalTo(35);
-        make.width.mas_equalTo(70);
-        
-    }];
-    
-    [doctorUnitText mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(doctorText.mas_bottom).with.offset(5);
-        make.left.mas_equalTo(doctorUnit.mas_right).with.offset(8);
-        make.height.mas_equalTo(35);
-        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
-        
-    }];
-    
-    [scrollView.superview layoutIfNeeded];
-    scrollView.contentSize = CGSizeMake(kWidth, CGRectGetMaxY(doctorMethod.frame)+64);
+//    [doctorMethod mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(useView.mas_bottom).with.offset(10);
+//        make.left.mas_equalTo(scrollView.mas_left);
+//        make.height.mas_equalTo(90);
+//        make.width.mas_equalTo(kWidth);
+//
+//        
+//    }];
+//    
+//    [doctorName mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(doctorMethod.mas_top).with.offset(10);
+//        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
+//        make.height.mas_equalTo(35);
+//        make.width.mas_equalTo(70);
+//        
+//    }];
+//    
+//    [doctorText mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(doctorMethod.mas_top).with.offset(10);
+//        make.left.mas_equalTo(doctorName.mas_right).with.offset(8);
+//        make.height.mas_equalTo(35);
+//        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
+//        
+//    }];
+//    [self setLineView:doctorMethod offView:doctorText];
+//
+//    
+//    [doctorUnit mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(doctorText.mas_bottom).with.offset(5);
+//        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
+//        make.height.mas_equalTo(35);
+//        make.width.mas_equalTo(70);
+//        
+//    }];
+//    
+//    [doctorUnitText mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.equalTo(doctorText.mas_bottom).with.offset(5);
+//        make.left.mas_equalTo(doctorUnit.mas_right).with.offset(8);
+//        make.height.mas_equalTo(35);
+//        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
+//        
+//    }];
+//    
 
 //    [self setLineView:doctorMethod offView:usageText];
     
@@ -541,20 +596,61 @@
     
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(offView.mas_bottom).with.offset(3);
-        make.left.mas_equalTo(scrollView.mas_left).with.offset(15);
-        make.right.mas_equalTo(scrollView.mas_right).with.offset(-15);
+        make.left.mas_equalTo(self.scrollView.mas_left).with.offset(15);
+        make.right.mas_equalTo(self.scrollView.mas_right).with.offset(-15);
         make.height.mas_equalTo(1);
     }];
 
 }
+-(void)btnAction
+{
+    datePicker.hidden = YES;
+}
+-(void)clientPickDate
+{
+    datePicker.hidden = NO;
+}
+-(void)datePickerValueChanged:(UIDatePicker *)picker
+{
+    NSLog(@"%@",picker);
+    NSDate *select = datePicker.date;
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *selectDate = [dateFormatter stringFromDate:select];
+    [_contentTime setTitle:selectDate forState:UIControlStateNormal];
+   
+}
+-(void)clickright
+{
+    [MBManager showLoadingInView:self.view];
+    NSDictionary *dic = @{@"doctorId":[UConfig getDoctorId],@"customerId":self.personInfo[@"id"],@"visitTime":_contentTime.titleLabel.text,@"tentDiag":_diaTextView.text,@"presContent":useDetailText.text};
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/pres/addPres"] withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        NSString *code = responseObject[@"code"];
+        [MBManager hideAlert];
+        if (code.intValue == 200) {
+            [MBManager showBriefMessage:@"提交成功" InView:self.view];
 
+        }else{
+            [MBManager showBriefMessage:@"提交失败" InView:self.view];
+        }
+        
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+        [MBManager hideAlert];
+    }];
+    
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 -(void)prescribeClickleft{
-    
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
     
 }

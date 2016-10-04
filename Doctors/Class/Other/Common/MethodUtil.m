@@ -26,8 +26,21 @@ FILE* ghSMSLog=NULL;
     return YES;
     
 }
-
-
+//时间戳转时间
++(NSString *)timeWithTimeIntervalString:(NSString *)timeString
+{
+    // 格式化时间
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    formatter.timeZone = [NSTimeZone timeZoneWithName:@"shanghai"];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
+    
+    // 毫秒值转化为秒
+    NSDate* date = [NSDate dateWithTimeIntervalSince1970:[timeString doubleValue]/ 1000.0];
+    NSString* dateString = [formatter stringFromDate:date];
+    return dateString;
+}
 //获取时间戳
 +(long)getCurrentTime
 {
@@ -335,6 +348,18 @@ FOUNDATION_EXTERN void SMS_Log(NSString *format, ...)
     } else {
         return NO;
     }
+}
+
++(BOOL)isIdentification
+{
+    if ([[UConfig getLoginCode] isEqualToString:@"201"]) {
+        
+        return NO;
+    }else{
+        return YES;
+    }
+    
+
 }
 
 @end

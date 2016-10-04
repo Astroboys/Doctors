@@ -14,6 +14,7 @@
 #import "ZHDetailsViewController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "UploadCerViewController.h"
+#import "AlertViewController.h"
 @interface ZHFirstViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property(nonatomic,strong)UIImageView*imageView;
@@ -51,10 +52,26 @@
 {
     [super viewDidAppear:animated];
 }
+- (UIImage *)imageWithColor:(UIColor *)color
+{
+    NSParameterAssert(color != nil);
+    
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    // Create a 1 by 1 pixel context
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    [color setFill];
+    UIRectFill(rect);   // Fill it with your color
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = DWColor(243, 243, 243);
+   
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     // 告诉系统以后这张图片不进行默认的渲染
@@ -95,7 +112,7 @@
     _idNum =[[UILabel alloc]init];
     [_idNum setTextAlignment:NSTextAlignmentCenter];
     _idNum.textColor=[UIColor whiteColor];
-    _idNum.text =@"M10011034";
+    _idNum.text =[UConfig getLoginNumber];
     [self.view addSubview:self.idNum];
     
     //中间
@@ -131,23 +148,28 @@
     _zonghelab=[[UILabel alloc]init];
     _zonghelab.text=@"综合好评";
     _zonghelab.backgroundColor=[UIColor whiteColor];
+    _zonghelab.textColor = DWColor(149, 149, 149);
     [_zonghelab setFont:[UIFont systemFontOfSize:12]];
     [_zonghelab setTextAlignment:NSTextAlignmentCenter];
     
     _zonghela=[[UILabel alloc]init];
     _zonghela.text=@"0";
     _zonghela.backgroundColor=[UIColor whiteColor];
+    _zonghela.textColor = DWColor(253, 94, 94);
     [_zonghela setFont:[UIFont systemFontOfSize:12]];
     [_zonghela setTextAlignment:NSTextAlignmentCenter];
     
     _zixunlab=[[UILabel alloc]init];
     _zixunlab.text=@"咨询人数";
+    _zixunlab.textColor = DWColor(149, 149, 149);
+
     _zixunlab.backgroundColor=[UIColor whiteColor];
     [_zixunlab setFont:[UIFont systemFontOfSize:12]];
     [_zixunlab setTextAlignment:NSTextAlignmentCenter];
     
     _zixunla=[[UILabel alloc]init];
     _zixunla.text=@"0";
+    _zixunla.textColor = DWColor(253, 94, 94);
     _zixunla.backgroundColor=[UIColor whiteColor];
     [_zixunla setFont:[UIFont systemFontOfSize:12]];
     [_zixunla setTextAlignment:NSTextAlignmentCenter];
@@ -155,12 +177,16 @@
 
     _guanzhulab=[[UILabel alloc]init];
     _guanzhulab.text=@"已关注数";
+    _guanzhulab.textColor = DWColor(149, 149, 149);
+
     _guanzhulab.backgroundColor=[UIColor whiteColor];
     [_guanzhulab setFont:[UIFont systemFontOfSize:12]];
     [_guanzhulab setTextAlignment:NSTextAlignmentCenter];
     
     _guanzhula=[[UILabel alloc]init];
     _guanzhula.text=@"0";
+    _guanzhula.textColor = DWColor(253, 94, 94);
+
     _guanzhula.backgroundColor=[UIColor whiteColor];
     [_guanzhula setFont:[UIFont systemFontOfSize:12]];
     [_guanzhula setTextAlignment:NSTextAlignmentCenter];
@@ -185,6 +211,8 @@
     [_lastView addSubview:self.detailtab];
     _detailtab.delegate=self;
     _detailtab.dataSource=self;
+    _detailtab.tableFooterView = [[UIView alloc]init];
+
     
     [_doctorView addSubview:self.midView];
     [_midView addSubview:self.lastView];
@@ -202,10 +230,40 @@
     static NSString *ID=@"cell";
     UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
     cell.textLabel.text=self.dataArr[indexPath.row];
     [cell.textLabel setFont:kFont(14)];
+    cell.textLabel.textColor = DWColor(85, 85, 85);
+    cell.detailTextLabel.textColor = DWColor(85, 85, 85);
+    
+    NSDictionary *dict = [UConfig getPersonInfo];
+    switch (indexPath.row) {
+        case 0:
+        {
+            cell.detailTextLabel.text = dict[@"hospital"];
+
+        }
+            break;
+        case 1:
+        {
+            cell.detailTextLabel.text = dict[@"department"];
+        }
+            break;
+        case 2:
+        {
+            cell.detailTextLabel.text = dict[@"goodAt"];
+        }
+            break;
+        case 3:
+        {
+            cell.detailTextLabel.text = dict[@"profession"];
+        }
+            break;
+
+        default:
+            break;
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.imageView.image=[UIImage imageNamed:_dataImageArr[indexPath.row]];
     return cell;
@@ -218,160 +276,270 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (isiPhone6P) {
+    
+    return 50;
         
-        return 60;
-        
-    }else if (isiPhone6){
-        
-        return 50;
-        
-    }else if (isiPhone5){
-        
-        return 35;
-        
-    }else{
-        
-        return 30;
-        
-    }
 }
 
 -(NSArray *)dataArr{
     
     if(_dataArr == nil) {
         
-        _dataArr = @[@"所在医院:",@"所在科室:",@"擅长主治:",@"医生简介:"];
+        _dataArr = @[@"所在医院:",@"所在科室:",@"擅长主治:",@"医师职称:"];
     }
     return _dataArr;
     
 }
 -(void)setupFrame{
 
-    if(isiPhone6P){
-        
-        //头像
-        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).with.offset(30);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-80)*0.5);
-            make.height.mas_equalTo(80);
-            make.width.mas_equalTo(80);
-        }];
-        //号码
-        [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-100)*0.5);
-            make.height.mas_equalTo(30);
-            make.width.mas_equalTo(100);
-            
-        }];
-        //总布局
-        [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(50);
-            make.left.equalTo(self.view.mas_left).with.offset(0);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-        }];
-        
-        //资质认证
-        [self.zizhiButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.view.mas_left).with.offset(20);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-        }];
-        
-        [self.zonghelab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.zonghela mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zonghelab.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-            
-        }];
-        
-        [self.zixunlab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shenheButton.mas_bottom);
-            make.left.mas_equalTo(self.zonghelab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.zixunla mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zixunlab.mas_bottom);
-            make.left.mas_equalTo(self.zonghelab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }];
+//    if(isiPhone6P){
+//        
+//        //头像
+//        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.view.mas_top).with.offset(30);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-80)*0.5);
+//            make.height.mas_equalTo(80);
+//            make.width.mas_equalTo(80);
+//        }];
+//        //号码
+//        [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-100)*0.5);
+//            make.height.mas_equalTo(30);
+//            make.width.mas_equalTo(200);
+//            
+//        }];
+//        //总布局
+//        [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(50);
+//            make.left.equalTo(self.view.mas_left).with.offset(0);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//        }];
+//        
+//        //资质认证
+//        [self.zizhiButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset(20);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//        }];
+//        
+//        [self.zonghelab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.zonghela mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zonghelab.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//            
+//        }];
+//        
+//        [self.zixunlab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.shenheButton.mas_bottom);
+//            make.left.mas_equalTo(self.zonghelab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.zixunla mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zixunlab.mas_bottom);
+//            make.left.mas_equalTo(self.zonghelab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }];
+//
+//        
+//        [self.guanzhulab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.shimingButton.mas_bottom);
+//            make.left.mas_equalTo(self.zixunlab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.guanzhula mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.guanzhulab.mas_bottom);
+//            make.left.mas_equalTo(self.zixunla.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }];
+//        
+//        [self.lastView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zonghela.mas_bottom).with.offset(8);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//        }];
+//        
+//        [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.lastView.mas_top);
+//            make.left.mas_equalTo(self.doctorView.mas_left).with.offset(10);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(30);
+//        }];
+//        
+//        [self.detailtab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.detailLbl.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.doctorView.mas_bottom);
+//        }];
+//
+//    }else if (isiPhone6){
+    
+//        //头像
+//        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.view.mas_top).with.offset(10);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-80)*0.5);
+//            make.height.mas_equalTo(80);
+//            make.width.mas_equalTo(80);
+//        }];
+//        //号码
+//        [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-200)*0.5);
+//            make.height.mas_equalTo(30);
+//            make.width.mas_equalTo(200);
+//        
+//        }];
+//        //总布局
+//        [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(60);
+//            make.left.equalTo(self.view.mas_left).with.offset(0);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//        }];
+//        
+//        //资质认证
+//        [self.zizhiButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset(20);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//        }];
+//        
+//        [self.zonghelab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.zonghela mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zonghelab.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//            
+//        }];
+//        
+//        [self.zixunlab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.shenheButton.mas_bottom);
+//            make.left.mas_equalTo(self.zonghelab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.zixunla mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zixunlab.mas_bottom);
+//            make.left.mas_equalTo(self.zonghelab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }]; 
+//        
+//        [self.guanzhulab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.shimingButton.mas_bottom);
+//            make.left.mas_equalTo(self.zixunlab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//        }];
+//        
+//        [self.guanzhula mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.guanzhulab.mas_bottom);
+//            make.left.mas_equalTo(self.zixunla.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }];
+//
+//        
+//        [self.lastView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zonghela.mas_bottom).with.offset(8);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//            
+//        }];
+//        
+//        [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.lastView.mas_top);
+//            make.left.mas_equalTo(self.doctorView.mas_left).with.offset(10);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(30);
+//        }];
+//        
+//        [self.detailtab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.detailLbl.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.doctorView.mas_bottom);
+//        }];
+//
 
         
-        [self.guanzhulab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shimingButton.mas_bottom);
-            make.left.mas_equalTo(self.zixunlab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.guanzhula mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.guanzhulab.mas_bottom);
-            make.left.mas_equalTo(self.zixunla.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }];
-        
-        [self.lastView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zonghela.mas_bottom).with.offset(8);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-        }];
-        
-        [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.lastView.mas_top);
-            make.left.mas_equalTo(self.doctorView.mas_left).with.offset(10);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(30);
-        }];
-        
-        [self.detailtab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.detailLbl.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.doctorView.mas_bottom);
-        }];
-
-    }else if (isiPhone6){
-        
+//    }else if(isiPhone5){
+//        
         //头像
         [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.view.mas_top).with.offset(10);
@@ -382,133 +550,9 @@
         //号码
         [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-100)*0.5);
+            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-200)*0.5);
             make.height.mas_equalTo(30);
-            make.width.mas_equalTo(100);
-        
-        }];
-        //总布局
-        [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(60);
-            make.left.equalTo(self.view.mas_left).with.offset(0);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-        }];
-        
-        //资质认证
-        [self.zizhiButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.view.mas_left).with.offset(20);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-        }];
-        
-        [self.zonghelab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.zonghela mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zonghelab.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-            
-        }];
-        
-        [self.zixunlab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shenheButton.mas_bottom);
-            make.left.mas_equalTo(self.zonghelab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.zixunla mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zixunlab.mas_bottom);
-            make.left.mas_equalTo(self.zonghelab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }]; 
-        
-        [self.guanzhulab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shimingButton.mas_bottom);
-            make.left.mas_equalTo(self.zixunlab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-        }];
-        
-        [self.guanzhula mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.guanzhulab.mas_bottom);
-            make.left.mas_equalTo(self.zixunla.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }];
-
-        
-        [self.lastView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zonghela.mas_bottom).with.offset(8);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-            
-        }];
-        
-        [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.lastView.mas_top);
-            make.left.mas_equalTo(self.doctorView.mas_left).with.offset(10);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(30);
-        }];
-        
-        [self.detailtab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.detailLbl.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.doctorView.mas_bottom);
-        }];
-
-
-        
-    }else if(isiPhone5){
-        
-        //头像
-        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).with.offset(10);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-80)*0.5);
-            make.height.mas_equalTo(80);
-            make.width.mas_equalTo(80);
-        }];
-        //号码
-        [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-100)*0.5);
-            make.height.mas_equalTo(30);
-            make.width.mas_equalTo(100);
+            make.width.mas_equalTo(200);
             
         }];
         //总布局
@@ -618,133 +662,133 @@
             make.width.mas_equalTo(kWidth);
             make.bottom.mas_equalTo(self.doctorView.mas_bottom);
         }];
-
-
-        
-    }else if (isiPhone4){
-        
-        //头像
-        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_top).with.offset(10);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-80)*0.5);
-            make.height.mas_equalTo(80);
-            make.width.mas_equalTo(80);
-        }];
-        //号码
-        [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
-            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-100)*0.5);
-            make.height.mas_equalTo(30);
-            make.width.mas_equalTo(100);
-            
-        }];
-        //总布局
-        [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(5);
-            make.left.equalTo(self.view.mas_left).with.offset(0);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-        }];
-        
-        //资质认证
-        [self.zizhiButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.view.mas_left).with.offset(20);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.doctorView.mas_top);
-            make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(80);
-        }];
-        
-        [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-
-        }];
-        
-        [self.zonghelab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.zonghela mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zonghelab.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }];
-        
-        [self.zixunlab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shenheButton.mas_bottom);
-            make.left.mas_equalTo(self.zonghelab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        
-        [self.zixunla mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zixunlab.mas_bottom);
-            make.left.mas_equalTo(self.zonghelab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }];
-
-        
-        [self.guanzhulab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.shimingButton.mas_bottom);
-            make.left.mas_equalTo(self.zixunlab.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(30);
-            
-        }];
-        [self.guanzhula mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.guanzhulab.mas_bottom);
-            make.left.mas_equalTo(self.zixunla.mas_right);
-            make.width.mas_equalTo(kWidth/3);
-            make.height.mas_equalTo(15);
-        }];
-
-        
-        [self.lastView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.zonghela.mas_bottom).with.offset(8);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.view.mas_bottom);
-            
-        }];
-        
-        [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.lastView.mas_top);
-            make.left.mas_equalTo(self.doctorView.mas_left).with.offset(10);
-            make.width.mas_equalTo(80);
-            make.height.mas_equalTo(30);
-        }];
-        
-        [self.detailtab mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.detailLbl.mas_bottom);
-            make.left.mas_equalTo(self.doctorView.mas_left);
-            make.width.mas_equalTo(kWidth);
-            make.bottom.mas_equalTo(self.doctorView.mas_bottom);
-        }];
-
-    }
+//
+//
+//        
+//    }else if (isiPhone4){
+//        
+//        //头像
+//        [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.view.mas_top).with.offset(10);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-80)*0.5);
+//            make.height.mas_equalTo(80);
+//            make.width.mas_equalTo(80);
+//        }];
+//        //号码
+//        [self.idNum mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.imageView.mas_bottom).with.offset(5);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset((kWidth-100)*0.5);
+//            make.height.mas_equalTo(30);
+//            make.width.mas_equalTo(200);
+//            
+//        }];
+//        //总布局
+//        [self.doctorView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.idNum.mas_bottom).with.offset(5);
+//            make.left.equalTo(self.view.mas_left).with.offset(0);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//        }];
+//        
+//        //资质认证
+//        [self.zizhiButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.view.mas_left).with.offset(20);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.shenheButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.zizhiButton.mas_right).with.offset((kWidth-80*3-40)/2);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.shimingButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.doctorView.mas_top);
+//            make.left.mas_equalTo(self.shenheButton.mas_right).with.offset((kWidth-80*3-40)/2);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(80);
+//        }];
+//        
+//        [self.midView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//
+//        }];
+//        
+//        [self.zonghelab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zizhiButton.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.zonghela mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zonghelab.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }];
+//        
+//        [self.zixunlab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.shenheButton.mas_bottom);
+//            make.left.mas_equalTo(self.zonghelab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        
+//        [self.zixunla mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zixunlab.mas_bottom);
+//            make.left.mas_equalTo(self.zonghelab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }];
+//
+//        
+//        [self.guanzhulab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.shimingButton.mas_bottom);
+//            make.left.mas_equalTo(self.zixunlab.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(30);
+//            
+//        }];
+//        [self.guanzhula mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.guanzhulab.mas_bottom);
+//            make.left.mas_equalTo(self.zixunla.mas_right);
+//            make.width.mas_equalTo(kWidth/3);
+//            make.height.mas_equalTo(15);
+//        }];
+//
+//        
+//        [self.lastView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.zonghela.mas_bottom).with.offset(8);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.view.mas_bottom);
+//            
+//        }];
+//        
+//        [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.lastView.mas_top);
+//            make.left.mas_equalTo(self.doctorView.mas_left).with.offset(10);
+//            make.width.mas_equalTo(80);
+//            make.height.mas_equalTo(30);
+//        }];
+//        
+//        [self.detailtab mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(self.detailLbl.mas_bottom);
+//            make.left.mas_equalTo(self.doctorView.mas_left);
+//            make.width.mas_equalTo(kWidth);
+//            make.bottom.mas_equalTo(self.doctorView.mas_bottom);
+//        }];
+//
+//    }
     
 }
 
@@ -763,14 +807,19 @@
 
 -(void)firstClickright{
     
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"请完成资质认证后再做操作"
-                                                                              message: @""
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        
-    }]];
-    [self presentViewController:alertController animated:YES completion:nil];
+//    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"请完成资质认证后再做操作"
+//                                                                              message: @""
+//                                                                       preferredStyle:UIAlertControllerStyleAlert];
+//    [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//        
+//        
+//    }]];
+//    [self presentViewController:alertController animated:YES completion:nil];
+    
+    AlertViewController *vc = [[AlertViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    
     
 }
 

@@ -10,5 +10,5 @@
 
 
 @interface DiagnoseView : UIView
-
+@property(nonatomic,strong)NSString *customId;
 @end

@@ -19,11 +19,18 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        [self.contentView addSubview:self.nameLabel];
-        [self.contentView addSubview:self.timeLabel];
-        [self.contentView addSubview:self.topicLabel];
-        [self.contentView addSubview:self.circleImage];
+        if (_rootView==nil) {
+            _rootView=[[UIView alloc]initWithFrame:CGRectMake(10, 5, kWidth-20, 60)];
+            _rootView.layer.cornerRadius = 6;
+            _rootView.backgroundColor = [UIColor whiteColor];
+            [self.contentView addSubview:self.rootView];
+
+            
+        }
+        [self.rootView addSubview:self.nameLabel];
+        [self.rootView addSubview:self.timeLabel];
+        [self.rootView addSubview:self.topicLabel];
+        [self.rootView addSubview:self.circleImage];
         
         [self setupFrame];
     }
@@ -45,29 +52,39 @@
 - (void)setupFrame
 {
     
+//    
+//    [self.rootView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        
+//        make.top.mas_equalTo(self.contentView.mas_top).with.offset(5);
+//        make.left.mas_equalTo(self.contentView.mas_left).with.offset(10);
+//        make.width.mas_equalTo(kWidth-20);
+//        make.height.mas_equalTo(60);
+//    }];
+
+    
     [self.circleImage mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.contentView.mas_top).with.offset(5);
-        make.left.mas_equalTo(self.contentView.mas_left).with.offset(10);
-        make.width.mas_equalTo(60);
-        make.height.mas_equalTo(60);
+        make.top.mas_equalTo(self.rootView.mas_top).with.offset(5);
+        make.left.mas_equalTo(self.rootView.mas_left).with.offset(10);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(50);
     }];
 
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.contentView.mas_top).with.offset(10);
+        make.top.mas_equalTo(self.rootView.mas_top).with.offset(5);
         make.left.mas_equalTo(self.circleImage.mas_right).with.offset(8);
-        make.right.mas_equalTo(self.contentView.mas_right).with.offset(10);
+//        make.right.mas_equalTo(self.rootView.mas_right).with.offset(10);
         make.height.mas_equalTo(15);
-        
+        make.width.mas_equalTo(80);
     }];
     
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.top.mas_equalTo(self.contentView.mas_top).with.offset(10);
-        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-10);
-        make.width.mas_equalTo(90);
+        make.top.mas_equalTo(self.rootView.mas_top).with.offset(10);
+        make.right.mas_equalTo(self.rootView.mas_right).with.offset(-10);
+        make.width.mas_equalTo(140);
         make.height.mas_equalTo(15);
         
     }];
@@ -76,7 +93,7 @@
         
         make.top.mas_equalTo(self.nameLabel.mas_bottom).with.offset(15);
         make.left.mas_equalTo(self.circleImage.mas_right).with.offset(8);
-        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-10);
+        make.right.mas_equalTo(self.rootView.mas_right).with.offset(-10);
         make.height.mas_equalTo(15);
         
     }];
@@ -84,11 +101,25 @@
 
 /**懒加载*/
 
+//-(UIView *)rootView{
+//    
+//    if (_rootView==nil) {
+//        _rootView=[[UIView alloc]initWithFrame:CGRectMake(10, 5, kWidth-20, 60)];
+//        _rootView.backgroundColor = [UIColor redColor];
+//        
+//    }
+//    
+//    return _nameLabel;
+//    
+//}
 
 -(UILabel *)nameLabel{
     
     if (_nameLabel==nil) {
         _nameLabel=[[UILabel alloc]init];
+        _nameLabel.textColor=DWColor(85, 85, 85);
+        _nameLabel.font=[UIFont systemFontOfSize:15];
+
         
     }
     
@@ -100,6 +131,9 @@
     
     if (_timeLabel == nil) {
         _timeLabel = [[UILabel alloc]init];
+        _timeLabel.textAlignment = NSTextAlignmentRight;
+        _timeLabel.textColor=DWColor(166, 171, 185);
+        _timeLabel.font=[UIFont systemFontOfSize:12];
     }
     return _timeLabel;
     
@@ -111,6 +145,8 @@
     if (_topicLabel == nil) {
         _topicLabel = [[UILabel alloc]init];
         _topicLabel.textAlignment = NSTextAlignmentLeft;
+        _topicLabel.textColor=DWColor(149, 149, 149);
+        _topicLabel.font=[UIFont systemFontOfSize:13];
     }
     return _topicLabel;
 }
@@ -119,6 +155,8 @@
 
     if (_circleImage==nil) {
         _circleImage=[[UIImageView alloc]init];
+        _circleImage.layer.masksToBounds = YES;
+        _circleImage.layer.cornerRadius = 5;
     }
     
     return _circleImage;

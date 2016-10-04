@@ -132,10 +132,37 @@
     [[NIMSDK sharedSDK].teamManager createTeam:option users:members completion:^(NSError *error, NSString *teamId) {
         [SVProgressHUD dismiss];
         if (!error) {
-            NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
-            NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
-            [wself.navigationController pushViewController:vc animated:YES];
-            [wself uploadTeamImage:teamId];
+            
+            
+            NSDictionary *dic = @{@"mobile":[UConfig getLoginNumber],@"type":@"1",@"tname":_circleName.text,@"doctorId":[UConfig getDoctorId],@"msg":@"asdf",@"magree":@"1",@"joinmode":@"1",@"intro":_circleIntroduce.text,@"invitemode":@"0",@"uptinfomode":@"0",@"type":@"1",@"enable":@"1"};
+//
+//            
+//            
+//            [NetWorkingManager sendPOSTDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/addCircle"] withParamters:dic withProgress:^(float progress) {
+//                
+//            } success:^(BOOL isSuccess, id responseObject) {
+//                NSLog(@"%@",responseObject);
+//            } failure:^(NSError *error) {
+//                NSLog(@"%@",error);
+//            }];
+
+            [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/addCircle"] withParamters:dic withProgress:^(float progress) {
+                
+                
+            } success:^(BOOL isSuccess, id responseObject) {
+                
+                NSLog(@"%@",responseObject);
+                
+                
+                NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
+                NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
+                [wself.navigationController pushViewController:vc animated:YES];
+                [wself uploadTeamImage:teamId];
+
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error);
+            }];
+
             
         }else{
             [wself.view makeToast:@"创建失败" duration:2.0 position:CSToastPositionCenter];

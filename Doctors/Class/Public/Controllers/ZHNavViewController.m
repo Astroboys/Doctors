@@ -7,12 +7,21 @@
 //
 
 #import "ZHNavViewController.h"
-
+#import "AppDelegate.h"
 @interface ZHNavViewController ()
 
 @end
 
 @implementation ZHNavViewController
++ (instancetype)instance{
+    AppDelegate *delegete = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    UIViewController *vc = delegete.window.rootViewController;
+    if ([vc isKindOfClass:[AppDelegate class]]) {
+        return (ZHNavViewController *)vc;
+    }else{
+        return nil;
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -300,7 +300,7 @@
         make.top.equalTo(self.loginBtnView.mas_top).with.offset(20);
         make.left.mas_equalTo(self.loginBtnView.mas_left).with.offset(20);
         make.right.mas_equalTo(self.loginBtnView.mas_right).with.offset(-20);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     [self.registerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -327,6 +327,9 @@
     }
     [MBManager showLoadingInView:self.view];
     NSDictionary *dic = @{@"mobile":_accountText.text,@"password":_passWordText.text};
+    
+    
+    
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/login"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
         [MBManager hideAlert];
         //200登陆成功，201登陆成功未认证
@@ -334,19 +337,28 @@
             NSString *loginCode = responseObject[@"code"];
             if (loginCode.intValue == 200) {
                 NSString *token = responseObject[@"data"][@"token"];
+                NSString *doctorId = responseObject[@"data"][@"id"];
+                [UConfig setLoginToken:token];
+                [UConfig setDoctorId:doctorId];
                 [UConfig setLoginCode:loginCode];
-                [[NIMSDK sharedSDK].loginManager login:_accountText.text token:token completion:^(NSError *error) {
+                [UConfig setLoginNumber:_accountText.text];
+                [[NIMSDK sharedSDK].loginManager login:[NSString stringWithFormat:@"_%@",_accountText.text] token:token completion:^(NSError *error) {
                     if (!error) {
                         NSLog(@"登录成功");
                         [self loginMainView];
                         
                     }else{
                         NSLog(@"登录失败");
+                        [MBManager showBriefMessage:@"登录失败" InView:self.view];
                     }
                 }];
 
             }else if (loginCode.intValue == 201){
+                NSString *doctorId = responseObject[@"data"][@"id"];
+
                 [UConfig setLoginCode:loginCode];
+                [UConfig setDoctorId:doctorId];
+                [UConfig setLoginNumber:_accountText.text];
                 [self loginMainView];
 
             }else{
@@ -386,6 +398,33 @@
     [self.navigationController pushViewController:drawerVc animated:YES];
     
     self.navigationController.navigationBar.hidden=YES;
+    
+    
+    NSDictionary *dict = @{@"id":[UConfig getDoctorId],@"checkCode":[UConfig getLoginCode]};
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@app/doct/index",BaseUrl] withParamters:dict withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSArray *array = responseObject[@"data"];
+            if ([array isKindOfClass:[NSArray class]]) {
+                NSDictionary *dic = array.firstObject;
+                if ([dic isKindOfClass:[NSDictionary class]]) {
+                    NSString *idStr = dic[@"id"];
+                    if (idStr.intValue>0) {
+                        [UConfig setDoctorId:idStr];
+                        [UConfig setPersonInfo:dic];
+                    }
+                }
+            }
+
+        }
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
 }
 
 -(void)loginClickleft{

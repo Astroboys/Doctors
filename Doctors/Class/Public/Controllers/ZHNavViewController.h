@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ZHNavViewController : UINavigationController
++ (instancetype)instance;
 
 @end

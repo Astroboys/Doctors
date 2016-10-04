@@ -52,6 +52,11 @@
     
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [NetWorkingManager cancelAllNetworkRequest];
+}
+
 -(void)setupUI{
     
     //姓名
@@ -112,16 +117,21 @@
         [MBManager showBriefMessage:@"新密码不能为空" InView:self.view];
         return;
     }
-    
+    [MBManager showLoadingInView:self.view];
     NSDictionary *dic = @{@"mobile":[UConfig getLoginNumber],@"oldPassword":_yuanshiText.text,@"password":_xinsheText.text};
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/upfop"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
+        [MBManager hideAlert];
+        if ([responseObject[@"code"] isEqualToString:@"200"]) {
+            [MBManager showBriefMessage:@"修改成功" InView:self.view];
+        }else{
+            [MBManager showBriefMessage:@"修改失败" InView:self.view];
+        }
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
         NSLog(@"%@",error.userInfo);
-        
     }];
 
 }

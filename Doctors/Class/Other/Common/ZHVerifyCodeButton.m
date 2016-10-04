@@ -40,12 +40,12 @@
     
     [self setTitle:@" 获取验证码 " forState:UIControlStateNormal];
     self.titleLabel.font = [UIFont systemFontOfSize:10];
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = DWColor(24, 144, 203);
     self.layer.cornerRadius = 3.0;
     self.clipsToBounds = YES;
-    [self setTitleColor:DWColor(128, 177, 34) forState:UIControlStateNormal];
-    self.layer.borderColor = DWColor(128, 177, 34).CGColor;
-    self.layer.borderWidth = 1.0;
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    self.layer.borderColor = DWColor(128, 177, 34).CGColor;
+//    self.layer.borderWidth = 1.0;
 }
 
 - (void)timeFailBeginFrom:(NSInteger)timeCount {

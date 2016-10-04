@@ -27,7 +27,13 @@
 +(void)setPersonInfo:(NSDictionary *)personInfo;
 +(NSDictionary *)getPersonInfo;
 
+
++(void)setDoctorId:(NSString *)doctorId;
++(NSString *)getDoctorId;
+
 +(void)logoutInfomation;
 
++(void)setWelcome:(BOOL)welCome;
++(BOOL)getWelcome;
 
 @end

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface RecordView : UIView
-
+@property(nonatomic,strong)NSString *customId;
 @end

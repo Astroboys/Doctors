@@ -26,6 +26,7 @@
 + (NSString *)getTimestampWithDate:(NSDate *)date;
 
 +(BOOL)isMobileNumber:(NSString *)num;
++(NSString *)timeWithTimeIntervalString:(NSString *)timeString;
 
 
 +(NSString *)getLocationTime;//获取当前时间
@@ -39,5 +40,6 @@ void SMS_Log(NSString *format, ...);
 +(void)cleanUploadedAppLog;
 //合并日志
 +(NSString*) mergeLog;
++(BOOL)isIdentification;
 
 @end

@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "RecordModel.h"
-
+@class MoreActionView;
 @interface RecordViewCell : UITableViewCell
 
 @property(nonatomic,strong) UILabel *nameLabel;
-@property(nonatomic,strong)UIImageView *postImageView;
+@property(nonatomic,strong)MoreActionView *postImageView;
 @property (nonatomic, strong) UILabel *hospitalLabel;
 @property(nonatomic,strong)UILabel*hosContentLabel;
 @property(nonatomic,strong)UILabel* recordTimeLabel;

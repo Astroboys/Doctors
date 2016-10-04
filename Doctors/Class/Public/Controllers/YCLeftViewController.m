@@ -18,7 +18,7 @@
 #import "UIImage+Extension.h"
 #import "Doctors-Prefix.pch"
 #import "ZHTabViewController.h"
-
+#import "ServiceOrderViewController.h"
 
 static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControllerCellReuseId";
 
@@ -72,18 +72,23 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     //电话
     _telLabel =[[UILabel alloc]initWithFrame:CGRectMake(70, 15, 130, 20)];
     [_telLabel setFont:[UIFont systemFontOfSize:14]];
-    _telLabel.text =@"13193203294";
+    _telLabel.text =[UConfig getLoginNumber];
+    _telLabel.textColor = DWColor(85, 85, 85);
     [self.messagesView addSubview:self.telLabel];
     
     UILabel*myid = [[UILabel alloc]initWithFrame:CGRectMake(70, 45, 40, 20)];
     [myid setFont:[UIFont systemFontOfSize:14]];
     myid.text =@"ID号:";
+    myid.textColor = DWColor(85, 85, 85);
+
     [self.messagesView addSubview:myid];
     
     _idNum =[[UILabel alloc]initWithFrame:CGRectMake(110, 45, 130, 20)];
     [_idNum setFont:[UIFont systemFontOfSize:14]];
     [_idNum setTextAlignment:NSTextAlignmentLeft];
-    _idNum.text =@"11034";
+    _idNum.textColor = DWColor(85, 85, 85);
+
+    _idNum.text =[UConfig getDoctorId];
     [self.messagesView addSubview:self.idNum];
 
     [self.view addSubview:self.messagesView];
@@ -149,6 +154,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     }
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = self.lefs[indexPath.row];
+    cell.textLabel.textColor = DWColor(85, 85, 85);
     cell.textLabel.highlightedTextColor = [UIColor grayColor];
     cell.selectedBackgroundView = [[UIView alloc] init];
     cell.backgroundColor = [UIColor clearColor];
@@ -251,16 +257,18 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         
         
     }else{
+        if ([MethodUtil isIdentification]==NO) {
+            [MBManager showBriefAlert:@"请完成资质认证后再做操作"];
+            return;
+        }
         
-        UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"请完成资质认证后再做操作"
-                                                                                  message: @""
-                                                                           preferredStyle:UIAlertControllerStyleAlert];
-        [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-        }]];
+        ServiceOrderViewController *service = [[ServiceOrderViewController alloc ] init];
+        [self addCurrentPageScreenshot];
+        [self settingDrawerWhenPush];
+        [self.navigationController pushViewController:service animated:YES];
+
         
-        [self presentViewController:alertController animated:YES completion:nil];
-    
+        
     }
     
 //    [self.sideMenuViewController setContentViewController:center animated:YES];
@@ -291,7 +299,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         
         [self removeFromParentViewController];
         
-//        [UConfig logoutInfomation];//清除存储的信息
+        [UConfig logoutInfomation];//清除存储的信息
         if ([UConfig getLoginCode].intValue == 200) {
             [[NIMSDK sharedSDK].loginManager logout:^(NSError * _Nullable error) {//退出登录
                 

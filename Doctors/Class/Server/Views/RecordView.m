@@ -9,11 +9,13 @@
 #import "RecordView.h"
 #import "UIView+Frame.h"
 #import "RecordViewCell.h"
-
+#import "MoreActionView.h"
 static NSString *ID=@"cell";
 
 @interface RecordView()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    NSArray *dataArray;
+}
 @property(nonatomic,strong)UITableView*diatabView;
 
 @property(nonatomic,strong)NSArray*dataArr;
@@ -29,6 +31,42 @@ static NSString *ID=@"cell";
         [self setupUI];
     }
     return self;
+}
+-(void)setCustomId:(NSString *)customId
+{
+    _customId = customId;
+    if (self.customId.intValue>0) {
+        NSDictionary *dic = @{@"customerId":customId,@"doctorId":[UConfig getDoctorId]};
+        NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/archives/appindex"];
+        
+        dispatch_queue_t record = dispatch_queue_create("record", NULL);
+        
+        dispatch_async(record, ^{
+            [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
+                
+            } success:^(BOOL isSuccess, id responseObject) {
+                NSLog(@"%@",responseObject);
+                if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                    NSString *checkCodeStr = responseObject[@"code"];
+                    if (checkCodeStr.intValue == 200) {
+                        dataArray = responseObject[@"data"];
+                        
+                        [_diatabView reloadData];
+                    }
+                    
+                }
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error.userInfo);
+                
+            }];
+
+        });
+        
+        
+
+        
+    }
+    
 }
 
 -(void)setupUI{
@@ -53,7 +91,7 @@ static NSString *ID=@"cell";
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 8;
+    return dataArray.count;
     
 }
 
@@ -68,13 +106,24 @@ static NSString *ID=@"cell";
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     RecordModel*model = [[RecordModel alloc]init];
+    NSDictionary *dic = dataArray[indexPath.row];
+    NSString *typeStr = dic[@"archivesType"];
+    if (typeStr.intValue == 1) {
+        model.name= @"电子病历";
+        model.recordTime=@"就诊时间";
+        model.hospitalName=@"就诊医院";
+    }else{
+        model.name= @"健康报告";
+        model.recordTime=@"测量时间";
+        model.hospitalName=@"测量医院";
+
+    }
     
-    model.name= @"电子病历";
-    model.postImageName=@"timeIcon";
-    model.recordTime=@"测量时间";
-    model.hospitalName=@"就诊医院";
-    model.hosContentName=@"海淀医院";
-    model.timeContentName=@"2013-10-1 10:00";
+    model.postImageName=dic[@"uploadUrl"];
+    
+    
+    model.hosContentName=dic[@"hospital"];
+    model.timeContentName=dic[@"recordTime"];
     
     [cell RecordViewCellWithObject:model];
     

@@ -133,11 +133,78 @@ extern NSString *const NIMKitUserMuteListHasUpdatedNotification;
 - (NIMKitInfo *)infoByUser:(NSString *)userId
                  inSession:(NIMSession *)session
 {
-    NIMKitInfo *info = nil;
-    if (_provider && [_provider respondsToSelector:@selector(infoByUser:inSession:)]) {
-        info = [_provider infoByUser:userId inSession:session];
+//    NIMKitInfo *info = nil;
+//    if (_provider && [_provider respondsToSelector:@selector(infoByUser:inSession:)]) {
+//        info = [_provider infoByUser:userId inSession:session];
+//    }
+//    
+    
+    
+    BOOL needFetchInfo = NO;
+    NIMSessionType sessionType = session.sessionType;
+    NIMKitInfo *info = [[NIMKitInfo alloc] init];
+    info.infoId = userId;
+    info.showName = userId; //默认值
+    switch (sessionType) {
+        case NIMSessionTypeP2P:
+        case NIMSessionTypeTeam:
+        {
+            NIMUser *user = [[NIMSDK sharedSDK].userManager userInfo:userId];
+            NIMUserInfo *userInfo = user.userInfo;
+            NIMTeamMember *member = nil;
+            if (sessionType == NIMSessionTypeTeam)
+            {
+                member = [[NIMSDK sharedSDK].teamManager teamMember:userId
+                                                             inTeam:session.sessionId];
+            }
+            NSString *name = [self nickname:user
+                                 memberInfo:member];
+            if (name)
+            {
+                info.showName = name;
+            }
+            info.avatarUrlString = userInfo.thumbAvatarUrl;
+            
+            if (userInfo == nil)
+            {
+                needFetchInfo = YES;
+            }
+        }
+            break;
+        case NIMSessionTypeChatroom:
+            NSAssert(0, @"invalid type"); //聊天室的Info不会通过这个回调请求
+            break;
+        default:
+            NSAssert(0, @"invalid type");
+            break;
     }
+
     return info;
+}
+#pragma mark - nickname
+- (NSString *)nickname:(NIMUser *)user
+            memberInfo:(NIMTeamMember *)memberInfo
+{
+    NSString *name = nil;
+    do{
+        if ([user.alias length])
+        {
+            name = user.alias;
+            break;
+        }
+        if (memberInfo && [memberInfo.nickname length])
+        {
+            name = memberInfo.nickname;
+            break;
+        }
+        
+        if ([user.userInfo.nickName length])
+        {
+            name = user.userInfo.nickName;
+            break;
+        }
+    }while (0);
+    return name;
 }
 
 - (NIMKitInfo *)infoByTeam:(NSString *)teamId

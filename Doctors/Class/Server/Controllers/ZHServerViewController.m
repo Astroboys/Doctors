@@ -10,12 +10,13 @@
 #import "UIViewController+MMDrawerController.h"
 #import "Masonry.h"
 #import "ZHVipInfoViewController.h"
-
+#import "UIImageView+WebCache.h"
 @interface ZHServerViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    NSArray *dataArray;
+}
 @property(nonatomic,strong)UITableView*infotab;
 
-@property(nonatomic,strong)NSMutableArray*dataArr;
 
 @end
 
@@ -26,6 +27,30 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = DWColor(243, 243, 243);
     self.navigationItem.title=@"健康屋";
+    
+    
+   //    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/allotCustToDoc"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+//        //200登陆成功，201登陆成功未认证
+//        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+//            NSString *code = responseObject[@"code"];
+//            if (code.intValue == 200) {
+//                if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+//                   
+//                }
+//            }else if (code.intValue == 201){
+//                
+//                
+//            }else{
+//            }
+//            NSLog(@"%@",responseObject);
+//            
+//        }
+//        
+//    } failure:^(NSError *error) {
+//    }];
+
+    
+    
     
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -43,6 +68,41 @@
     _infotab.dataSource=self;
     [self.view addSubview:_infotab];
     
+    
+    
+    
+    
+    NSDictionary *dic = @{@"goodAt":@"高血压"};
+    
+//    
+//    [NetWorkingManager sendPOSTDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/allotCustToDoc"] withParamters:dic withProgress:^(float progress) {
+//        
+//    } success:^(BOOL isSuccess, id responseObject) {
+//        NSLog(@"%@",responseObject);
+//
+//    } failure:^(NSError *error) {
+//        
+//    }];
+    
+    
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/allotCustToDoc"] withParamters:dic withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                dataArray = responseObject[@"data"];
+                [_infotab reloadData];
+            }
+        }
+        NSLog(@"%@",responseObject);
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    
+    
+    
+    
 }
 
 
@@ -54,7 +114,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 8;
+    return dataArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -69,15 +129,14 @@
     }
     
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-   
+    NSDictionary *dic = dataArray[indexPath.row];
     cell.textLabel.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.imageView.image=[UIImage imageNamed:@"healthIcon"];
-    int random=arc4random_uniform(3);
-    cell.textLabel.text=self.dataArr[random][0];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:dic[@"portraitUrl"]] placeholderImage:[UIImage imageNamed:@"healthIcon"]];
+    cell.textLabel.text=dic[@"name"];
     cell.detailTextLabel.numberOfLines=0;
     cell.detailTextLabel.textColor = [UIColor colorWithRed:149/255.0 green:149/255.0 blue:149/255.0 alpha:1];
-    cell.detailTextLabel.text=self.dataArr[random][1];
+    cell.detailTextLabel.text=dic[@"question"];
     cell.detailTextLabel.numberOfLines = 1;
     cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
@@ -90,7 +149,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ZHVipInfoViewController*vipInfoVc=[[ZHVipInfoViewController alloc]init];
-    
+    vipInfoVc.dataDic = dataArray[indexPath.row];
     [self.navigationController pushViewController:vipInfoVc animated:YES];
 
 }
@@ -113,18 +172,6 @@
     }
 }
 
-- (NSMutableArray *)dataArr {
-    if(_dataArr == nil) {
-        _dataArr = [NSMutableArray array];
-        NSArray *first=@[@"陈金明",@"先天性心脏病、风湿性心脏病、高血压sadfasdfasdfasdfsdfasdfasdfasdfasdfasd"];
-        NSArray *second=@[@"李国庆",@"先心病、冠心病、房颤以及各种心脏病"];
-        NSArray *third=@[@"张立群",@"糖尿病1型"];
-        [_dataArr addObject:first];
-        [_dataArr addObject:second];
-        [_dataArr addObject:third];
-    }
-    return _dataArr;
-}
 
 
 

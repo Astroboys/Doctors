@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ZHPrescribeViewController : UIViewController
-
+@property(nonatomic,strong) NSDictionary *personInfo;
 @end

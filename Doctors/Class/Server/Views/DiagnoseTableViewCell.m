@@ -61,7 +61,7 @@
         
         make.top.mas_equalTo(self.contentView.mas_top).with.offset(10);
         make.left.mas_equalTo(self.timeImage.mas_right).with.offset(8);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
         
     }];

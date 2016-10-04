@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface JudgeView : UIView
-
+@property (nonatomic,strong)NSString *customId;
 @end

@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor=[UIColor lightGrayColor];
+    self.view.backgroundColor = DWColor(243, 243, 243);
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -98,19 +98,23 @@
     
     _titleLbl=[[UILabel alloc]init];
     _titleLbl.text=@"开启您的健康之旅";
-    [_titleLbl setFont:[UIFont systemFontOfSize:14]];
+    _titleLbl.textColor = DWColor(70, 70, 70);
+    [_titleLbl setFont:[UIFont systemFontOfSize:15]];
     [self.view addSubview:_titleLbl];
     
    
     
     _phoneLbl=[[UILabel alloc]init];
     _phoneLbl.text=@"手机号";
-    [_phoneLbl setFont:[UIFont systemFontOfSize:14]];
+    _phoneLbl.textColor = DWColor(70, 70, 70);
+    [_phoneLbl setFont:[UIFont systemFontOfSize:15]];
     [oneView addSubview:_phoneLbl];
     
     _phoneText=[[UITextField alloc]init];
     _phoneText.placeholder=@"请输入您的手机号";
-    [_phoneText setFont:[UIFont systemFontOfSize:14]];
+    _phoneText.textColor = DWColor(166, 171, 185);
+
+    [_phoneText setFont:[UIFont systemFontOfSize:15]];
     [oneView addSubview:_phoneText];
     
     lineOneView=[[UIView alloc]init];
@@ -131,7 +135,7 @@
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(15);
         make.left.mas_equalTo(self.view.mas_left).with.offset(15);
-        make.width.mas_equalTo(120);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     
@@ -167,7 +171,7 @@
         make.top.equalTo(lineOneView.mas_bottom).with.offset(40);
         make.left.mas_equalTo(oneView.mas_left).with.offset(30);
         make.right.mas_equalTo(oneView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
 
 
@@ -180,17 +184,20 @@
 -(void)setupTwoViewUI{
     
     
+    
     _titleLbl=[[UILabel alloc]init];
     _titleLbl.text=@"开启您的健康之旅";
-    [_titleLbl setFont:[UIFont systemFontOfSize:14]];
+    _titleLbl.textColor = DWColor(70, 70, 70);
+    [_titleLbl setFont:[UIFont systemFontOfSize:15]];
     [self.view addSubview:_titleLbl];
-    
     
     
     
     codeText=[[UITextField alloc]init];
     codeText.placeholder=@"请输入验证码";
-    [codeText setFont:[UIFont systemFontOfSize:14]];
+    codeText.textColor = DWColor(166, 171, 185);
+
+    [codeText setFont:[UIFont systemFontOfSize:15]];
     [twoView addSubview:codeText];
     
     
@@ -217,7 +224,7 @@
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(15);
         make.left.mas_equalTo(self.view.mas_left).with.offset(15);
-        make.width.mas_equalTo(120);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     
@@ -255,7 +262,7 @@
         make.top.equalTo(lineTwoView.mas_bottom).with.offset(40);
         make.left.mas_equalTo(twoView.mas_left).with.offset(30);
         make.right.mas_equalTo(twoView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     
@@ -265,18 +272,17 @@
 
 -(void)setupThreeViewUI{
     
-    
     _titleLbl=[[UILabel alloc]init];
     _titleLbl.text=@"开启您的健康之旅";
-    [_titleLbl setFont:[UIFont systemFontOfSize:14]];
+    _titleLbl.textColor = DWColor(70, 70, 70);
+    [_titleLbl setFont:[UIFont systemFontOfSize:15]];
     [self.view addSubview:_titleLbl];
-    
-    
-    
     
     passwordText=[[UITextField alloc]init];
     passwordText.placeholder=@"请输入新密码";
-    [passwordText setFont:[UIFont systemFontOfSize:14]];
+    passwordText.textColor = DWColor(166, 171, 185);
+
+    [passwordText setFont:[UIFont systemFontOfSize:15]];
     [threeView addSubview:passwordText];
     
     lineThreeView=[[UIView alloc]init];
@@ -286,7 +292,9 @@
     
     rePasswordText=[[UITextField alloc]init];
     rePasswordText.placeholder=@"请确认新密码";
-    [rePasswordText setFont:[UIFont systemFontOfSize:14]];
+    rePasswordText.textColor = DWColor(166, 171, 185);
+
+    [rePasswordText setFont:[UIFont systemFontOfSize:15]];
     [threeView addSubview:rePasswordText];
     
     
@@ -304,7 +312,7 @@
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).with.offset(15);
         make.left.mas_equalTo(self.view.mas_left).with.offset(15);
-        make.width.mas_equalTo(120);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     
@@ -341,7 +349,7 @@
         make.top.equalTo(rePasswordText.mas_bottom).with.offset(40);
         make.left.mas_equalTo(threeView.mas_left).with.offset(30);
         make.right.mas_equalTo(threeView.mas_right).with.offset(-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     
@@ -357,7 +365,7 @@
     }
     //type 1为注册 2为找回密码
     NSDictionary *dic = @{@"mobile":_phoneText.text,@"type":@"2"};
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/getCode"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
@@ -417,11 +425,16 @@
     }
     [MBManager showLoadingInView:self.view];
     NSDictionary *dic = @{@"mobile":_phoneText.text,@"password":passwordText.text};
-    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"sysSendMessage/getCode"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/iforgot"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
         [MBManager hideAlert];
+        if ([responseObject[@"code"] isEqualToString:@"200"]) {
+            [MBManager showBriefMessage:@"密码修改成功" InView:self.view];
+        }else{
+            [MBManager showBriefMessage:@"密码修改失败" InView:self.view];
+        }
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
         [MBManager hideAlert];

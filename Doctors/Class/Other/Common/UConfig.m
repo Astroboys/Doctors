@@ -64,6 +64,40 @@
     return str;
 
 }
+
+
++(void)setDoctorId:(NSString *)doctorId
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:doctorId forKey:@"LNDoctorId"];
+    [userDefault synchronize];
+    
+}
++(NSString *)getDoctorId
+{
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    NSString *str = [NSString stringWithFormat:@"%@",[userDef objectForKey:@"LNDoctorId"]];
+    return str;
+    
+}
+
++(void)setWelcome:(BOOL)welCome
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setBool:welCome forKey:@"LNWelcome"];
+    [userDefault synchronize];
+    
+}
++(BOOL)getWelcome
+{
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    BOOL isWelCome = [userDef boolForKey:@"LNWelcome"];
+    return isWelCome;
+    
+}
+
+
+
 ////IM登录状态
 //+(void)setIMLoginState:(BOOL)state
 //{
@@ -93,6 +127,8 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNLoginNum"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNLoginToken"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNLoginCode"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNDoctorId"];
+
 
 }
 

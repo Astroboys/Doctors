@@ -47,16 +47,21 @@ static NetWorkingManager * defualt_shareMananger = nil;
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         // 设置相应的缓存策略--URL应该加载源端数据，不使用本地缓存数据,忽略缓存直接从原始地址下载。
         self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+        self.responseSerializer = [AFJSONResponseSerializer serializer];
+        
+        
+         [self.requestSerializer setValue:@"text/html;charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        
         // 设置超时时间
         self.requestSerializer.timeoutInterval = 60;
-        // 设置请求内容的类型-- 复杂的参数类型 需要使用json传值-设置请求内容的类型
-        [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"]; // 设置请求内容的类型
-        
+//        // 设置请求内容的类型-- 复杂的参数类型 需要使用json传值-设置请求内容的类型
+//        [self.requestSerializer setValue:@"application/json;" forHTTPHeaderField:@"Accept"]; // 设置请求内容的类型
+////        [self.requestSerializer setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+//        self.requestSerializer.stringEncoding =CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF8);
         //注意：默认的Response为json数据
-        AFJSONResponseSerializer *responseSerializer  = [AFJSONResponseSerializer serializer];
+//        AFJSONResponseSerializer *responseSerializer  = [AFJSONResponseSerializer serializer];
         // 在服务器返回json数据的时候，时常会出现null数据。json解析的时候，可能会将这个null解析成NSNull的对象，我们向这个NSNull对象发送消息的时候就会遇到crash的问题。
-        responseSerializer.removesKeysWithNullValues = YES;
-        self.responseSerializer = responseSerializer;
+    
 #warning 此处可根据自己应用需求设置相应的值
         
         // allowInvalidCertificates 是否允许无效证书（也就是自建的证书），默认为NO
@@ -145,8 +150,10 @@ static NetWorkingManager * defualt_shareMananger = nil;
         
         NSLog(@"responseObject = %@",responseObject);
         if (success) {
-            
-            success(YES,responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                success(YES,responseObject);
+
+            });
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         

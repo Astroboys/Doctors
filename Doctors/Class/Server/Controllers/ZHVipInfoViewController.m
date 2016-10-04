@@ -14,7 +14,8 @@
 #import "UIView+Frame.h"
 #import "LXSegmentScrollView.h"
 #import "ZHPrescribeViewController.h"
-
+#import "PhotoViewController.h"
+#import "LookPdfViewController.h"
 @interface ZHVipInfoViewController ()
 
 @property(nonatomic,strong)UILabel*custName;
@@ -45,6 +46,10 @@
     
     self.navigationItem.title=@"客户信息";
     self.view.backgroundColor=DWColor(40, 128, 194);
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPicture:) name:@"showPicture" object:nil];
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -55,8 +60,12 @@
     self.automaticallyAdjustsScrollViewInsets=NO;
     
     RecordView*record=[[RecordView alloc]init];
+    record.customId = self.dataDic[@"id"];
+
     DiagnoseView*dia=[[DiagnoseView alloc]init];
+    dia.customId = self.dataDic[@"id"];
     JudgeView*juge=[[JudgeView alloc]init];
+    juge.customId = self.dataDic[@"id"];
     
     _viewArray=@[record,dia,juge];
     
@@ -75,27 +84,34 @@
     [self.view addSubview:_custIcon];
 
     _custName=[[UILabel alloc]init];
-    _custName.text=@"王美丽";
+    _custName.text=self.dataDic[@"name"];
     [_custName setFont:[UIFont systemFontOfSize:16]];
     [self.view addSubview:_custName];
     
     _custSex=[[UIImageView alloc]init];
-    _custSex.image=[UIImage imageNamed:@"女"];
+    NSString *sexStr = self.dataDic[@"sex"];
+    if (sexStr.intValue == 1) {
+        _custSex.image=[UIImage imageNamed:@"manIcon"];
+    }else{
+        _custSex.image=[UIImage imageNamed:@"womenIcon"];
+    }
+    
+    
     [self.view addSubview:_custSex];
     
     _custAge=[[UILabel alloc]init];
     [_custAge setFont:[UIFont systemFontOfSize:14]];
-    _custAge.text=@"年龄:";
+    _custAge.text=@"生日:";
     [self.view addSubview:_custAge];
     
     _ageValue=[[UILabel alloc]init];
     [_ageValue setFont:[UIFont systemFontOfSize:14]];
-    _ageValue.text=@"21";
+    _ageValue.text=self.dataDic[@"birthday"];
     [self.view addSubview:_ageValue];
     
     _disease=[[UILabel alloc]init];
     [_disease setFont:[UIFont systemFontOfSize:14]];
-    _disease.text=@"高血压,冠心病等";
+    _disease.text=self.dataDic[@"question"];
     [self.view addSubview:_disease];
     
     
@@ -157,7 +173,7 @@
         
         make.top.equalTo(self.custName.mas_bottom).with.offset(8);
         make.left.mas_equalTo(self.custAge.mas_right).with.offset(8);
-        make.width.mas_equalTo(30);
+        make.width.mas_equalTo(130);
         make.height.mas_equalTo(14);
         
     }];
@@ -180,7 +196,7 @@
         
     }];
     
-    _scView=[[LXSegmentScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,KscViewH) titleArray:@[@"电子病历",@"就医记录",@"效果评价"] contentViewArray:self.viewArray];
+    _scView=[[LXSegmentScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,KscViewH) titleArray:@[@"健康档案",@"就医记录",@"效果评价"] contentViewArray:self.viewArray];
     
     [self.browseView addSubview:_scView];
     
@@ -198,7 +214,7 @@
 -(void)prescribeBtnClick{
 //跳转开处方控制器界面
     ZHPrescribeViewController*preVc=[[ZHPrescribeViewController alloc]init];
-    
+    preVc.personInfo = self.dataDic;
     [self.navigationController pushViewController:preVc animated:YES];
     
 }
@@ -213,6 +229,40 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 
+}
+
+
+- (void)showPicture:(NSNotification *)notif{
+    {
+        //创建模态对象
+        PhotoViewController *photoVc = [[PhotoViewController alloc]init];
+        //把数据传递到photoVc中
+        
+        NSDictionary *dic = notif.userInfo;
+        
+        NSMutableArray *imageArray = dic[@"picture"];
+        NSString *indexStr = dic[@"index"];
+        NSString *selectImage = imageArray[indexStr.intValue];
+        if ([selectImage hasSuffix:@".pdf"]) {
+            LookPdfViewController *vc = [[LookPdfViewController alloc] init];
+            vc.urlStr = selectImage;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }else{
+            NSIndexPath *index = [NSIndexPath indexPathForItem:indexStr.integerValue inSection:0];
+            photoVc.images = imageArray;
+            photoVc.indexpath = index;
+            [self presentViewController:photoVc animated:YES completion:nil];
+        }
+        
+        
+        
+    }
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showPicture" object:nil];
 }
 
 @end
