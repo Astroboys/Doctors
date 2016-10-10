@@ -13,13 +13,22 @@
 #import "ZHDiscoverViewController.h"
 #import "ZHFirstViewController.h"
 #import "ZHNavViewController.h"
-
+#import "AppDelegate.h"
+#import "ZHTabViewController.h"
 @interface ZHTabViewController ()<UITabBarDelegate>
 
 @end
 
 @implementation ZHTabViewController
-
++ (instancetype)instance{
+    AppDelegate *delegete = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    UIViewController *vc = delegete.window.rootViewController;
+    if ([vc isKindOfClass:[ZHTabViewController class]]) {
+        return (ZHTabViewController *)vc;
+    }else{
+        return nil;
+    }
+}
 -(void)viewDidLoad{
     
     [super viewDidLoad];
@@ -108,7 +117,7 @@
                   selectedImageName:@"tabbar_discover_selected"];
 
     [self addOneChildViewController:[[ZHNavViewController alloc]initWithRootViewController:[[ZHServerViewController alloc] init]]
-                          WithTitle:@"服务"
+                          WithTitle:@"健康屋"
                           imageName:@"tabbar_profile"
                   selectedImageName:@"tabbar_profile_selected"];
     

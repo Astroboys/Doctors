@@ -14,7 +14,7 @@
 #import "NTESBundleSetting.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/ALAssetsLibrary.h>
-
+#import "AppDelegate.h"
 //十秒之后如果还是没有收到对方响应的control字段，则自己发起一个假的control，用来激活铃声并自己先进入房间
 #define DelaySelfStartControlTime 10
 //激活铃声后无人接听的超时时间
@@ -198,6 +198,7 @@ NTES_FORBID_INTERACTIVE_POP
 
 
 - (void)hangup{
+    [[AppDelegate uApp].audioPlayer stop];
     _userHangup = YES;
     [[NIMSDK sharedSDK].netCallManager hangup:self.callInfo.callID];
     
@@ -215,7 +216,7 @@ NTES_FORBID_INTERACTIVE_POP
 }
 
 - (void)response:(BOOL)accept{
-    
+    [[AppDelegate uApp].audioPlayer stop];
     _calleeResponsed = YES;
     
     NIMNetCallOption *option = [[NIMNetCallOption alloc] init];
@@ -263,7 +264,14 @@ NTES_FORBID_INTERACTIVE_POP
     transition.delegate = self;
     [self.navigationController.view.layer addAnimation:transition forKey:nil];
     self.navigationController.navigationBarHidden = NO;
-    [self.navigationController popViewControllerAnimated:NO];
+    if (self.isPrentsent == YES) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }else{
+        [self.navigationController popViewControllerAnimated:NO];
+
+    }
     [self setUpStatusBar:UIStatusBarStyleDefault];
     if (completion) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(transition.duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

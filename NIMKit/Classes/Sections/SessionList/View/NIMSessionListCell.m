@@ -23,6 +23,7 @@
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _nameLabel.backgroundColor = [UIColor whiteColor];
         _nameLabel.font            = [UIFont systemFontOfSize:15.f];
+        _nameLabel.textColor       = DWColor(85, 85, 85);
         [self addSubview:_nameLabel];
         
         _messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];

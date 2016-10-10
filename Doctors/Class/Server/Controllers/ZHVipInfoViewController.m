@@ -16,6 +16,7 @@
 #import "ZHPrescribeViewController.h"
 #import "PhotoViewController.h"
 #import "LookPdfViewController.h"
+#import "NTESSessionViewController.h"
 @interface ZHVipInfoViewController ()
 
 @property(nonatomic,strong)UILabel*custName;
@@ -59,6 +60,13 @@
     
     self.automaticallyAdjustsScrollViewInsets=NO;
     
+    UIImage* image2 = [UIImage imageNamed:@"chat_message"];
+    // 告诉系统以后这张图片不进行默认的渲染
+    image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(chatMessage)];
+    self.navigationItem.rightBarButtonItem = item2;
+    
+    
     RecordView*record=[[RecordView alloc]init];
     record.customId = self.dataDic[@"id"];
 
@@ -85,10 +93,12 @@
 
     _custName=[[UILabel alloc]init];
     _custName.text=self.dataDic[@"name"];
-    [_custName setFont:[UIFont systemFontOfSize:16]];
+    [_custName setFont:[UIFont systemFontOfSize:15]];
+    _custName.textColor = [UIColor whiteColor];
     [self.view addSubview:_custName];
     
     _custSex=[[UIImageView alloc]init];
+
     NSString *sexStr = self.dataDic[@"sex"];
     if (sexStr.intValue == 1) {
         _custSex.image=[UIImage imageNamed:@"manIcon"];
@@ -100,17 +110,22 @@
     [self.view addSubview:_custSex];
     
     _custAge=[[UILabel alloc]init];
-    [_custAge setFont:[UIFont systemFontOfSize:14]];
+    [_custAge setFont:[UIFont systemFontOfSize:12]];
     _custAge.text=@"生日:";
+    _custAge.textColor = [UIColor whiteColor];
     [self.view addSubview:_custAge];
     
     _ageValue=[[UILabel alloc]init];
-    [_ageValue setFont:[UIFont systemFontOfSize:14]];
+    [_ageValue setFont:[UIFont systemFontOfSize:12]];
     _ageValue.text=self.dataDic[@"birthday"];
+    _ageValue.textColor = [UIColor whiteColor];
+
     [self.view addSubview:_ageValue];
     
     _disease=[[UILabel alloc]init];
-    [_disease setFont:[UIFont systemFontOfSize:14]];
+    [_disease setFont:[UIFont systemFontOfSize:12]];
+    _disease.textColor = [UIColor whiteColor];
+
     _disease.text=self.dataDic[@"question"];
     [self.view addSubview:_disease];
     
@@ -218,7 +233,15 @@
     [self.navigationController pushViewController:preVc animated:YES];
     
 }
+-(void)chatMessage
+{
+    //创建session,这里聊天对象预设为韩梅梅，此账号也是事先提交到此App下的
+    NIMSession *session = [NIMSession session:self.dataDic[@"memPhone"] type:NIMSessionTypeP2P];
+    //创建聊天页，这个页面继承自 NIMKit 中的组件 NIMSessionViewController
+    NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
+    [self.navigationController pushViewController:vc animated:YES];
 
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

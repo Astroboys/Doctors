@@ -19,7 +19,7 @@
 #import "Doctors-Prefix.pch"
 #import "ZHTabViewController.h"
 #import "ServiceOrderViewController.h"
-
+#import "UIImageView+WebCache.h"
 static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControllerCellReuseId";
 
 @interface YCLeftViewController ()<UITableViewDataSource, UITableViewDelegate,UINavigationControllerDelegate>
@@ -42,6 +42,10 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePhoto) name:@"updatePhoto" object:nil];
+    
+
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -63,7 +67,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     self.messagesView.backgroundColor=[UIColor whiteColor];
     //头像按钮
     _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(5, 10, 60, 60)];
-    _imageView.image=[UIImage imageNamed:@"mineIcon"];
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:[UConfig getPhotoUrl]] placeholderImage:[UIImage imageNamed:@"mineIcon"]];
     [_imageView.layer setMasksToBounds:YES];
     [_imageView.layer setCornerRadius:30.0];
     //[_imageView addTarget:self action:@selector(clickLig) forControlEvents:UIControlEventTouchUpInside];
@@ -110,8 +114,8 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     [self.view addSubview:self.loginout];
    
     
-    _lefs = @[@"基本资料", @"修改头像", @"修改密码", @"服务订单",@"我的咨询记录",@"意见反馈",@"关于"];
-    _lefsImageArr= @[@"basicMaterial", @"changeIcon", @"changePassword",  @"serviceOrder", @"consult", @"changeEmail",@"aboutImg"];
+    _lefs = @[@"基本资料", @"修改头像", @"修改密码", @"服务订单",@"意见反馈",@"关于"];//@"我的咨询记录"
+    _lefsImageArr= @[@"basicMaterial", @"changeIcon", @"changePassword",  @"serviceOrder", @"changeEmail",@"aboutImg"];
     _tableView = [[UITableView alloc] init];
     _tableView.frame = CGRectMake(0, 144, self.view.frame.size.width, self.view.frame.size.height - 144-70);
     _tableView.dataSource = self;
@@ -126,7 +130,11 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
     
     [self.view addSubview:self.tableView];
 }
+-(void)updatePhoto
+{
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:[UConfig getPhotoUrl]] placeholderImage:[UIImage imageNamed:@"mineIcon"]];
 
+}
 //设置状态栏
 - (BOOL)prefersStatusBarHidden
 {
@@ -239,7 +247,18 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         [self settingDrawerWhenPush];
         [self.navigationController pushViewController:password animated:YES];
         
-    }else if(indexPath.row == 5){
+    }else if (indexPath.row == 3){
+        if ([MethodUtil isIdentification]==NO) {
+            [YJProgressHUD showSuccess:@"请完成资质认证后再做操作" inview:self.view];
+            return;
+        }
+        
+        ServiceOrderViewController *service = [[ServiceOrderViewController alloc ] init];
+        [self addCurrentPageScreenshot];
+        [self settingDrawerWhenPush];
+        [self.navigationController pushViewController:service animated:YES];
+
+    }else if(indexPath.row == 4){
         
         ZHFeedbackViewController *email = [[ZHFeedbackViewController alloc ] init];
         [self addCurrentPageScreenshot];
@@ -247,7 +266,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         [self.navigationController pushViewController:email animated:YES];
 
         
-    }else if(indexPath.row == 6){
+    }else if(indexPath.row == 5){
         
         ZHAboutViewController *about = [[ZHAboutViewController alloc ] init];
         [self addCurrentPageScreenshot];
@@ -257,16 +276,7 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         
         
     }else{
-        if ([MethodUtil isIdentification]==NO) {
-            [MBManager showBriefAlert:@"请完成资质认证后再做操作"];
-            return;
-        }
-        
-        ServiceOrderViewController *service = [[ServiceOrderViewController alloc ] init];
-        [self addCurrentPageScreenshot];
-        [self settingDrawerWhenPush];
-        [self.navigationController pushViewController:service animated:YES];
-
+       
         
         
     }
@@ -300,9 +310,9 @@ static NSString * const kYCLeftViewControllerCellReuseId = @"kYCLeftViewControll
         [self removeFromParentViewController];
         
         [UConfig logoutInfomation];//清除存储的信息
-        if ([UConfig getLoginCode].intValue == 200) {
+        if ([UConfig getVerifyStatus] == 1) {
             [[NIMSDK sharedSDK].loginManager logout:^(NSError * _Nullable error) {//退出登录
-                
+               
             }];
             
 

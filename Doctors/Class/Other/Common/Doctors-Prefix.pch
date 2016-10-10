@@ -8,7 +8,7 @@
 
 #ifndef Doctors_Prefix_pch
 #define Doctors_Prefix_pch
-#define BaseUrl @"http://192.168.1.105:8080/newAngel/"
+#define BaseUrl @"http://120.77.12.16/"//@"http://192.168.1.109:8080/newAngel/"//
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #define kWidth [UIScreen mainScreen].bounds.size.width
@@ -66,11 +66,9 @@ NO)
 #import "NIMAVChat.h"
 #import "NIMKit.h"
 #import "NTESGlobalMacro.h"
-#import "MBManager.h"
 #import "UConfig.h"
 #import "MethodUtil.h"
-#import "MBManager.h"
-
+#import "YJProgressHUD.h"
 #define NTES_USE_CLEAR_BAR - (BOOL)useClearBar{return YES;}
 
 #define NTES_FORBID_INTERACTIVE_POP - (BOOL)forbidInteractivePop{return YES;}

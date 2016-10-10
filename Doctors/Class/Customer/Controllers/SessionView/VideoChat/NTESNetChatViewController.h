@@ -15,6 +15,7 @@
 @interface NTESNetChatViewController : UIViewController<NIMNetCallManagerDelegate,NTESTimerHolderDelegate>
 
 @property (nonatomic,strong) NetCallChatInfo *callInfo;
+@property (nonatomic,assign) BOOL isPrentsent;
 
 @property (nonatomic,strong) AVAudioPlayer *player; //播放提示音
 

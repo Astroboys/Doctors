@@ -54,6 +54,10 @@ UIView *hudAddedView;
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.labelText = message;
+    
+    hud.label.numberOfLines = 0;
+    [hud.label sizeToFit];
+    
     hud.mode = MBProgressHUDModeText;
     hud.margin = 10.f;
     //HUD.yOffset = 200;
@@ -155,7 +159,8 @@ UIView *hudAddedView;
     MBProgressHUD *hud = [self HUDForView:view];
     if (hud != nil) {
         hud.removeFromSuperViewOnHide = YES;
-        [hud hide:animated];
+        [hud hideAnimated:animated];
+        [hud removeFromSuperview];
         return YES;
     }
     return NO;

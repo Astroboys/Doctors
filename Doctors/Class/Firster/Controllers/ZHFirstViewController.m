@@ -15,8 +15,14 @@
 #import "UIViewController+MMDrawerController.h"
 #import "UploadCerViewController.h"
 #import "AlertViewController.h"
+#import "UIImageView+WebCache.h"
+#import "ZHFirstTableViewCell.h"
+#import "ZHMterialViewController.h"
 @interface ZHFirstViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    UILabel *labelCount;
+    UILabel *tabarCount;
+}
 @property(nonatomic,strong)UIImageView*imageView;
 @property(nonatomic,strong)UILabel*idNum;
 @property(nonatomic,strong)UIView*doctorView;
@@ -51,6 +57,36 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    
+    NSDictionary *dic = @{@"doctorId":[UConfig getDoctorId]};
+    
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/findDoctorConsultAtten"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *code = responseObject[@"code"];
+            if (code.intValue == 200) {
+                if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = responseObject[@"data"];
+
+                    NSDictionary *dict = array.firstObject;
+                    NSString *zonghe = [MethodUtil exist:dict[@"comprehensive"]];
+                    NSString *zixun = [MethodUtil exist:dict[@"advisoryNumber"]];
+                    NSString *guanzhu = [MethodUtil exist:dict[@"atteNum"]];
+                    _zonghela.text = zonghe.length>0?zonghe:@"0";
+                    _zixunla.text =  zixun.length>0?zixun:@"0";
+                    _guanzhula.text = guanzhu.length>0?guanzhu:@"0";
+                }
+            }else{
+            }
+            NSLog(@"%@",responseObject);
+
+        }
+        
+    } failure:^(NSError *error) {
+    }];
+    [_detailtab reloadData];
+    
+    
 }
 - (UIImage *)imageWithColor:(UIColor *)color
 {
@@ -73,6 +109,10 @@
    
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
+    
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePhoto) name:@"updatePhoto" object:nil];
+    
     UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
     // 告诉系统以后这张图片不进行默认的渲染
     image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -85,25 +125,87 @@
     
     self.navigationItem.title=@"";
     
-        // 创建活动的按钮
+    
+    
+    UIButton*rightButton = [[UIButton alloc]initWithFrame:CGRectMake(0,0,30,30)];
+    [rightButton setImage:image2 forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(firstClickright)forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    // 创建活动的按钮
     UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(firstClickright)];
     
+    labelCount = [[UILabel alloc] initWithFrame:CGRectMake(17, 6, 8, 8)];
+    labelCount.backgroundColor = [UIColor redColor];
+//    labelCount.textColor = [UIColor redColor];
+    labelCount.font = [UIFont systemFontOfSize:10];
+    labelCount.layer.masksToBounds = YES;
+    labelCount.layer.cornerRadius = 4;
+    if ([UConfig getUnreadCount]==0) {
+        labelCount.hidden = YES;
+    }else{
+        labelCount.hidden = NO;
+    }
+
+//    labelCount.text = [NSString stringWithFormat:@"%ld",(long)[UConfig getUnreadCount]];
+    [rightButton addSubview:labelCount];
+
+    
+    
+    tabarCount = [[UILabel alloc] initWithFrame:CGRectMake((kWidth/8)+8, 6, 8, 8)];
+    tabarCount.backgroundColor = [UIColor redColor];
+    //    labelCount.textColor = [UIColor redColor];
+    tabarCount.font = [UIFont systemFontOfSize:10];
+    tabarCount.layer.masksToBounds = YES;
+    tabarCount.layer.cornerRadius = 4;
+    if ([UConfig getUnreadCount]==0) {
+        tabarCount.hidden = YES;
+    }else{
+        tabarCount.hidden = NO;
+    }
+    [self.tabBarController.tabBar addSubview:tabarCount];
+    
+
+    
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    
     self.navigationItem.leftBarButtonItem = item1;
-    self.navigationItem.rightBarButtonItem = item2;
+//    self.navigationItem.rightBarButtonItem = item2;
     
     self.view.backgroundColor=[UIColor colorWithRed:40/255.0 green:128/255.0 blue:194/255.0 alpha:1];
     
+   
+    
+    
+    
+    
+    
     _dataImageArr=@[@"briefly",@"cure",@"hospital",@"briefly"];
+    _dataArr = @[@"所在医院:",@"所在科室:",@"擅长主治:",@"医师职称:"];
     
     [self setupUI];
     [self setupFrame];
+}
+-(void)updatePhoto
+{
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:[UConfig getPhotoUrl]] placeholderImage:[UIImage imageNamed:@"mineIcon"]];
+    if ([UConfig getUnreadCount]==0) {
+        labelCount.hidden = YES;
+        tabarCount.hidden = YES;
+    }else{
+        labelCount.hidden = NO;
+        tabarCount.hidden = NO;
+    }
+//    labelCount.text = [NSString stringWithFormat:@"%ld",(long)[UConfig getUnreadCount]];
 }
 
 -(void)setupUI{
 
     //头像按钮
     _imageView =[[UIImageView alloc]init];
-    _imageView.image=[UIImage imageNamed:@"indexIcon"];
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:[UConfig getPhotoUrl]] placeholderImage:[UIImage imageNamed:@"indexIcon"]];
     [_imageView.layer setMasksToBounds:YES];
     [_imageView.layer setCornerRadius:40.0];
     [self.view addSubview:self.imageView];
@@ -129,14 +231,19 @@
     _shenheButton =[[ChangeBtn alloc]init];
     [_shenheButton setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
     [_shenheButton setTitle:@"认证审核" forState:UIControlStateNormal];
+    [_shenheButton addTarget:self action:@selector(shenheAction) forControlEvents:UIControlEventTouchUpInside];
     _shenheButton.backgroundColor = [UIColor clearColor];
-    _shenheButton.userInteractionEnabled=NO;
+//    _shenheButton.userInteractionEnabled=NO;
+    
+    
     
     _shimingButton =[[ChangeBtn alloc]init];
     [_shimingButton setImage:[UIImage imageNamed:@"realName"] forState:UIControlStateNormal];
     [_shimingButton setTitle:@"实名认证" forState:UIControlStateNormal];
+    [_shimingButton addTarget:self action:@selector(shimingAction) forControlEvents:UIControlEventTouchUpInside];
+
     _shimingButton.backgroundColor = [UIColor clearColor];
-    _shimingButton.userInteractionEnabled=NO;
+//    _shimingButton.userInteractionEnabled=NO;
     
     [_doctorView addSubview:_shimingButton];
     [_doctorView addSubview:_shenheButton];
@@ -220,44 +327,58 @@
 
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 1;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 4;
+    return _dataArr.count;
 }
+
+
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString *ID=@"cell";
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
+    ZHFirstTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell=[[ZHFirstTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
     }
-    cell.textLabel.text=self.dataArr[indexPath.row];
-    [cell.textLabel setFont:kFont(14)];
-    cell.textLabel.textColor = DWColor(85, 85, 85);
-    cell.detailTextLabel.textColor = DWColor(85, 85, 85);
+    cell.titleLab.text=_dataArr[indexPath.row];
+    cell.detailText.textColor = DWColor(85, 85, 85);
     
     NSDictionary *dict = [UConfig getPersonInfo];
     switch (indexPath.row) {
         case 0:
         {
-            cell.detailTextLabel.text = dict[@"hospital"];
+            cell.detailText.text = dict[@"hospital"];
 
         }
             break;
         case 1:
         {
-            cell.detailTextLabel.text = dict[@"department"];
+            cell.detailText.text = dict[@"department"];
         }
             break;
         case 2:
         {
-            cell.detailTextLabel.text = dict[@"goodAt"];
+            cell.detailText.text = dict[@"goodAt"];
         }
             break;
         case 3:
         {
-            cell.detailTextLabel.text = dict[@"profession"];
+            NSArray *professionArray = @[@"住院医师",@"主治医师",@"副主任医师",@"主任医师"];
+            if (dict.count>0) {
+                NSString *professionStr = dict[@"profession"];
+               
+                if (professionStr.length>0&&professionStr.intValue>0 && professionStr.intValue<professionArray.count) {
+                    cell.detailText.text = professionArray[professionStr.intValue-1];
+                }
+
+            }
+            
         }
             break;
 
@@ -265,7 +386,7 @@
             break;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.imageView.image=[UIImage imageNamed:_dataImageArr[indexPath.row]];
+    cell.photoView.image=[UIImage imageNamed:_dataImageArr[indexPath.row]];
     return cell;
 }
 
@@ -277,19 +398,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     
-    return 50;
+    return 45;
         
 }
 
--(NSArray *)dataArr{
-    
-    if(_dataArr == nil) {
-        
-        _dataArr = @[@"所在医院:",@"所在科室:",@"擅长主治:",@"医师职称:"];
-    }
-    return _dataArr;
-    
-}
 -(void)setupFrame{
 
 //    if(isiPhone6P){
@@ -792,11 +904,28 @@
     
 }
 
+
+
 -(void)zizhiAction
 {
     UploadCerViewController *vc = [[UploadCerViewController alloc] init];
+    vc.isUpload = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)shenheAction
+{
+    UploadCerViewController *vc = [[UploadCerViewController alloc] init];
+    vc.isUpload = NO;
     [self.navigationController pushViewController:vc animated:YES];
 
+}
+-(void)shimingAction
+{
+    ZHMterialViewController *vc = [[ZHMterialViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 -(void)firstClickleft{
@@ -815,7 +944,10 @@
 //        
 //    }]];
 //    [self presentViewController:alertController animated:YES completion:nil];
-    
+    if ([MethodUtil isIdentification]==NO) {
+        [YJProgressHUD showSuccess:@"请完成资质认证后再做操作" inview:self.view];
+        return;
+    }
     AlertViewController *vc = [[AlertViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
     

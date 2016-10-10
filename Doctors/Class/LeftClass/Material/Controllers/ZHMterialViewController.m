@@ -603,10 +603,9 @@
     
     [self.view endEditing:NO];
     //点击保存 储存
-    NSDictionary*meteDict= @{@"id":[UConfig getDoctorId],@"checkCode":[UConfig getLoginCode],@"name":_nameText.text,@"sex":[NSString stringWithFormat:@"%d",sexCode],@"age":self.ageText.text,@"mobile":_phoneText.text,@"department":_departmentText.text,@"goodAt":_goodAtText.text,@"birthday":_birText.text,@"profession":[NSString stringWithFormat:@"%d",professionCode],@"email":_emailText.text,@"hospital":_hospitalText.text,@"address":_addText.text};
+    NSDictionary*meteDict= @{@"id":[UConfig getDoctorId],@"name":_nameText.text,@"sex":[NSString stringWithFormat:@"%d",sexCode],@"age":self.ageText.text,@"mobile":_phoneText.text,@"department":_departmentText.text,@"goodAt":_goodAtText.text,@"birthday":_birText.text,@"profession":[NSString stringWithFormat:@"%d",professionCode],@"email":_emailText.text,@"hospital":_hospitalText.text,@"address":_addText.text};
     
-    
-    [MBManager showLoadingInView:self.view];
+    [YJProgressHUD showProgress:@"正在保存..." inView:self.view];
 
 //    [NetWorkingManager sendPOSTDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/edit"] withParamters:meteDict withProgress:^(float progress) {
 //        
@@ -620,12 +619,15 @@
 //
 //    }];
     
-    
-    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/edit"] withParamters:meteDict withProgress:^(float progress) {
+    [NetWorkingManager sendPOSTImageWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/upload"] withParamters:meteDict withImageArray:nil withtargetWidth:300 withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
         NSLog(@"%@",responseObject);
+        
         if ([responseObject[@"code"] isEqualToString:@"200"]) {
+            [YJProgressHUD hide];
+            [YJProgressHUD showSuccess:@"保存成功" inview:self.view];
+            
             NSDictionary *diction = responseObject[@"data"];
             if ([diction isKindOfClass:[NSDictionary class]]) {
                 NSString *idStr = diction[@"id"];
@@ -633,19 +635,29 @@
                     [UConfig setDoctorId:idStr];
                 }
             }
+        }else{
+            [YJProgressHUD showSuccess:@"保存失败" inview:self.view];
+            
         }
-        [MBManager hideAlert];
+        
         [UConfig setPersonInfo:meteDict];
-
+        
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
-        [MBManager hideAlert];
+        [YJProgressHUD hide];
+
+        [YJProgressHUD showSuccess:@"保存失败，请检查网络" inview:self.view];
+        
     }];
+
     
    
 }
 
-
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [NetWorkingManager cancelAllNetworkRequest];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

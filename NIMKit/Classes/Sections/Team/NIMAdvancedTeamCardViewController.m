@@ -553,7 +553,7 @@
 - (void)onTouchAvatar:(id)sender{
     if([NIMKitUtil canEditTeamInfo:self.myTeamInfo])
     {
-        _avatarActionSheet = [[UIActionSheet alloc] initWithTitle:@"设置群头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册", nil];
+        _avatarActionSheet = [[UIActionSheet alloc] initWithTitle:@"设置群头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"相册", nil];
         [_avatarActionSheet showInView:self.view];
     }
 }
@@ -754,17 +754,77 @@
             NSString *name = [_updateTeamNameAlertView textFieldAtIndex:0].text;
             if (name.length) {
                 
-                [[NIMSDK sharedSDK].teamManager updateTeamName:name teamId:self.team.teamId completion:^(NSError *error) {
-                    if (!error) {
-                        self.team.teamName = name;
+                
+                NSDictionary *dic= @{@"mobile":[UConfig getLoginNumber],@"tid":self.team.teamId,@"tname":name};
+                
+                
+                __weak typeof(self) wself = self;
+
+                [NetWorkingManager sendPOSTImageWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/updateCircle"] withParamters:dic withImageArray:nil withtargetWidth:200 withProgress:^(float progress) {
+                    
+                } success:^(BOOL isSuccess, id responseObject) {
+                    NSLog(@"%@",responseObject);
+                    [NIMProgressHUD dismiss];
+                    NSString *code = responseObject[@"code"];
+                    if (code.intValue == 200) {
+                        wself.team.teamName = name;
                         [self.view nimkit_makeToast:@"修改成功" duration:2
                                            position:NIMKitToastPositionCenter];
                         [self reloadData];
+                        
+                        
                     }else{
-                        [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败 code:%zd",error.code] duration:2
+                        [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败"] duration:2
                                            position:NIMKitToastPositionCenter];
+                        ;
+                        
+                        
                     }
+                } failure:^(NSError *error) {
+                    NSLog(@"%@",error);
+                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败,请检查网络"] duration:2
+                                       position:NIMKitToastPositionCenter];
+                    
+                    
                 }];
+
+                
+//                
+//                [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/updateCircle"] withParamters:dic withProgress:^(float progress) {
+//                    
+//                } success:^(BOOL isSuccess, id responseObject) {
+//                    NSString *codeStr = responseObject[@"code"];
+//                    if (codeStr.intValue == 200) {
+//                        self.team.teamName = name;
+//                        [self.view nimkit_makeToast:@"修改成功" duration:2
+//                                           position:NIMKitToastPositionCenter];
+//                        [self reloadData];
+//                        
+//                        
+//                    }else{
+//                        [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败"] duration:2
+//                                           position:NIMKitToastPositionCenter];
+//;
+//                    }
+//                } failure:^(NSError *error) {
+//                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败,请检查网络"] duration:2
+//                                       position:NIMKitToastPositionCenter];
+//
+//                }];
+
+                
+//                
+//                [[NIMSDK sharedSDK].teamManager updateTeamName:name teamId:self.team.teamId completion:^(NSError *error) {
+//                    if (!error) {
+//                        self.team.teamName = name;
+//                        [self.view nimkit_makeToast:@"修改成功" duration:2
+//                                           position:NIMKitToastPositionCenter];
+//                        [self reloadData];
+//                    }else{
+//                        [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败 code:%zd",error.code] duration:2
+//                                           position:NIMKitToastPositionCenter];
+//                    }
+//                }];
             }
             break;
         }
@@ -802,15 +862,73 @@
             break;
         case 1:{
             NSString *intro = [_updateTeamIntroAlertView textFieldAtIndex:0].text;
-            [[NIMSDK sharedSDK].teamManager updateTeamIntro:intro teamId:self.team.teamId completion:^(NSError *error) {
-                if (!error) {
-                    self.team.intro = intro;
+            
+            
+            NSDictionary *dic= @{@"mobile":[UConfig getLoginNumber],@"tid":self.team.teamId,@"intro":intro};
+            
+            __weak typeof(self) wself = self;
+
+            [NetWorkingManager sendPOSTImageWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/updateCircle"] withParamters:dic withImageArray:nil withtargetWidth:200 withProgress:^(float progress) {
+                
+            } success:^(BOOL isSuccess, id responseObject) {
+                NSLog(@"%@",responseObject);
+                [NIMProgressHUD dismiss];
+                NSString *code = responseObject[@"code"];
+                if (code.intValue == 200) {
+                    wself.team.intro = intro;
                     [self.view nimkit_makeToast:@"修改成功"];
                     [self reloadData];
+
                 }else{
-                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败 code:%zd",error.code]];
+                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败"] duration:2
+                                       position:NIMKitToastPositionCenter];
+                    ;
+
+                    
                 }
+            } failure:^(NSError *error) {
+                NSLog(@"%@",error);
+                [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败,请检查网络"] duration:2
+                                   position:NIMKitToastPositionCenter];
+                
+                
             }];
+            
+
+            
+//            
+//            [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/updateCircle"] withParamters:dic withProgress:^(float progress) {
+//                
+//            } success:^(BOOL isSuccess, id responseObject) {
+//                NSString *codeStr = responseObject[@"code"];
+//                if (codeStr.intValue == 200) {
+//                    self.team.intro = intro;
+//                    [self.view nimkit_makeToast:@"修改成功"];
+//                    [self reloadData];
+//                    
+//                    
+//                }else{
+//                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败"] duration:2
+//                                       position:NIMKitToastPositionCenter];
+//                    ;
+//                }
+//            } failure:^(NSError *error) {
+//                [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败,请检查网络"] duration:2
+//                                   position:NIMKitToastPositionCenter];
+//                
+//            }];
+//
+            
+            
+//            [[NIMSDK sharedSDK].teamManager updateTeamIntro:intro teamId:self.team.teamId completion:^(NSError *error) {
+//                if (!error) {
+//                    self.team.intro = intro;
+//                    [self.view nimkit_makeToast:@"修改成功"];
+//                    [self reloadData];
+//                }else{
+//                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"修改失败 code:%zd",error.code]];
+//                }
+//            }];
             break;
         }
         default:
@@ -843,18 +961,45 @@
         case 0://取消
             break;
         case 1:{
-            [[NIMSDK sharedSDK].teamManager dismissTeam:self.team.teamId completion:^(NSError *error) {
-                if (!error) {
+            
+            
+            NSDictionary *dic= @{@"mobile":[UConfig getLoginNumber],@"tid":self.team.teamId};
+            [YJProgressHUD showProgress:@"加载中..." inView:self.view];
+            [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/removeCircle"] withParamters:dic withProgress:^(float progress) {
+                
+            } success:^(BOOL isSuccess, id responseObject) {
+                [YJProgressHUD hide];
+                NSString *codeStr = responseObject[@"code"];
+                if (codeStr.intValue == 200) {
                     [self.navigationController popToRootViewControllerAnimated:YES];
+
+
+
                 }else{
-                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"解散失败 code:%zd",error.code]];
+                    [self.view nimkit_makeToast:[NSString stringWithFormat:@"解散失败"]];
                 }
+            } failure:^(NSError *error) {
+                [YJProgressHUD hide];
+                [self.view nimkit_makeToast:[NSString stringWithFormat:@"解散失败,请检查网络"]];
             }];
+            
+            
+            
             break;
         }
         default:
             break;
     }
+    
+    
+    //                    [[NIMSDK sharedSDK].teamManager dismissTeam:self.team.teamId completion:^(NSError *error) {
+    //                        if (!error) {
+    //                            [self.navigationController popToRootViewControllerAnimated:YES];
+    //                        }else{
+    //                            [self.view nimkit_makeToast:[NSString stringWithFormat:@"解散失败 code:%zd",error.code]];
+    //                        }
+    //                    }];
+    
 }
 
 #pragma mark - UIActionSheetDelegate
@@ -1052,35 +1197,71 @@
     NSData *data = UIImageJPEGRepresentation(imageForAvatarUpload, 1.0);
     BOOL success = data && [data writeToFile:filePath atomically:YES];
     __weak typeof(self) wself = self;
-    if (success) {
+//    if (success) {
         [NIMProgressHUD show];
-        [[NIMSDK sharedSDK].resourceManager upload:filePath progress:nil completion:^(NSString *urlString, NSError *error) {
-            [NIMProgressHUD dismiss];
-            if (!error && wself) {
-                [[NIMSDK sharedSDK].teamManager updateTeamAvatar:urlString teamId:wself.team.teamId completion:^(NSError *error) {
-                    if (!error) {
-                        wself.team.avatarUrl = urlString;
-                        [[NIMWebImageManager sharedManager] saveImageToCache:imageForAvatarUpload forURL:[NSURL URLWithString:urlString]];
-                        NIMAdvancedTeamCardHeaderView *headerView = (NIMAdvancedTeamCardHeaderView *)wself.tableView.tableHeaderView;
-                        [headerView refresh];
-                    }else{
-                        [wself.view nimkit_makeToast:@"设置头像失败，请重试"
-                                     duration:2
-                                     position:NIMKitToastPositionCenter];
-                    }
-                }];
+        NSDictionary *dic= @{@"mobile":[UConfig getLoginNumber],@"tid":self.team.teamId};
+
+        NSArray *imageArray = @[image];
+        [NetWorkingManager sendPOSTImageWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/updateCircle"] withParamters:dic withImageArray:imageArray withtargetWidth:200 withProgress:^(float progress) {
+            
+        } success:^(BOOL isSuccess, id responseObject) {
+            NSLog(@"%@",responseObject);
+             [NIMProgressHUD dismiss];
+            NSString *code = responseObject[@"code"];
+            if (code.intValue == 200) {
+                NSURL *url = [NSURL fileURLWithPath:filePath];
+                wself.team.avatarUrl = url.absoluteString;
+//                [[NIMWebImageManager sharedManager] saveImageToCache:imageForAvatarUpload forURL:[NSURL URLWithString:urlString]];
+                NIMAdvancedTeamCardHeaderView *headerView = (NIMAdvancedTeamCardHeaderView *)wself.tableView.tableHeaderView;
+                [headerView refresh];
+
                 
             }else{
                 [wself.view nimkit_makeToast:@"图片上传失败，请重试"
-                             duration:2
-                             position:NIMKitToastPositionCenter];
+                                    duration:2
+                                    position:NIMKitToastPositionCenter];
+
             }
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@",error);
+             [NIMProgressHUD dismiss];
+            [wself.view nimkit_makeToast:@"图片上传失败，请重试"
+                                duration:2
+                                position:NIMKitToastPositionCenter];
+
+            
         }];
-    }else{
-        [self.view nimkit_makeToast:@"图片保存失败，请重试"
-                    duration:2
-                    position:NIMKitToastPositionCenter];
-    }
+
+        
+        
+//        [[NIMSDK sharedSDK].resourceManager upload:filePath progress:nil completion:^(NSString *urlString, NSError *error) {
+//            [NIMProgressHUD dismiss];
+//            if (!error && wself) {
+//                [[NIMSDK sharedSDK].teamManager updateTeamAvatar:urlString teamId:wself.team.teamId completion:^(NSError *error) {
+//                    if (!error) {
+//                        wself.team.avatarUrl = urlString;
+//                        [[NIMWebImageManager sharedManager] saveImageToCache:imageForAvatarUpload forURL:[NSURL URLWithString:urlString]];
+//                        NIMAdvancedTeamCardHeaderView *headerView = (NIMAdvancedTeamCardHeaderView *)wself.tableView.tableHeaderView;
+//                        [headerView refresh];
+//                    }else{
+//                        [wself.view nimkit_makeToast:@"设置头像失败，请重试"
+//                                     duration:2
+//                                     position:NIMKitToastPositionCenter];
+//                    }
+//                }];
+//                
+//            }else{
+//                [wself.view nimkit_makeToast:@"图片上传失败，请重试"
+//                             duration:2
+//                             position:NIMKitToastPositionCenter];
+//            }
+//        }];
+//    }else{
+//        [self.view nimkit_makeToast:@"图片保存失败，请重试"
+//                    duration:2
+//                    position:NIMKitToastPositionCenter];
+//    }
 }
 
 #pragma mark - 旋转处理 (iOS7)

@@ -66,6 +66,7 @@
 
     UILabel*yuanshiLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 0, 80, 50)];
     yuanshiLbl.text =@"原始密码:";
+    yuanshiLbl.textColor = DWColor(85, 85, 85);
     [yuanshiLbl setFont:[UIFont systemFontOfSize:16]];
     _yuanshiText=[[UITextField alloc]initWithFrame:CGRectMake(100,0 , kWidth-80-20, 50)];
     [_yuanshiText setFont:[UIFont systemFontOfSize:16]];
@@ -76,6 +77,8 @@
     //昵称
     UILabel*xinsheLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 50, 80, 50)];
     xinsheLbl.text =@"新设密码:";
+    xinsheLbl.textColor = DWColor(85, 85, 85);
+
     [xinsheLbl setFont:[UIFont systemFontOfSize:16]];
     _xinsheText=[[UITextField alloc]initWithFrame:CGRectMake(100,50 , kWidth-80-20, 50)];
     _xinsheText.placeholder =@"请输入新密码";
@@ -86,6 +89,8 @@
     //性别
     UILabel*moreLbl=[[UILabel alloc]initWithFrame:CGRectMake(20, 100, 80, 50)];
     moreLbl.text =@"重复密码:";
+    moreLbl.textColor = DWColor(85, 85, 85);
+
     [moreLbl setFont:[UIFont systemFontOfSize:16]];
     _moreText=[[UITextField alloc]initWithFrame:CGRectMake(100,100 , kWidth-80-20, 50)];
     _moreText.placeholder =@"请输入新密码";
@@ -95,12 +100,12 @@
     
     [self.view addSubview:_firstView];
     
-    UIButton*quereBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 230, kWidth-40, 35)];
+    UIButton*quereBtn=[[UIButton alloc]initWithFrame:CGRectMake(20, 230, kWidth-40, 40)];
     
-    quereBtn.backgroundColor=[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] ;
+    quereBtn.backgroundColor=DWColor(40, 128, 194);
     [quereBtn addTarget:self action:@selector(quereAction) forControlEvents:UIControlEventTouchUpInside];
     [quereBtn setTitle:@"确认修改" forState:UIControlStateNormal];
-     [quereBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
+    [quereBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [quereBtn.layer setCornerRadius:5];
     [quereBtn.layer setMasksToBounds:YES];
     
@@ -109,28 +114,34 @@
 }
 -(void)quereAction
 {
+    [self.view endEditing:NO];
     if (![_xinsheText.text isEqualToString:_moreText.text]) {
-        [MBManager showBriefMessage:@"两次新密码输入不一致" InView:self.view];
+        [YJProgressHUD showSuccess:@"两次新密码输入不一致" inview:self.view];
         return;
     }
     if (_xinsheText.text.length<1 || _moreText.text.length<1) {
-        [MBManager showBriefMessage:@"新密码不能为空" InView:self.view];
+        [YJProgressHUD showSuccess:@"新密码不能为空" inview:self.view];
+
         return;
     }
-    [MBManager showLoadingInView:self.view];
+     [YJProgressHUD showProgress:@"修改中..." inView:self.view];
     NSDictionary *dic = @{@"mobile":[UConfig getLoginNumber],@"oldPassword":_yuanshiText.text,@"password":_xinsheText.text};
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/upfop"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
-        [MBManager hideAlert];
+        [YJProgressHUD hide];
+        NSString *str = responseObject;
         if ([responseObject[@"code"] isEqualToString:@"200"]) {
-            [MBManager showBriefMessage:@"修改成功" InView:self.view];
+            [YJProgressHUD showSuccess:@"修改成功" inview:self.view];
         }else{
-            [MBManager showBriefMessage:@"修改失败" InView:self.view];
+            [YJProgressHUD showSuccess:@"修改失败" inview:self.view];
         }
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
+        [YJProgressHUD hide];
+
+        [YJProgressHUD showSuccess:@"修改失败,请检查网络" inview:self.view];
         NSLog(@"%@",error.userInfo);
     }];
 

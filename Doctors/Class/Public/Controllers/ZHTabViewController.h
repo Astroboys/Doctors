@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ZHTabViewController : UITabBarController
++ (instancetype)instance;
 
 @end

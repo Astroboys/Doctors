@@ -17,9 +17,11 @@
 #import "UIView+Toast.h"
 #import "UIImage+NIM.h"
 #import "UIView+NIMKitToast.h"
+#import "NIMWebImageManager.h"
 @interface ZHAddCircleViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     UIImage *teamImage;
+    NSString *fielPath;
     
 }
 
@@ -62,6 +64,7 @@
 }
 -(void)addCircleClickLeft{
 
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -115,8 +118,13 @@
 
 -(void)createAction
 {
+    
+    if (_circleName.text.length<1) {
+        [YJProgressHUD showSuccess:@"请输入群名称" inview:self.view];
+        return;
+    }
     __weak typeof(self) wself = self;
-
+    
     NSString *currentUserId = [[NIMSDK sharedSDK].loginManager currentAccount];
     NSArray *members = @[currentUserId];
     NIMCreateTeamOption *option = [[NIMCreateTeamOption alloc] init];
@@ -125,52 +133,60 @@
     option.joinMode   = NIMTeamJoinModeNoAuth;
     option.intro      = _circleIntroduce.text;
     option.postscript = @"邀请你加入群组";
-    [SVProgressHUD show];
-//    [[NIMSDK sharedSDK].teamManager updateTeamAvatar:<#(nonnull NSString *)#> teamId:<#(nonnull NSString *)#> completion:^(NSError * _Nullable error) {
-//        
-//    }];
-    [[NIMSDK sharedSDK].teamManager createTeam:option users:members completion:^(NSError *error, NSString *teamId) {
-        [SVProgressHUD dismiss];
-        if (!error) {
-            
-            
-            NSDictionary *dic = @{@"mobile":[UConfig getLoginNumber],@"type":@"1",@"tname":_circleName.text,@"doctorId":[UConfig getDoctorId],@"msg":@"asdf",@"magree":@"1",@"joinmode":@"1",@"intro":_circleIntroduce.text,@"invitemode":@"0",@"uptinfomode":@"0",@"type":@"1",@"enable":@"1"};
-//
-//            
-//            
-//            [NetWorkingManager sendPOSTDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/addCircle"] withParamters:dic withProgress:^(float progress) {
-//                
-//            } success:^(BOOL isSuccess, id responseObject) {
-//                NSLog(@"%@",responseObject);
-//            } failure:^(NSError *error) {
-//                NSLog(@"%@",error);
-//            }];
+    
+    
+    [YJProgressHUD showProgress:@"创建中..." inView:self.view];
+    NSDictionary *dic = @{@"mobile":[UConfig getLoginNumber],@"type":@"1",@"tname":_circleName.text,@"doctorId":[UConfig getDoctorId],@"magree":@"1",@"msg":@"是否同意加入",@"joinmode":@"1",@"intro":_circleIntroduce.text,@"invitemode":@"0",@"uptinfomode":@"0",@"type":@"1",@"enable":@"1"};
+    NSArray *imageArray = @[teamImage];
+    
+    [NetWorkingManager sendPOSTImageWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/addCircle"] withParamters:dic withImageArray:imageArray withtargetWidth:200 withProgress:^(float progress) {
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        NSLog(@"%@",responseObject);
+        [YJProgressHUD hide];
 
-            [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/circle/addCircle"] withParamters:dic withProgress:^(float progress) {
-                
-                
-            } success:^(BOOL isSuccess, id responseObject) {
-                
-                NSLog(@"%@",responseObject);
-                
-                
-                NIMSession *session = [NIMSession session:teamId type:NIMSessionTypeTeam];
-                NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
-                [wself.navigationController pushViewController:vc animated:YES];
-                [wself uploadTeamImage:teamId];
+        NSString *code = responseObject[@"code"];
+        if (code.intValue == 200) {
+            [YJProgressHUD showSuccess:@"创建成功" inview:self.view];
+            [wself.navigationController popViewControllerAnimated:YES];
 
-            } failure:^(NSError *error) {
-                NSLog(@"%@",error);
-            }];
-
-            
         }else{
-            [wself.view makeToast:@"创建失败" duration:2.0 position:CSToastPositionCenter];
+            [YJProgressHUD showSuccess:@"创建失败" inview:self.view];
         }
+
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+        [YJProgressHUD hide];
+        [YJProgressHUD showSuccess:@"创建失败，请检查网络" inview:self.view];
+
+
     }];
-
+    
+    
 }
-
+//-(void)updatePhoto:(NSString *)teamId
+//{
+//    if (fielPath.length<1) {
+//        return;
+//    }
+//    [[NIMSDK sharedSDK].resourceManager upload:fielPath progress:nil completion:^(NSString *urlString, NSError *error) {
+//        if (!error) {
+//            [[NIMSDK sharedSDK].teamManager updateTeamAvatar:urlString teamId:teamId completion:^(NSError *error) {
+//                if (!error) {
+//                    
+//                    [[NIMWebImageManager sharedManager] saveImageToCache:teamImage forURL:[NSURL URLWithString:urlString]];
+//                   
+//                }else{
+//                   
+//                }
+//            }];
+//            
+//        }else{
+//           
+//        }
+//    }];
+//
+//}
 -(void)setupFrame{
     
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -328,7 +344,8 @@
         [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
         
 //        //得到选择后沙盒中图片的完整路径
-//        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+        NSString *filePath1 = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+        fielPath = filePath1;
 //        NSURL *url = [NSURL fileURLWithPath: filePath];
         //关闭相册界面
         [picker dismissModalViewControllerAnimated:YES];
@@ -384,8 +401,8 @@
         
         [wself selectImageFromCamera];
     }]];
-    [alertController addAction: [UIAlertAction actionWithTitle: @"从相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-        //处理点击从相册选取
+    [alertController addAction: [UIAlertAction actionWithTitle: @"相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+        //处理点击相册选取
         
         [wself selectImageFromAlbum];
     }]];

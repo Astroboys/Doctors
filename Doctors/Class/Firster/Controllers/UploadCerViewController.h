@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UploadCerViewController : UIViewController
-
+@property (nonatomic,assign)BOOL isUpload;
 @end

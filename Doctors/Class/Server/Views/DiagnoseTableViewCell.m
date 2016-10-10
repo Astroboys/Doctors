@@ -61,7 +61,7 @@
         
         make.top.mas_equalTo(self.contentView.mas_top).with.offset(10);
         make.left.mas_equalTo(self.timeImage.mas_right).with.offset(8);
-        make.width.mas_equalTo(180);
+        make.width.mas_equalTo(KDeviceWidth - 35);
         make.height.mas_equalTo(15);
         
     }];
@@ -114,6 +114,8 @@
     if (_timeLabel == nil) {
         _timeLabel = [[UILabel alloc]init];
         _timeLabel.textAlignment = NSTextAlignmentLeft;
+        _timeLabel.textColor = DWColor(149, 149, 149);
+        _timeLabel.font = [UIFont systemFontOfSize:14];
     }
     return _timeLabel;
     
@@ -123,6 +125,9 @@
 {
     if (_titleLabel == nil) {
         _titleLabel = [[UILabel alloc]init];
+        _titleLabel.textColor = DWColor(85, 85, 85);
+        _titleLabel.font = [UIFont systemFontOfSize:14];
+
     }
     return _titleLabel;
 }
@@ -131,6 +136,8 @@
 
     if (_consultLabel==nil) {
         _consultLabel=[[UILabel alloc]init];
+        _consultLabel.textColor = DWColor(24, 144, 203);
+        _consultLabel.font = [UIFont systemFontOfSize:14];
     }
     return _consultLabel;
 }

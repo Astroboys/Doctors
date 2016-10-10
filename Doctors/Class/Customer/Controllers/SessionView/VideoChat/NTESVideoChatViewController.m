@@ -16,7 +16,7 @@
 #import "NTESVideoChatNetStatusView.h"
 #import "NTESGLView.h"
 #import "NTESBundleSetting.h"
-
+#import "AppDelegate.h"
 #define NTESUseGLView
 
 @interface NTESVideoChatViewController ()
@@ -179,13 +179,13 @@
     self.switchCameraBtn.hidden = NO;
     self.disableCameraBtn.hidden = NO;
     self.localRecordBtn.hidden = NO;
-    self.switchModelBtn.hidden = NO;
+    self.switchModelBtn.hidden = YES;
     self.muteBtn.selected = self.callInfo.isMute;
     self.disableCameraBtn.selected = self.callInfo.disableCammera;
     self.localRecordBtn.selected = self.callInfo.localRecording;
     self.localRecordingView.hidden = !self.callInfo.localRecording;
     self.lowMemoryView.hidden = YES;
-    [self.switchModelBtn setTitle:@"语音模式" forState:UIControlStateNormal];
+//    [self.switchModelBtn setTitle:@"语音模式" forState:UIControlStateNormal];
     [self.hungUpBtn removeTarget:self action:NULL forControlEvents:UIControlEventTouchUpInside];
     [self.hungUpBtn addTarget:self action:@selector(hangup) forControlEvents:UIControlEventTouchUpInside];
     self.localVideoLayer.hidden = NO;
@@ -215,6 +215,7 @@
 #pragma mark - IBAction
 
 - (IBAction)acceptToCall:(id)sender{
+    
     BOOL accept = (sender == self.acceptBtn);
     //防止用户在点了接收后又点拒绝的情况
     [self response:accept];

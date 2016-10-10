@@ -124,6 +124,8 @@
     
     if (_nameLabel == nil) {
         _nameLabel = [[UILabel alloc]init];
+        _nameLabel.textColor = DWColor(85, 85, 85);
+        _nameLabel.font = [UIFont systemFontOfSize:14];
     }
     return _nameLabel;
     
@@ -147,6 +149,9 @@
 {
     if (_hospitalLabel == nil) {
         _hospitalLabel = [[UILabel alloc]init];
+        _hospitalLabel.textColor = DWColor(85, 85, 85);
+        _hospitalLabel.font = [UIFont systemFontOfSize:14];
+
     }
     return _hospitalLabel;
 }
@@ -155,6 +160,9 @@
     
     if (_hosContentLabel==nil) {
         _hosContentLabel=[[UILabel alloc]init];
+        _hosContentLabel.textColor = DWColor(85, 85, 85);
+        _hosContentLabel.font = [UIFont systemFontOfSize:14];
+
     }
     return _hosContentLabel;
 }
@@ -163,6 +171,9 @@
 {
     if (_recordTimeLabel == nil) {
         _recordTimeLabel = [[UILabel alloc]init];
+        _recordTimeLabel.textColor = DWColor(85, 85, 85);
+        _recordTimeLabel.font = [UIFont systemFontOfSize:14];
+
     }
     return _recordTimeLabel;
 }
@@ -171,6 +182,9 @@
     
     if (_timeContentLabel==nil) {
         _timeContentLabel=[[UILabel alloc]init];
+        _timeContentLabel.textColor = DWColor(85, 85, 85);
+        _timeContentLabel.font = [UIFont systemFontOfSize:14];
+
     }
     return _timeContentLabel;
 }

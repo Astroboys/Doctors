@@ -8,6 +8,7 @@
 
 #import "JudgeView.h"
 #import "UIImageView+WebCache.h"
+#import "JudgeTableViewCell.h"
 @interface JudgeView()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *_diatabView;
@@ -30,8 +31,8 @@
 {
     _customId = customId;
     if (self.customId.intValue>0) {
-        NSDictionary *dic = @{@"id":[UConfig getDoctorId],@"status":@"1",@"checkCode":@"200",@"customerId":self.customId};
-        NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/findDoctorConsults"];
+        NSDictionary *dic = @{@"doctorId":[UConfig getDoctorId],@"customerId":self.customId};
+        NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/findDoctorCustomerConsults"];
         
         
         dispatch_queue_t judge = dispatch_queue_create("judge", NULL);
@@ -96,20 +97,18 @@
     
     
     static NSString *ID=@"cell";
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
+    JudgeTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell=[[JudgeTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
-    cell.textLabel.text=dataArr[indexPath.row][@"customerName"];
-    [cell.textLabel setFont:kFont(14)];
-    cell.textLabel.textColor = DWColor(85, 85, 85);
-    cell.detailTextLabel.textColor = DWColor(85, 85, 85);
-    cell.detailTextLabel.text = dataArr[indexPath.row][@"evaluation"];
+    
+    
+    [cell.photoView sd_setImageWithURL:[NSURL URLWithString:dataArr[indexPath.row][@"portraitUrl"]] placeholderImage:[UIImage imageNamed:@"healthIcon"]];
+    cell.titleLab.text = dataArr[indexPath.row][@"customerName"];
+   cell.detailLab.text = dataArr[indexPath.row][@"evaluation"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:dataArr[indexPath.row][@"portraitUrl"]] placeholderImage:[UIImage imageNamed:@"healthIcon"]];
-    
-    
+     
     return cell;
     
 }

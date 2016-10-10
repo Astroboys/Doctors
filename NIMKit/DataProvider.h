@@ -10,5 +10,6 @@
 #import "NIMKit.h"
 
 @interface DataProvider : NSObject<NIMKitDataProvider>
-
+- (NIMKitInfo *)infoByUser:(NSString *)userId
+               withMessage:(NIMMessage *)message;
 @end

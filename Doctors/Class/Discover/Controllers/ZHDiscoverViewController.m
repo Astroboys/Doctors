@@ -46,42 +46,69 @@ static NSString *ID=@"cell";
     UIBarButtonItem*rightItem=[[UIBarButtonItem alloc]initWithImage:image2 style:UIBarButtonItemStylePlain target:self action:@selector(discoverClickRight)];
 
     self.navigationItem.rightBarButtonItem=rightItem;
-    self.myTeams = [self fetchTeams];
+//    self.myTeams = [self fetchTeams];
+    [self requestCircleData];
     [[NIMSDK sharedSDK].teamManager addDelegate:self];
 
      [self setupUI];
     
 }
+-(void)requestCircleData
+{
+    NSDictionary *dict = @{@"doctorId":[UConfig getDoctorId]};
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@app/circle/index",BaseUrl] withParamters:dict withProgress:^(float progress){
+        
+    } success:^(BOOL isSuccess, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *codeStr = responseObject[@"code"];
+            if (codeStr.intValue == 200) {
+                if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                    self.myTeams = responseObject[@"data"];
+                    [_circleTabView reloadData];
 
-- (NSMutableArray *)fetchTeams{
-    NSMutableArray *myTeams = [[NSMutableArray alloc]init];
-    for (NIMTeam *team in [NIMSDK sharedSDK].teamManager.allMyTeams) {
-        if (team.type == NIMTeamTypeAdvanced) {
-            [myTeams addObject:team];
+                }
+               
+            }
         }
-    }
-    return myTeams;
+    } failure:^(NSError *error) {
+        
+    }];
 }
+//- (NSMutableArray *)fetchTeams{
+//    NSMutableArray *myTeams = [[NSMutableArray alloc]init];
+//    for (NIMTeam *team in [NIMSDK sharedSDK].teamManager.allMyTeams) {
+//        if (team.type == NIMTeamTypeAdvanced) {
+//            [myTeams addObject:team];
+//        }
+//    }
+//    return myTeams;
+//}
 - (void)onTeamAdded:(NIMTeam *)team{
-    if (team.type == NIMTeamTypeAdvanced) {
-        self.myTeams = [self fetchTeams];
-    }
-    [_circleTabView reloadData];
+//    if (team.type == NIMTeamTypeAdvanced) {
+//        self.myTeams = [self fetchTeams];
+//    }
+//    [_circleTabView reloadData];
+    
+    
+    [self requestCircleData];
 }
 
 - (void)onTeamUpdated:(NIMTeam *)team{
-    if (team.type == NIMTeamTypeAdvanced) {
-        self.myTeams = [self fetchTeams];
-    }
-    [_circleTabView reloadData];
+//    if (team.type == NIMTeamTypeAdvanced) {
+//        self.myTeams = [self fetchTeams];
+//    }
+//    [_circleTabView reloadData];
+    
+    [self requestCircleData];
 }
 
 
 - (void)onTeamRemoved:(NIMTeam *)team{
-    if (team.type == NIMTeamTypeAdvanced) {
-        self.myTeams = [self fetchTeams];
-    }
-    [_circleTabView reloadData];
+//    if (team.type == NIMTeamTypeAdvanced) {
+//        self.myTeams = [self fetchTeams];
+//    }
+//    [_circleTabView reloadData];
+    [self requestCircleData];
 }
 
 -(void)discoverClickLeft{
@@ -92,6 +119,10 @@ static NSString *ID=@"cell";
 //添加圈子
 -(void)discoverClickRight{
 
+    if ([MethodUtil isIdentification]==NO) {
+        [YJProgressHUD showSuccess:@"请完成资质认证后再做操作" inview:self.view];
+        return;
+    }
     ZHAddCircleViewController*addVc=[[ZHAddCircleViewController alloc]init];
     
     [self.navigationController pushViewController:addVc animated:YES];
@@ -142,28 +173,30 @@ static NSString *ID=@"cell";
 //    HealthycircleModel*model=[[HealthycircleModel alloc]init];
     
     
-    NIMTeam *team = [_myTeams objectAtIndex:indexPath.row];
-    cell.nameLabel.text = team.teamName;
-    cell.topicLabel.text = team.intro;
+    NSDictionary *team = [_myTeams objectAtIndex:indexPath.row];
+    cell.nameLabel.text = team[@"tname"];
+    cell.topicLabel.text = team[@"intro"];
     cell.backgroundColor = [UIColor clearColor];
-    NSInteger timeValue = team.createTime;
-    cell.timeLabel.text = [MethodUtil timeWithTimeIntervalString:[NSString stringWithFormat:@"%ld",timeValue]];
-    [cell.circleImage sd_setImageWithURL:[NSURL URLWithString:team.avatarUrl] placeholderImage:[UIImage imageNamed:@"indexIcon"]];
+//    NSInteger timeValue = team.createTime;
+//    cell.timeLabel.text = [MethodUtil timeWithTimeIntervalString:[NSString stringWithFormat:@"%ld",timeValue]];
+    
+    cell.timeLabel.text = team[@"createTime"];
+    [cell.circleImage sd_setImageWithURL:[NSURL URLWithString:team[@"icon"]] placeholderImage:[UIImage imageNamed:@"indexIcon"]];
    
 //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    
+//}
 
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"删除";
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return @"删除";
+//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -171,8 +204,8 @@ static NSString *ID=@"cell";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NIMTeam *team = [_myTeams objectAtIndex:indexPath.row];
-    NIMSession *session = [NIMSession session:team.teamId type:NIMSessionTypeTeam];
+    NSDictionary *team = [_myTeams objectAtIndex:indexPath.row];
+    NIMSession *session = [NIMSession session:team[@"tid"] type:NIMSessionTypeTeam];
     NTESSessionViewController *vc = [[NTESSessionViewController alloc] initWithSession:session];
     [self.navigationController pushViewController:vc animated:YES];
 }

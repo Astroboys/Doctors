@@ -11,6 +11,8 @@
 #import "Masonry.h"
 #import "ZHVipInfoViewController.h"
 #import "UIImageView+WebCache.h"
+#import "MJRefresh.h"
+#import "JudgeTableViewCell.h"
 @interface ZHServerViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSArray *dataArray;
@@ -69,10 +71,8 @@
     [self.view addSubview:_infotab];
     
     
-    
-    
-    
-    NSDictionary *dic = @{@"goodAt":@"高血压"};
+    [_infotab addHeaderWithTarget:self action:@selector(loadData)];
+    [_infotab headerBeginRefreshing];
     
 //    
 //    [NetWorkingManager sendPOSTDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/allotCustToDoc"] withParamters:dic withProgress:^(float progress) {
@@ -85,10 +85,25 @@
 //    }];
     
     
+    
+    
+    
+    
+}
+
+-(void)loadData
+{
+    if ([MethodUtil isIdentification]==NO) {
+        [YJProgressHUD showSuccess:@"请完成资质认证后再做操作" inview:self.view];
+        [_infotab headerEndRefreshing];
+        return;
+    }
+    NSDictionary *dic = @{@"goodAt":@"高血压"};
+
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/consult/allotCustToDoc"] withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
-
+        [_infotab headerEndRefreshing];
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
                 dataArray = responseObject[@"data"];
@@ -97,15 +112,11 @@
         }
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
+        [_infotab headerEndRefreshing];
         NSLog(@"%@",error);
     }];
-    
-    
-    
-    
+
 }
-
-
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -121,26 +132,22 @@
     
     static NSString *ID=@"cell";
     
-    UITableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
+    JudgeTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         
-        cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell=[[JudgeTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
         
     }
     
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSDictionary *dic = dataArray[indexPath.row];
-    cell.textLabel.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:dic[@"portraitUrl"]] placeholderImage:[UIImage imageNamed:@"healthIcon"]];
-    cell.textLabel.text=dic[@"name"];
-    cell.detailTextLabel.numberOfLines=0;
-    cell.detailTextLabel.textColor = [UIColor colorWithRed:149/255.0 green:149/255.0 blue:149/255.0 alpha:1];
-    cell.detailTextLabel.text=dic[@"question"];
-    cell.detailTextLabel.numberOfLines = 1;
-    cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
-    cell.accessoryView = imageView;
+    
+     NSDictionary *dic = dataArray[indexPath.row];
+    [cell.photoView sd_setImageWithURL:[NSURL URLWithString:dic[@"portraitUrl"]] placeholderImage:[UIImage imageNamed:@"healthIcon"]];
+    cell.titleLab.text = dic[@"name"];
+    cell.detailLab.text = dic[@"question"];
+    
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+   
     
     return cell;
     

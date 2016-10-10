@@ -8,7 +8,7 @@
 
 #import "MoreActionView.h"
 #import "MoreActionViewCell.h"
-#import "UIButton+WebCache.h"
+#import "UIImageView+WebCache.h"
 @interface MoreActionView ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {
     UICollectionView *moreActionCollectioin;
@@ -68,10 +68,10 @@
     
     NSString *urlStr = _imageArray[indexPath.row];
     if ([urlStr hasSuffix:@".pdf"]) {
-        [cell.moreActionBtn setImage:[UIImage imageNamed:@"healthIcon"] forState:UIControlStateNormal];
+        cell.collectImageView.image = [UIImage imageNamed:@"pdf_image"];
     }else{
-        
-        [cell.moreActionBtn sd_setImageWithURL:[NSURL URLWithString:urlStr] forState:UIControlStateNormal];
+        [cell.collectImageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"default_image"]];
+       
     }
     
     
@@ -98,15 +98,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    MoreActionViewCell *cell = (MoreActionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [cell.moreActionBtn setImage:[UIImage imageNamed:imageSelectedArray[indexPath.row]] forState:UIControlStateNormal];
     
 }
 - (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    MoreActionViewCell *cell = (MoreActionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    [cell.moreActionBtn setImage:[UIImage imageNamed:imageArrayName[indexPath.row]] forState:UIControlStateNormal];
-    
+   
 }
 
 //点击元素触发事件

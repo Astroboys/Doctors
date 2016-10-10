@@ -12,7 +12,7 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 @implementation MoreActionViewCell
-@synthesize moreActionBtn;
+@synthesize collectImageView;
 @synthesize imageTitle;
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -26,15 +26,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [self.contentView addSubview:view];
     
-    moreActionBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    moreActionBtn.frame = CGRectMake(0, 0, 40, 40);
-    moreActionBtn.userInteractionEnabled = YES;
-    [moreActionBtn setBackgroundColor:[UIColor redColor]];
-    moreActionBtn.contentMode = UIViewContentModeCenter;
-    moreActionBtn.layer.cornerRadius = 5;
-    moreActionBtn.enabled = NO;
-    moreActionBtn.adjustsImageWhenDisabled = NO;
-    [view addSubview:moreActionBtn];
+    collectImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    collectImageView.userInteractionEnabled = YES;
+//    collectImageView.contentMode = UIViewContentModeCenter;
+    collectImageView.layer.masksToBounds = YES;
+    collectImageView.layer.cornerRadius = 5;
+    
+    [view addSubview:collectImageView];
     
 //    imageTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 65, 60, 15)];
 //    imageTitle.textAlignment = NSTextAlignmentCenter;

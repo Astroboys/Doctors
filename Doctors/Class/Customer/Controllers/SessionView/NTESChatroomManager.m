@@ -9,7 +9,7 @@
 #import "NTESChatroomManager.h"
 #import "NSDictionary+NTESJson.h"
 #import "NTESChatroomMaker.h"
-
+#import "AppDelegate.h"
 @interface NTESChatroomManager()<NIMChatManagerDelegate>
 
 @property (nonatomic,strong) NSMutableDictionary *myInfo;
@@ -50,6 +50,7 @@
 
 - (void)onRecvMessages:(NSArray *)messages
 {
+    [[AppDelegate uApp].audioPlayer play];
     for (NIMMessage *message in messages) {
         if (message.session.sessionType == NIMSessionTypeChatroom
                  && message.messageType == NIMMessageTypeNotification)

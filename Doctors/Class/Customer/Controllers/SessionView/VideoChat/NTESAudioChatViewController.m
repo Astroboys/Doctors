@@ -135,7 +135,7 @@
     self.localRecordBtn.hidden = NO;
     self.speakerBtn.hidden = NO;
     self.durationLabel.hidden   = NO;
-    self.switchVideoBtn.hidden  = NO;
+    self.switchVideoBtn.hidden  = YES;
     self.connectingLabel.hidden = YES;
     self.refuseBtn.hidden = YES;
     self.acceptBtn.hidden = YES;

@@ -60,6 +60,9 @@
     
     extern NSString *const NIMKitUserInfoHasUpdatedNotification;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoHasUpdatedNotification:) name:NIMKitUserInfoHasUpdatedNotification object:nil];
+    
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoHasUpdatedNotification:) name:@"listReloadData" object:nil];
 }
 
 - (void)reload{

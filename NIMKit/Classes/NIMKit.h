@@ -24,7 +24,9 @@ FOUNDATION_EXPORT const unsigned char NIMKitVersionString[];
  *  基础Model
  */
 #import "NIMMediaItem.h"            //多媒体面板对象
-#import "NIMMessageModel.h"         //message Wrapper
+#import "NIMMessageModel.h"   
+
+
 
 
 /**

@@ -211,15 +211,18 @@ static NetWorkingManager * defualt_shareMananger = nil;
         
         NSLog(@"responseObject = %@",responseObject);
         if (success) {
-            
-            success(YES,responseObject);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                success(YES,responseObject);
+            });
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         NSLog(@"error = %@",error);
         if (failure) {
-            
-            failure(error);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failure(error);
+
+            });
         }
     }];;
     

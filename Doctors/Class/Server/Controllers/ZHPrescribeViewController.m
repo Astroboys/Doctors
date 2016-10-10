@@ -131,6 +131,8 @@
     _contentsName=[[UITextField alloc]init];
     _contentsName.text = self.personInfo[@"name"];
     _contentsName.placeholder=@"请输入就诊人姓名";
+    _contentsName.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
+
     [_contentsName setFont:[UIFont systemFontOfSize:16]];
     [self.infoView addSubview:_contentsName];
     
@@ -197,6 +199,8 @@
     _contentOffice=[[UITextField alloc]init];
     [_contentOffice setFont:[UIFont systemFontOfSize:16]];
     _contentOffice.placeholder=@"请输入就诊科室";
+    _contentOffice.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
+
     
     [self.infoView addSubview:_contentOffice];
     
@@ -226,9 +230,10 @@
     [self.initdiagnoView addSubview:_initdiaLbl];
     
     _diaTextView=[[UITextView alloc]init];
-    [_diaTextView setFont:[UIFont systemFontOfSize:16]];
+    [_diaTextView setFont:[UIFont systemFontOfSize:14]];
     _diaTextView.layer.cornerRadius = 6;
     _diaTextView.layer.borderWidth = 0.5;
+    _diaTextView.textColor = DWColor(149, 149, 149);
     _diaTextView.layer.borderColor = [UIColor colorWithRed:166/255.0 green:171/255.0 blue:185/255.0 alpha:1].CGColor;
     [self.initdiagnoView addSubview:_diaTextView];
     
@@ -249,66 +254,12 @@
     [useView addSubview:useDetail];
     
     useDetailText=[[UITextView alloc]init];
-    [useDetailText setFont:[UIFont systemFontOfSize:16]];
+    [useDetailText setFont:[UIFont systemFontOfSize:14]];
     useDetailText.layer.cornerRadius = 6;
     useDetailText.layer.borderWidth = 0.5;
+    useDetailText.textColor = DWColor(149, 149, 149);
     useDetailText.layer.borderColor = [UIColor colorWithRed:166/255.0 green:171/255.0 blue:185/255.0 alpha:1].CGColor;
     [useView addSubview:useDetailText];
-    
-    
-    
-    
-    
-    
-    
-    
-//    
-//    doctorMethod=[[UIView alloc]init];
-//    doctorMethod.userInteractionEnabled = YES;
-//
-//    doctorMethod.backgroundColor=[UIColor whiteColor];
-//    [scrollView addSubview:doctorMethod];
-//    
-//    //药名
-//    doctorName=[[UILabel alloc]init];
-//    [doctorName setFont:[UIFont systemFontOfSize:16]];
-//    doctorName.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
-//    doctorName.text=@"医生名称";
-//    [doctorMethod addSubview:doctorName];
-//    
-//    doctorText=[[UITextField alloc]init];
-//    doctorText.placeholder=@"点击输入医生名称";
-//    [doctorText setFont:[UIFont systemFontOfSize:16]];
-//    [doctorMethod addSubview:doctorText];
-//
-//    
-//    //使用方法
-//    doctorUnit=[[UILabel alloc]init];
-//    [doctorUnit setFont:[UIFont systemFontOfSize:14]];
-//    doctorUnit.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
-//    doctorUnit.text=@"医生单位";
-//    [doctorMethod addSubview:doctorUnit];
-//    
-//    doctorUnitText=[[UITextView alloc]init];
-////    usageText.placeholder=@"点击输入使用方法";
-//    [doctorUnitText setFont:[UIFont systemFontOfSize:14]];
-//    [doctorMethod addSubview:doctorUnitText];
-//
-    
-//    //
-//    useTime=[[UILabel alloc]init];
-//    [useTime setFont:[UIFont systemFontOfSize:14]];
-//    useTime.textColor = [UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1];
-//    useTime.text=@"用药时间";
-//    [doctorMethod addSubview:useTime];
-//    
-//    useTimeText=[[UITextField alloc]init];
-//    useTimeText.placeholder=@"输入用药时间";
-//    [useTimeText setFont:[UIFont systemFontOfSize:14]];
-//    [doctorMethod addSubview:useTimeText];
-    
-    
-    
     
     
     
@@ -513,77 +464,6 @@
     self.scrollView.contentSize=CGSizeMake(kWidth, scroH*1.3);
 
     
-    
-    
-//    [doctorMethod mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(useView.mas_bottom).with.offset(10);
-//        make.left.mas_equalTo(scrollView.mas_left);
-//        make.height.mas_equalTo(90);
-//        make.width.mas_equalTo(kWidth);
-//
-//        
-//    }];
-//    
-//    [doctorName mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(doctorMethod.mas_top).with.offset(10);
-//        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
-//        make.height.mas_equalTo(35);
-//        make.width.mas_equalTo(70);
-//        
-//    }];
-//    
-//    [doctorText mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(doctorMethod.mas_top).with.offset(10);
-//        make.left.mas_equalTo(doctorName.mas_right).with.offset(8);
-//        make.height.mas_equalTo(35);
-//        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
-//        
-//    }];
-//    [self setLineView:doctorMethod offView:doctorText];
-//
-//    
-//    [doctorUnit mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(doctorText.mas_bottom).with.offset(5);
-//        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
-//        make.height.mas_equalTo(35);
-//        make.width.mas_equalTo(70);
-//        
-//    }];
-//    
-//    [doctorUnitText mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(doctorText.mas_bottom).with.offset(5);
-//        make.left.mas_equalTo(doctorUnit.mas_right).with.offset(8);
-//        make.height.mas_equalTo(35);
-//        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
-//        
-//    }];
-//    
-
-//    [self setLineView:doctorMethod offView:usageText];
-    
-  
-//    [useTime mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(usageText.mas_bottom).with.offset(5);
-//        make.left.mas_equalTo(doctorMethod.mas_left).with.offset(15);
-//        make.height.mas_equalTo(35);
-//        make.width.mas_equalTo(40);
-//        
-//    }];
-//    
-//    [useTimeText mas_makeConstraints:^(MASConstraintMaker *make) {
-//        
-//        make.top.equalTo(usageText.mas_bottom).with.offset(5);
-//        make.left.mas_equalTo(useTime.mas_right).with.offset(8);
-//        make.height.mas_equalTo(35);
-//        make.right.mas_equalTo(doctorMethod.mas_right).with.offset(-15);
-//        
-//    }];
 
     
 }
@@ -622,24 +502,26 @@
 }
 -(void)clickright
 {
-    [MBManager showLoadingInView:self.view];
-    NSDictionary *dic = @{@"doctorId":[UConfig getDoctorId],@"customerId":self.personInfo[@"id"],@"visitTime":_contentTime.titleLabel.text,@"tentDiag":_diaTextView.text,@"presContent":useDetailText.text};
+    [self.view endEditing:NO];
+    [YJProgressHUD showProgress:@"正在提交..." inView:self.view];
+    NSDictionary *dic = @{@"doctorId":[UConfig getDoctorId],@"customerId":self.personInfo[@"id"],@"visitTime":_contentTime.titleLabel.text,@"tentDiag":_diaTextView.text,@"presContent":useDetailText.text,@"section":_contentOffice.text};
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/pres/addPres"] withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
         NSString *code = responseObject[@"code"];
-        [MBManager hideAlert];
+        [YJProgressHUD hide];
         if (code.intValue == 200) {
-            [MBManager showBriefMessage:@"提交成功" InView:self.view];
-
+            [YJProgressHUD showSuccess:@"提交成功" inview:self.view];
+            [self.navigationController popViewControllerAnimated:YES];
         }else{
-            [MBManager showBriefMessage:@"提交失败" InView:self.view];
+            [YJProgressHUD showSuccess:@"提交失败" inview:self.view];
         }
         
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
-        [MBManager hideAlert];
+        [YJProgressHUD hide];
+        [YJProgressHUD showSuccess:@"提交失败，请检查网络" inview:self.view];
     }];
     
 

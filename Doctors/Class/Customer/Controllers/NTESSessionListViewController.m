@@ -18,11 +18,14 @@
 #import "NTESWhiteboardAttachment.h"
 #import "NTESSessionUtil.h"
 #import "NTESPersonalCardViewController.h"
+#import "UIViewController+MMDrawerController.h"
 
 #define SessionListTitle @"客户"
 
 @interface NTESSessionListViewController ()<NIMLoginManagerDelegate,NTESListHeaderDelegate>
-
+{
+    UILabel *tabarCount;
+}
 @property (nonatomic,strong) UILabel *titleLabel;
 
 @property (nonatomic,strong) NTESListHeader *header;
@@ -46,21 +49,71 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [[NIMSDK sharedSDK].loginManager addDelegate:self];
+    
+    
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTabarCount) name:@"updatePhoto" object:nil];
+
+    
     self.header = [[NTESListHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 0)];
     self.header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.header.delegate = self;
     [self.view addSubview:self.header];
 
     self.emptyTipLabel = [[UILabel alloc] init];
-    self.emptyTipLabel.text = @"还没有会话，在通讯录中找个人聊聊吧";
+//    self.emptyTipLabel.text = @"还没有会话，在通讯录中找个人聊聊吧";
     [self.emptyTipLabel sizeToFit];
     self.emptyTipLabel.hidden = self.recentSessions.count;
     [self.view addSubview:self.emptyTipLabel];
     
     NSString *userID = [[[NIMSDK sharedSDK] loginManager] currentAccount];
     self.navigationItem.titleView  = [self titleView:userID];
-}
+    
+    
+    
+    UIImage* image1 = [UIImage imageNamed:@"navigationbar_pop"];
+    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem* leftItem = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(discoverClickLeft)];
+    
+    self.navigationItem.leftBarButtonItem=leftItem;
+    
+    tabarCount = [[UILabel alloc] initWithFrame:CGRectMake(kWidth/2-(kWidth/8)+8, 6, 8, 8)];
+    tabarCount.backgroundColor = [UIColor redColor];
+    //    labelCount.textColor = [UIColor redColor];
+    tabarCount.font = [UIFont systemFontOfSize:10];
+    tabarCount.layer.masksToBounds = YES;
+    tabarCount.layer.cornerRadius = 4;
+    NSInteger count = [[[NIMSDK sharedSDK] conversationManager] allUnreadCount];
+    if (count==0) {
+        tabarCount.hidden = YES;
+    }else{
+        tabarCount.hidden = NO;
+    }
 
+    [self.tabBarController.tabBar addSubview:tabarCount];
+
+    
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self updateTabarCount];
+
+}
+-(void)updateTabarCount
+{
+    NSInteger count = [[[NIMSDK sharedSDK] conversationManager] allUnreadCount];
+    if (count==0) {
+        tabarCount.hidden = YES;
+    }else{
+        tabarCount.hidden = NO;
+    }
+
+}
+-(void)discoverClickLeft
+{
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+
+}
 - (void)reload{
     [super reload];
     self.emptyTipLabel.hidden = self.recentSessions.count;
@@ -209,5 +262,10 @@
     }
     return [super contentForRecentSession:recent];
 }
+
+
+
+
+
 
 @end

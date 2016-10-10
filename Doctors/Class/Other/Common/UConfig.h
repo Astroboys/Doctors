@@ -20,8 +20,8 @@
 
 
 
-+(void)setLoginCode:(NSString *)loginCode;
-+(NSString *)getLoginCode;
++(void)setVerifyStatus:(NSInteger)status;
++(NSInteger)getVerifyStatus;
 
 
 +(void)setPersonInfo:(NSDictionary *)personInfo;
@@ -35,5 +35,10 @@
 
 +(void)setWelcome:(BOOL)welCome;
 +(BOOL)getWelcome;
++(void)setPhotoUrl:(NSString *)photoStr;
++(NSString *)getPhotoUrl;
 
+
++(void)setUnreadCount:(NSInteger)unreadCount;
++(NSInteger)getUnreadCount;
 @end

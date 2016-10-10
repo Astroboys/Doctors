@@ -51,6 +51,7 @@
 
     _feedbackView=[[UITextView alloc]init];
     [_feedbackView setFont:[UIFont systemFontOfSize:16]];
+    _feedbackView.textColor = DWColor(85, 85, 85);
     [self.view addSubview:_feedbackView];
     
     _phoneText=[[UITextField alloc]init];
@@ -81,26 +82,26 @@
 -(void)feedbackBtnAction
 {
     if(_phoneText.text.length<1) {
-        [MBManager showBriefMessage:@"手机号码不能为空" InView:self.view];
+        [YJProgressHUD showSuccess:@"手机号码不能为空" inview:self.view];
         return;
     }
     if (self.feedbackView.text.length<1) {
-        [MBManager showBriefMessage:@"内容不能为空" InView:self.view];
+        [YJProgressHUD showSuccess:@"内容不能为空" inview:self.view];
         return;
     }
 
-    [MBManager showLoadingInView:self.view];
+    [YJProgressHUD showProgress:@"正在发送..." inView:self.view];
     NSDictionary *dic = @{@"content":self.feedbackView.text,@"createBy":_phoneText.text};
     NSString *url = [NSString stringWithFormat:@"%@%@",BaseUrl,@"/app/opinion/addOpinion"];
     [NetWorkingManager requestGETDataWithPath:url withParamters:dic withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
-        [MBManager hideAlert];
-        [MBManager showBriefMessage:@"发送成功" InView:self.view];
+        [YJProgressHUD hide];
+        [YJProgressHUD showSuccess:@"发送成功" inview:self.view];
         NSLog(@"%@",responseObject);
     } failure:^(NSError *error) {
-        [MBManager hideAlert];
-        [MBManager showBriefMessage:@"发送失败" InView:self.view];
+        [YJProgressHUD hide];
+        [YJProgressHUD showSuccess:@"发送失败" inview:self.view];
         NSLog(@"%@",error.userInfo);
         
     }];

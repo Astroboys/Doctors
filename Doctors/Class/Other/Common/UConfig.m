@@ -50,17 +50,17 @@
     return dic;
 }
 
-+(void)setLoginCode:(NSString *)loginCode
++(void)setVerifyStatus:(NSInteger)status
 {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setObject:loginCode forKey:@"LNLoginCode"];
+    [userDefault setInteger:status forKey:@"LNVerifyStatus"];
     [userDefault synchronize];
 
 }
-+(NSString *)getLoginCode
++(NSInteger)getVerifyStatus
 {
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    NSString *str = [userDef objectForKey:@"LNLoginCode"];
+    NSInteger str = [userDef integerForKey:@"LNVerifyStatus"];
     return str;
 
 }
@@ -97,6 +97,40 @@
 }
 
 
++(void)setPhotoUrl:(NSString *)photoStr
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:photoStr forKey:@"LNPhotoUrl"];
+    [userDefault synchronize];
+    
+}
++(NSString *)getPhotoUrl
+{
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    NSString *str = [NSString stringWithFormat:@"%@",[userDef objectForKey:@"LNPhotoUrl"]];
+    return str;
+    
+}
+
+
+
++(void)setUnreadCount:(NSInteger)unreadCount
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setInteger:unreadCount forKey:@"LNUnreadCount"];
+    [userDefault synchronize];
+    
+}
++(NSInteger)getUnreadCount
+{
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    NSInteger str = [userDef integerForKey:@"LNUnreadCount"];
+    return str;
+    
+}
+
+
+
 
 ////IM登录状态
 //+(void)setIMLoginState:(BOOL)state
@@ -126,8 +160,12 @@
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNLoginNum"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNLoginToken"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNLoginCode"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNVerifyStatus"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNDoctorId"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNPhotoUrl"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LNPersonInfo"];
+
+
 
 
 }

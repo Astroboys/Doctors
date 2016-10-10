@@ -23,7 +23,7 @@
 #import "NIMMessageCellMaker.h"
 #import "NIMUIConfig.h"
 #import "NIMKit.h"
-
+#import "AppDelegate.h"
 static const void * const NTESDispatchMessageDataPrepareSpecificKey = &NTESDispatchMessageDataPrepareSpecificKey;
 dispatch_queue_t NTESMessageDataPrepareQueue()
 {
@@ -178,6 +178,8 @@ NIMUserManagerDelegate>
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoHasUpdatedNotification:) name:NIMKitUserInfoHasUpdatedNotification object:nil];
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserInfoHasUpdatedNotification:) name:@"listReloadData" object:nil];
 }
 
 
@@ -314,6 +316,8 @@ NIMUserManagerDelegate>
 //接收消息
 - (void)onRecvMessages:(NSArray *)messages
 {
+    [AppDelegate uApp].audioPlayer.numberOfLoops = 0;
+    [[AppDelegate uApp].audioPlayer play];
     NIMMessage *message = messages.firstObject;
     NIMSession *session = message.session;
     if (![session isEqual:self.session] || !messages.count){

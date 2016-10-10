@@ -9,6 +9,8 @@
 #import "ServiceOrderViewController.h"
 #import "ServiceOrderTableViewCell.h"
 #import "NTESSessionViewController.h"
+#import "MJRefresh.h"
+
 @interface ServiceOrderViewController ()<UITableViewDelegate,UITableViewDataSource,ServiceOrderCellDelegate>
 {
     UITableView *serviceTab;
@@ -22,30 +24,10 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = DWColor(243, 243, 243);
-    NSDictionary *dic = @{@"doctorId":[[UConfig getDoctorId] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]};
+    
     
     self.title = @"服务订单";
     
-    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/reserve/index"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
-        //200登陆成功，201登陆成功未认证
-        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            NSString *code = responseObject[@"code"];
-            if (code.intValue == 200) {
-                if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
-                    serviceArray = responseObject[@"data"];
-                    [serviceTab reloadData];
-                }
-            }else if (code.intValue == 201){
-              
-                
-            }else{
-            }
-            NSLog(@"%@",responseObject);
-            
-        }
-        
-    } failure:^(NSError *error) {
-    }];
     
 
     
@@ -58,9 +40,40 @@
     
     serviceTab.delegate=self;
     serviceTab.dataSource=self;
+    
+    
+    [serviceTab addHeaderWithTarget:self action:@selector(loadData)];
+    [serviceTab headerBeginRefreshing];
 
 }
 
+-(void)loadData
+{
+    NSDictionary *dic = @{@"doctorId":[UConfig getDoctorId]};
+    [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/reserve/index"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
+        //200登陆成功，201登陆成功未认证
+        [serviceTab headerEndRefreshing];
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            NSString *code = responseObject[@"code"];
+            if (code.intValue == 200) {
+                if ([responseObject[@"data"] isKindOfClass:[NSArray class]]) {
+                    serviceArray = responseObject[@"data"];
+                    [serviceTab reloadData];
+                }
+            }else if (code.intValue == 201){
+                
+                
+            }else{
+            }
+            NSLog(@"%@",responseObject);
+            
+        }
+        
+    } failure:^(NSError *error) {
+        [serviceTab headerEndRefreshing];
+    }];
+
+}
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
     return 1;

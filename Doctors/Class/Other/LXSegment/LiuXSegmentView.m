@@ -7,7 +7,7 @@
 //
 
 #define windowContentWidth  ([[UIScreen mainScreen] bounds].size.width)
-#define SFQRedColor [UIColor colorWithRed:255/255.0 green:92/255.0 blue:79/255.0 alpha:1]
+#define SFQRedColor [UIColor colorWithRed:25/255.0 green:144/255.0 blue:202/255.0 alpha:1]
 #define MAX_TitleNumInWindow 5
 
 #import "LiuXSegmentView.h"
@@ -61,7 +61,7 @@
     _defaultIndex=1;
     _titleFont=[UIFont systemFontOfSize:15];
     _btns=[[NSMutableArray alloc] initWithCapacity:0];
-    _titleNomalColor=[UIColor blackColor];
+    _titleNomalColor=DWColor(149, 149, 149);
     _titleSelectColor=SFQRedColor;
 }
 

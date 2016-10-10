@@ -298,9 +298,9 @@ NIMContactSelectDelegate>
     UIActionSheet *sheet;
     BOOL isCamraAvailable = [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
     if (isCamraAvailable) {
-        sheet = [[UIActionSheet alloc] initWithTitle:@"请选择" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从相册中选取",nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"请选择" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"相册中选取",nil];
     }else{
-        sheet = [[UIActionSheet alloc] initWithTitle:@"请选择" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"从相册中选取",nil];
+        sheet = [[UIActionSheet alloc] initWithTitle:@"请选择" delegate:nil cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"相册中选取",nil];
     }
     __weak typeof(self) wself = self;
     [sheet showInView:self.view completionHandler:^(NSInteger index) {
@@ -549,6 +549,7 @@ NIMContactSelectDelegate>
 
 
 - (void)onTapAvatar:(NSString *)userId{
+    return;
     UIViewController *vc = [[NTESPersonalCardViewController alloc] initWithUserId:userId];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -873,11 +874,12 @@ NIMContactSelectDelegate>
     if (self.session.sessionType == NIMSessionTypeTeam) {
         self.navigationItem.rightBarButtonItems  = @[enterTeamCardItem,historyButtonItem];
     }else if(self.session.sessionType == NIMSessionTypeP2P){
-        if ([self.session.sessionId isEqualToString:[[NIMSDK sharedSDK].loginManager currentAccount]]) {
-            self.navigationItem.rightBarButtonItems = @[historyButtonItem];
-        }else{
-            self.navigationItem.rightBarButtonItems = @[enterUInfoItem,historyButtonItem];
-        }
+        self.navigationItem.rightBarButtonItems = @[historyButtonItem];
+//        if ([self.session.sessionId isEqualToString:[[NIMSDK sharedSDK].loginManager currentAccount]]) {
+//            self.navigationItem.rightBarButtonItems = @[historyButtonItem];
+//        }else{
+//            self.navigationItem.rightBarButtonItems = @[enterUInfoItem,historyButtonItem];
+//        }
     }
 }
 

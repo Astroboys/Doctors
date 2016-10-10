@@ -27,8 +27,12 @@
     
     dataArray = [systemNotificationManager fetchSystemNotifications:NIMSystemNotificationTypeTeamApply
                                                                                        limit:20];
-
-
+    [systemNotificationManager markAllNotificationsAsRead];
+    [UConfig setUnreadCount:0];
+    //创建通知
+    NSNotification *notification =[NSNotification notificationWithName:@"updatePhoto" object:nil userInfo:nil];
+    //通过通知中心发送通知
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     [self setupUI];
 }
 -(void)setupUI{

@@ -133,51 +133,51 @@ extern NSString *const NIMKitUserMuteListHasUpdatedNotification;
 - (NIMKitInfo *)infoByUser:(NSString *)userId
                  inSession:(NIMSession *)session
 {
-//    NIMKitInfo *info = nil;
-//    if (_provider && [_provider respondsToSelector:@selector(infoByUser:inSession:)]) {
-//        info = [_provider infoByUser:userId inSession:session];
-//    }
-//    
-    
-    
-    BOOL needFetchInfo = NO;
-    NIMSessionType sessionType = session.sessionType;
-    NIMKitInfo *info = [[NIMKitInfo alloc] init];
-    info.infoId = userId;
-    info.showName = userId; //默认值
-    switch (sessionType) {
-        case NIMSessionTypeP2P:
-        case NIMSessionTypeTeam:
-        {
-            NIMUser *user = [[NIMSDK sharedSDK].userManager userInfo:userId];
-            NIMUserInfo *userInfo = user.userInfo;
-            NIMTeamMember *member = nil;
-            if (sessionType == NIMSessionTypeTeam)
-            {
-                member = [[NIMSDK sharedSDK].teamManager teamMember:userId
-                                                             inTeam:session.sessionId];
-            }
-            NSString *name = [self nickname:user
-                                 memberInfo:member];
-            if (name)
-            {
-                info.showName = name;
-            }
-            info.avatarUrlString = userInfo.thumbAvatarUrl;
-            
-            if (userInfo == nil)
-            {
-                needFetchInfo = YES;
-            }
-        }
-            break;
-        case NIMSessionTypeChatroom:
-            NSAssert(0, @"invalid type"); //聊天室的Info不会通过这个回调请求
-            break;
-        default:
-            NSAssert(0, @"invalid type");
-            break;
+    NIMKitInfo *info = nil;
+    if (_provider && [_provider respondsToSelector:@selector(infoByUser:inSession:)]) {
+        info = [_provider infoByUser:userId inSession:session];
     }
+//
+    
+    
+//    BOOL needFetchInfo = NO;
+//    NIMSessionType sessionType = session.sessionType;
+//    NIMKitInfo *info = [[NIMKitInfo alloc] init];
+//    info.infoId = userId;
+//    info.showName = userId; //默认值
+//    switch (sessionType) {
+//        case NIMSessionTypeP2P:
+//        case NIMSessionTypeTeam:
+//        {
+//            NIMUser *user = [[NIMSDK sharedSDK].userManager userInfo:userId];
+//            NIMUserInfo *userInfo = user.userInfo;
+//            NIMTeamMember *member = nil;
+//            if (sessionType == NIMSessionTypeTeam)
+//            {
+//                member = [[NIMSDK sharedSDK].teamManager teamMember:userId
+//                                                             inTeam:session.sessionId];
+//            }
+//            NSString *name = [self nickname:user
+//                                 memberInfo:member];
+//            if (name)
+//            {
+//                info.showName = name;
+//            }
+//            info.avatarUrlString = userInfo.thumbAvatarUrl;
+//            
+//            if (userInfo == nil)
+//            {
+//                needFetchInfo = YES;
+//            }
+//        }
+//            break;
+//        case NIMSessionTypeChatroom:
+//            NSAssert(0, @"invalid type"); //聊天室的Info不会通过这个回调请求
+//            break;
+//        default:
+//            NSAssert(0, @"invalid type");
+//            break;
+//    }
 
     return info;
 }
@@ -224,6 +224,7 @@ extern NSString *const NIMKitUserMuteListHasUpdatedNotification;
     NSAssert([userId isEqualToString:message.from], @"user id should be same with message from");
     
     NIMKitInfo *info = nil;
+    
     if (_provider && [_provider respondsToSelector:@selector(infoByUser:withMessage:)]) {
         info = [_provider infoByUser:userId
                          withMessage:message];

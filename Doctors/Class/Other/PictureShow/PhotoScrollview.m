@@ -136,9 +136,14 @@
     [super layoutSubviews];
     NSString *imageUrl = self.imageUrl;
     
-    [_imgview setImageWithURL:[NSURL URLWithString:imageUrl]];
     
-    
+    if ([imageUrl hasSuffix:@".pdf"]) {
+        _imgview.image = [UIImage imageNamed:@"pdf_image"];
+    }else{
+        [_imgview sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"default_image"]];
+        
+    }
+
     
     // NSLog(@"self.imageUrl:%@",self.imageUrl);
 }

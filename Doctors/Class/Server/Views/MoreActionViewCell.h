@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MoreActionViewCell : UICollectionViewCell
-@property (nonatomic,strong) UIButton *moreActionBtn;
+@property (nonatomic,strong) UIImageView *collectImageView;
 @property (nonatomic,strong) UILabel *imageTitle;
 
 @end

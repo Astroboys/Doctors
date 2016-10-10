@@ -81,6 +81,7 @@
 
     _titleLbl=[[UILabel alloc]init];
     _titleLbl.text=@"开启您的健康之旅";
+    _titleLbl.textColor = DWColor(85, 85, 85);
     [_titleLbl setFont:[UIFont systemFontOfSize:14]];
     [self.view addSubview:_titleLbl];
     sexStr = @"男";
@@ -90,11 +91,15 @@
     
     _phoneLbl=[[UILabel alloc]init];
     _phoneLbl.text=@"手机号";
+    _phoneLbl.textColor = DWColor(85, 85, 85);
+
     [_phoneLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_phoneLbl];
     
     _phoneText=[[UITextField alloc]init];
     _phoneText.placeholder=@"请输入您的手机号";
+    _phoneText.textColor = DWColor(85, 85, 85);
+
     [_phoneText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_phoneText];
     
@@ -104,11 +109,15 @@
 
     _testLbl=[[UILabel alloc]init];
     _testLbl.text=@"验证码";
+    _testLbl.textColor = DWColor(85, 85, 85);
+
     [_testLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_testLbl];
     
     _testText=[[UITextField alloc]init];
     _testText.placeholder=@"获取验证码";
+    _testText.textColor = DWColor(85, 85, 85);
+
     [_testText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_testText];
     
@@ -123,11 +132,15 @@
     
     _nameLbl=[[UILabel alloc]init];
     _nameLbl.text=@"姓名";
+    _nameLbl.textColor = DWColor(85, 85, 85);
+
     [_nameLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_nameLbl];
     
     _nameText=[[UITextField alloc]init];
     _nameText.placeholder=@"请输您的真实姓名";
+    _nameText.textColor = DWColor(85, 85, 85);
+
     [_nameText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_nameText];
     
@@ -139,11 +152,15 @@
     
     _identLbl=[[UILabel alloc]init];
     _identLbl.text=@"身份证";
+    _identLbl.textColor = DWColor(85, 85, 85);
+
     [_identLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_identLbl];
     
     _identText=[[UITextField alloc]init];
     _identText.placeholder=@"请输入身份证号";
+    _identText.textColor = DWColor(85, 85, 85);
+
     [_identText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_identText];
     
@@ -153,6 +170,8 @@
     
     _sexLbl=[[UILabel alloc]init];
     _sexLbl.text=@"性别";
+    _sexLbl.textColor = DWColor(85, 85, 85);
+
     [_sexLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_sexLbl];
     
@@ -184,11 +203,15 @@
     
     _passwordLbl=[[UILabel alloc]init];
     _passwordLbl.text=@"密码";
+    _passwordLbl.textColor = DWColor(85, 85, 85);
+
     [_passwordLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_passwordLbl];
     
     _passwordText=[[UITextField alloc]init];
     _passwordText.placeholder=@"至少6位，必须包含数字和字母";
+    _passwordText.textColor = DWColor(85, 85, 85);
+
     [_passwordText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_passwordText];
     
@@ -198,11 +221,16 @@
     
     _repasswordLbl=[[UILabel alloc]init];
     _repasswordLbl.text=@"确认密码";
+    
+    _repasswordLbl.textColor = DWColor(85, 85, 85);
+
     [_repasswordLbl setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_repasswordLbl];
     
     _repassText=[[UITextField alloc]init];
     _repassText.placeholder=@"再次确认密码";
+    _repassText.textColor = DWColor(85, 85, 85);
+
     [_repassText setFont:[UIFont systemFontOfSize:14]];
     [self.registerView addSubview:_repassText];
     
@@ -441,7 +469,7 @@
    
     BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
     if(!isMobile){
-        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+        [YJProgressHUD showSuccess:@"请输入正确的手机号" inview:self.view];
         return;
     }
     //type 1为注册 2为找回密码
@@ -452,7 +480,7 @@
     } success:^(BOOL isSuccess, id responseObject) {
         NSLog(@"%@",responseObject);
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
-            NSString *checkCodeStr = responseObject[@"code"];
+            NSString *checkCodeStr = responseObject[@"data"];
             checkCode = checkCodeStr.intValue;
 
         }
@@ -480,29 +508,36 @@
 
 -(void)registerAction
 {
+    [self.view endEditing:NO];
     BOOL isMobile = [MethodUtil isMobileNumber:_phoneText.text];
     if(!isMobile){
-        [MBManager showBriefMessage:@"请输入正确的手机号" InView:self.view];
+        [YJProgressHUD showSuccess:@"请输入正确的手机号" inview:self.view];
+
         return;
     }
     if (![MethodUtil isCorrect:_identText.text]) {
-        [MBManager showBriefMessage:@"输入的身份证号不合法" InView:self.view];
+        [YJProgressHUD showSuccess:@"输入的身份证号不合法" inview:self.view];
+
         return;
     }
     if (![_passwordText.text isEqualToString:_repassText.text]) {
-        [MBManager showBriefMessage:@"两次密码输入不一致" InView:self.view];
+        [YJProgressHUD showSuccess:@"两次密码输入不一致" inview:self.view];
+
         return;
     }
     if (_passwordText.text.length<1 || _repassText.text.length<1) {
-        [MBManager showBriefMessage:@"密码不能为空" InView:self.view];
+        [YJProgressHUD showSuccess:@"密码不能为空" inview:self.view];
+
         return;
     }
     if (_testText.text.length<1 || checkCode != _testText.text.intValue) {
-        [MBManager showBriefMessage:@"验证码不能为空或验证码不正确" InView:self.view];
+        [YJProgressHUD showSuccess:@"验证码不能为空或验证码不正确" inview:self.view];
+
         return;
     }
     if (_nameText.text.length<1) {
-        [MBManager showBriefMessage:@"姓名不能为空" InView:self.view];
+        [YJProgressHUD showSuccess:@"姓名不能为空" inview:self.view];
+
         return;
     }
     //性别
@@ -513,26 +548,34 @@
         sexCode = @"2";
     }
     
-    
-    
-    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":sexCode,@"password":_passwordText.text,@"name":_nameText.text};
+    [YJProgressHUD showProgress:@"注册中..." inView:self.view];
+
+    NSDictionary *dic = @{@"mobile":_phoneText.text,@"cheakCode":_testText.text,@"cardNumber":_identText.text,@"sex":sexCode,@"password":_passwordText.text,@"name":_nameText.text,@"doctorFrom":@"2"};
     
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/addDoctor"] withParamters:dic withProgress:^(float progress) {
-        
+       
         
     } success:^(BOOL isSuccess, id responseObject) {
-        
+        [YJProgressHUD hide];
         NSLog(@"%@",responseObject);
-        
+        NSString *code = responseObject[@"code"];
+        if (code.intValue == 200) {
+            [YJProgressHUD showSuccess:@"注册成功" inview:self.view];
+
+        }else{
+            [YJProgressHUD showSuccess:@"注册失败" inview:self.view];
+        }
         
     } failure:^(NSError *error) {
-        
+        [YJProgressHUD hide];
+         [YJProgressHUD showSuccess:@"连接网络失败，请检查您的网络" inview:self.view];
+
     }];
 
 }
 -(void)registerClickleft{
 
-   
+    [NetWorkingManager cancelAllNetworkRequest];
     [self.navigationController popViewControllerAnimated:YES];
 
 }

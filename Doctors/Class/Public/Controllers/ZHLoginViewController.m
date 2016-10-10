@@ -42,14 +42,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
-    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
-    UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(loginClickleft)];
-    
+//    
+//    UIImage* image1 = [UIImage imageNamed:@"navigationbar_back_withtext"];
+//    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    
+//    UIBarButtonItem* item2 = [[UIBarButtonItem alloc]initWithImage:image1 style:UIBarButtonItemStylePlain target:self action:@selector(loginClickleft)];
+    //        self.navigationItem.leftBarButtonItem = item2;
+
     self.navigationItem.title=@"中国健康云";
-    self.navigationItem.leftBarButtonItem = item2;
 
     [self setupUI];
     [self setupFrame];
@@ -75,18 +75,26 @@
     
     _accountlbl=[[UILabel alloc]init];
     _accountlbl.text=@"账号";
+    _accountlbl.textColor = DWColor(85, 85, 85);
+
     [self.firstView addSubview:_accountlbl];
     
     _passWordlbl=[[UILabel alloc]init];
     _passWordlbl.text=@"密码";
+    _passWordlbl.textColor = DWColor(85, 85, 85);
+
     [self.firstView addSubview:_passWordlbl];
        
     _accountText=[[UITextField alloc]init];
     _accountText.placeholder=@"手机号";
+    _accountText.textColor = DWColor(85, 85, 85);
+
     [self.firstView addSubview:_accountText];
     
     _passWordText=[[UITextField alloc]init];
     _passWordText.placeholder=@"密码";
+    _passWordText.textColor = DWColor(85, 85, 85);
+
     _passWordText.secureTextEntry=YES;
     [self.firstView addSubview:_passWordText];
     
@@ -111,20 +119,21 @@
     
     _loginBtn.backgroundColor=[UIColor colorWithRed:56/255.0 green:180/255.0 blue:215/255.0 alpha:1];
     [_loginBtn setTitle:@"立即登录" forState:UIControlStateNormal];
+    [_loginBtn setBackgroundColor:DWColor(40, 128, 194)];
     [self.loginBtn addTarget:self action:@selector(loginsbtn) forControlEvents:UIControlEventTouchUpInside];
     [self.loginBtnView addSubview:_loginBtn];
     
     _registerBtn = [[UIButton alloc]init];
     [_registerBtn setTitle:@"注册新用户" forState:UIControlStateNormal];
     [self.registerBtn addTarget:self action:@selector(registerbtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [_registerBtn setTitleColor:[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] forState:UIControlStateNormal];
+    [_registerBtn setTitleColor:DWColor(40, 128, 194) forState:UIControlStateNormal];
     [_registerBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     [self.loginBtnView addSubview:_registerBtn];
     
     _forgetBtn = [[UIButton alloc]init];
     [_forgetBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
     [self.forgetBtn addTarget:self action:@selector(forgetbtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [_forgetBtn setTitleColor:[UIColor colorWithRed:100/255.0 green:178/255.0 blue:241/255.0 alpha:1] forState:UIControlStateNormal];
+    [_forgetBtn setTitleColor:DWColor(40, 128, 194) forState:UIControlStateNormal];
     [_forgetBtn.titleLabel setFont:[UIFont systemFontOfSize:12]];
     [self.loginBtnView addSubview:_forgetBtn];
     
@@ -320,56 +329,57 @@
 }
 
 -(void)loginsbtn{
-    
+    [self.view endEditing:NO];
     if(_accountText.text.length<1 || _passWordText.text.length<1){
-        [MBManager showBriefMessage:@"帐号或密码不能为空" InView:self.view];
+        [YJProgressHUD showSuccess:@"帐号或密码不能为空" inview:self.view];
+
         return;
     }
-    [MBManager showLoadingInView:self.view];
+    [YJProgressHUD showProgress:@"正在登录..." inView:self.view];
+
     NSDictionary *dic = @{@"mobile":_accountText.text,@"password":_passWordText.text};
     
     
     
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/login"] withParamters:dic withProgress:nil success:^(BOOL isSuccess, id responseObject) {
-        [MBManager hideAlert];
+        [YJProgressHUD hide];
         //200登陆成功，201登陆成功未认证
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSString *loginCode = responseObject[@"code"];
             if (loginCode.intValue == 200) {
                 NSString *token = responseObject[@"data"][@"token"];
                 NSString *doctorId = responseObject[@"data"][@"id"];
+                NSString *tatus = responseObject[@"data"][@"status"];
                 [UConfig setLoginToken:token];
                 [UConfig setDoctorId:doctorId];
-                [UConfig setLoginCode:loginCode];
+                [UConfig setVerifyStatus:tatus.integerValue];
                 [UConfig setLoginNumber:_accountText.text];
-                [[NIMSDK sharedSDK].loginManager login:[NSString stringWithFormat:@"_%@",_accountText.text] token:token completion:^(NSError *error) {
-                    if (!error) {
-                        NSLog(@"登录成功");
-                        [self loginMainView];
-                        
-                    }else{
-                        NSLog(@"登录失败");
-                        [MBManager showBriefMessage:@"登录失败" InView:self.view];
-                    }
-                }];
+                if (tatus.integerValue == 1) {
+                    [[NIMSDK sharedSDK].loginManager login:[NSString stringWithFormat:@"_%@",_accountText.text] token:token completion:^(NSError *error) {
+                        if (!error) {
+                            NSLog(@"登录成功");
+                            [self loginMainView];
+                            
+                        }else{
+                            NSLog(@"登录失败");
+                          [YJProgressHUD showSuccess:@"登录失败" inview:self.view];
+                        }
+                    }];
 
-            }else if (loginCode.intValue == 201){
-                NSString *doctorId = responseObject[@"data"][@"id"];
-
-                [UConfig setLoginCode:loginCode];
-                [UConfig setDoctorId:doctorId];
-                [UConfig setLoginNumber:_accountText.text];
-                [self loginMainView];
-
+                }else{
+                    [self loginMainView];
+                }
+                
             }else{
-                [MBManager showBriefMessage:@"帐号或密码不正确" InView:self.view];
+                [YJProgressHUD showSuccess:@"帐号或密码不正确" inview:self.view];
             }
             NSLog(@"%@",responseObject);
 
         }
         
     } failure:^(NSError *error) {
-        [MBManager hideAlert];
+        [YJProgressHUD hide];
+        [YJProgressHUD showSuccess:@"登录失败,请检查网络" inview:self.view];
     }];
     
     
@@ -400,7 +410,7 @@
     self.navigationController.navigationBar.hidden=YES;
     
     
-    NSDictionary *dict = @{@"id":[UConfig getDoctorId],@"checkCode":[UConfig getLoginCode]};
+    NSDictionary *dict = @{@"id":[UConfig getDoctorId]};
     [NetWorkingManager requestGETDataWithPath:[NSString stringWithFormat:@"%@app/doct/index",BaseUrl] withParamters:dict withProgress:^(float progress) {
         
     } success:^(BOOL isSuccess, id responseObject) {
@@ -411,9 +421,15 @@
                 NSDictionary *dic = array.firstObject;
                 if ([dic isKindOfClass:[NSDictionary class]]) {
                     NSString *idStr = dic[@"id"];
+                    NSString *photoUrl = dic[@"photo"];
                     if (idStr.intValue>0) {
                         [UConfig setDoctorId:idStr];
                         [UConfig setPersonInfo:dic];
+                        [UConfig setPhotoUrl:photoUrl];
+                        //创建通知
+                        NSNotification *notification =[NSNotification notificationWithName:@"updatePhoto" object:nil userInfo:nil];
+                        //通过通知中心发送通知
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
                     }
                 }
             }

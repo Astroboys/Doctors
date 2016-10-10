@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NTESAudioChatViewController">
             <connections>
                 <outlet property="acceptBtn" destination="lVJ-ri-rtd" id="4Z9-cz-ZZn"/>
                 <outlet property="connectingLabel" destination="yES-av-BJj" id="wXf-17-x9T"/>
-                <outlet property="durationLabel" destination="LTN-LG-J7s" id="keI-VJ-cv4"/>
                 <outlet property="hangUpBtn" destination="9Ri-mZ-5dg" id="cft-Av-SqB"/>
                 <outlet property="localRecordBtn" destination="WyL-PU-WEf" id="T64-n5-0xe"/>
                 <outlet property="localRecordingRedPoint" destination="2PC-II-WQG" id="I29-Pv-q5G"/>
@@ -20,7 +19,6 @@
                 <outlet property="netStatusView" destination="fY5-hZ-LWd" id="aT4-KT-jr4"/>
                 <outlet property="refuseBtn" destination="nnL-Ka-x7t" id="90L-v4-zpo"/>
                 <outlet property="speakerBtn" destination="bEv-vx-FBM" id="Qh4-fP-q8x"/>
-                <outlet property="switchVideoBtn" destination="PYC-Ms-T9v" id="Vzy-uk-px6"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,19 +31,6 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="PYC-Ms-T9v">
-                    <rect key="frame" x="15" y="30" width="92" height="34"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.38344624830000001" green="0.3321969219" blue="0.54884785349999998" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <state key="normal" title="视频模式" image="ic_switch_video.png" backgroundImage="btn_switch_av.png">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="switchToVideoMode:" destination="-1" eventType="touchUpInside" id="SRm-V0-M5j"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3vA-4M-uHk">
                     <rect key="frame" x="47" y="380" width="50" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -69,13 +54,6 @@
                         <action selector="hangup:" destination="-1" eventType="touchUpInside" id="f6I-rw-eEb"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LTN-LG-J7s">
-                    <rect key="frame" x="0.0" y="29" width="320" height="35"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bEv-vx-FBM">
                     <rect key="frame" x="135" y="380" width="50" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -148,7 +126,7 @@
                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="录制中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5l2-2v-EIl" userLabel="Recording Label">
-                            <rect key="frame" x="16" y="6" width="72.5" height="27"/>
+                            <rect key="frame" x="16" y="6" width="73" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -167,14 +145,14 @@
                             <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的手机内存已不足10M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zez-ut-tf1" userLabel="Low Free Space Label">
-                            <rect key="frame" x="4" y="35" width="165.5" height="21"/>
+                            <rect key="frame" x="4" y="35" width="166" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="录制中" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cW8-QD-Su9" userLabel="Recording Label">
-                            <rect key="frame" x="51" y="8" width="72.5" height="27"/>
+                            <rect key="frame" x="51" y="8" width="73" height="27"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -202,8 +180,6 @@
         <image name="btn_speaker_highlight.png" width="75" height="75"/>
         <image name="btn_speaker_normal.png" width="75" height="75"/>
         <image name="btn_speaker_pressed.png" width="320" height="568"/>
-        <image name="btn_switch_av.png" width="92" height="34"/>
-        <image name="ic_switch_video.png" width="17" height="17"/>
         <image name="icon_cell_red_normal.png" width="304" height="45"/>
         <image name="netcall_bkg.jpg" width="320" height="568"/>
     </resources>

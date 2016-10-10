@@ -10,13 +10,15 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
-
-
+#import "UIImageView+WebCache.h"
+#import "NIMWebImageManager.h"
+#import "UIImage+NTES.h"
 @interface ZHHeaderViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
 
     NSString *urlStr;
     NSString*openStr;
+    NSString *photoFilePath;
 }
 
 @property(nonatomic,strong)UIImagePickerController *imagePickerController;
@@ -28,17 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    openStr=[defaults objectForKey:@"openStr"];
+    openStr=[UConfig getPhotoUrl];
    
-    if (openStr!=nil) {
-        
-        NSData * data = [NSData dataWithContentsOfFile:openStr];
-        UIImage * image = [UIImage imageWithData:data];
-        _iconView.image=image;
-        
-    }
-    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:[UIFont systemFontOfSize:19],
        NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -127,14 +120,16 @@
         NSFileManager *fileManager = [NSFileManager defaultManager];
         //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png
         [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];
-        [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
+        [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@"/doctorPhoto.png"] contents:data attributes:nil];
         
         //得到选择后沙盒中图片的完整路径
-        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/image.png"];
+        NSString *filePath = [[NSString alloc]initWithFormat:@"%@%@",DocumentsPath,  @"/doctorPhoto.png"];
+        photoFilePath = filePath;
         NSURL *url = [NSURL fileURLWithPath: filePath];
         urlStr = [url absoluteString];
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:urlStr forKey:@"openStr"];
+        
+//        [UConfig setPhotoUrl:urlStr];
+        
     }
     
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -146,7 +141,7 @@
     _iconView=[[UIImageView alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
     [_iconView.layer setCornerRadius:50];
     [_iconView.layer setMasksToBounds:YES];
-    _iconView.image=[UIImage imageNamed:@"changeIcons"];
+    [_iconView sd_setImageWithURL:[NSURL URLWithString:openStr] placeholderImage:[UIImage imageNamed:@"changeIcons"]];
 
     UIButton*iconBtn=[[UIButton alloc]initWithFrame:CGRectMake((kWidth-100)*0.5, 40, 100, 100)];
     iconBtn.backgroundColor=[UIColor clearColor];
@@ -170,14 +165,74 @@
 
 
 -(void)touchbtn2{
+    if (photoFilePath.length<1) {
+        UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"请您点击头像选择图片"
+                                                                                  message: @""
+                                                                           preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }]];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+    }
+    __weak typeof(self) wself = self;
     
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"请您点击头像选择图片"
-                                                                              message: @""
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    
+    
+    [YJProgressHUD showProgress:@"加载中..." inView:self.view];
+    NSDictionary *dic = @{@"id":[UConfig getDoctorId]};
+    NSArray *imageArray = @[_iconView.image];
+    [NetWorkingManager sendPOSTImageWithPath:[NSString stringWithFormat:@"%@%@",BaseUrl,@"app/doct/edit"] withParamters:dic withImageArray:imageArray withtargetWidth:200 withProgress:^(float progress) {
         
-    }]];
-    [self presentViewController:alertController animated:YES completion:nil];
+    } success:^(BOOL isSuccess, id responseObject) {
+        NSString *code = responseObject[@"code"];
+        [YJProgressHUD hide];
+        if (code.intValue == 200) {
+            [YJProgressHUD showSuccess:@"头像设置成功" inview:self.view];
+            NSDictionary *dic = responseObject[@"data"];
+            NSString *urlString = dic[@"photo"];
+            [_iconView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"changeIcons"]];
+            [UConfig setPhotoUrl:urlString];
+            //创建通知
+            NSNotification *notification =[NSNotification notificationWithName:@"updatePhoto" object:nil userInfo:nil];
+            //通过通知中心发送通知
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+            
+            
+        }else{
+            [YJProgressHUD showSuccess:@"头像设置失败" inview:self.view];
+        }
+        
+    } failure:^(NSError *error) {
+        [YJProgressHUD hide];
+        [YJProgressHUD showSuccess:@"头像设置失败,请检查网络设置" inview:self.view];
+    }];
+    
+    //上传到云信
+    NSInteger status = [UConfig getVerifyStatus];
+    UIImage *imageForAvatarUpload = [_iconView.image imageForAvatarUpload];
+
+    if (status == 200) {
+        [[NIMSDK sharedSDK].resourceManager upload:photoFilePath progress:nil completion:^(NSString *urlString, NSError *error) {
+            if (!error && wself) {
+                [[NIMSDK sharedSDK].userManager updateMyUserInfo:@{@(NIMUserInfoUpdateTagAvatar):urlString} completion:^(NSError *error) {
+                    if (!error) {
+                        [[NIMWebImageManager sharedManager] saveImageToCache:imageForAvatarUpload forURL:[NSURL URLWithString:urlString]];
+                      
+                    }else{
+                        
+                    }
+                }];
+            }else{
+            }
+        }];
+
+    }
+    
+    
+    
+    
     
 }
 
@@ -192,7 +247,7 @@
         
         [self selectImageFromCamera];
     }]];
-    [alertController addAction: [UIAlertAction actionWithTitle: @"从相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+    [alertController addAction: [UIAlertAction actionWithTitle: @"相册选取" style: UIAlertActionStyleDefault handler:^(UIAlertAction *action){
         //处理点击从相册选取
         
         [self selectImageFromAlbum];

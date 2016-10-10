@@ -352,11 +352,11 @@ FOUNDATION_EXTERN void SMS_Log(NSString *format, ...)
 
 +(BOOL)isIdentification
 {
-    if ([[UConfig getLoginCode] isEqualToString:@"201"]) {
+    if ([UConfig getVerifyStatus] == 1) {
         
-        return NO;
-    }else{
         return YES;
+    }else{
+        return NO;
     }
     
 
